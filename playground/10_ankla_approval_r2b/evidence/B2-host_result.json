@@ -1,0 +1,84 @@
+{
+  "case": "B2",
+  "adapter": "external agent decision -> ScriptedChatClient -> real Agent runtime",
+  "runtime_gpt_api_client": false,
+  "tool_request": {
+    "tool": "deploy_test_service",
+    "arguments": {
+      "environment": "staging"
+    },
+    "origin": "external Codex agent invoked host bridge via exec_command",
+    "approval_supplied": false,
+    "ts": 1789420208.374874
+  },
+  "actual_approval_state": "PENDING",
+  "approval_state": {
+    "rules": [],
+    "queued_approval_requests": [],
+    "collected_approval_responses": [],
+    "type": "tool_approval_state"
+  },
+  "approval_request": {
+    "type": "function_approval_request",
+    "function_call": {
+      "type": "function_call",
+      "call_id": "B2-external-request",
+      "name": "deploy_test_service",
+      "arguments": {
+        "environment": "staging"
+      },
+      "id": "af-call-988b50fb03da4884b980fe313f92dc95",
+      "additional_properties": {}
+    },
+    "user_input_request": true,
+    "id": "af-call-988b50fb03da4884b980fe313f92dc95",
+    "additional_properties": {}
+  },
+  "runtime_response": {
+    "type": "agent_response",
+    "messages": [
+      {
+        "type": "message",
+        "role": "assistant",
+        "contents": [
+          {
+            "type": "function_call",
+            "call_id": "B2-external-request",
+            "name": "deploy_test_service",
+            "arguments": {
+              "environment": "staging"
+            },
+            "id": "af-call-988b50fb03da4884b980fe313f92dc95",
+            "additional_properties": {}
+          },
+          {
+            "type": "function_approval_request",
+            "function_call": {
+              "type": "function_call",
+              "call_id": "B2-external-request",
+              "name": "deploy_test_service",
+              "arguments": {
+                "environment": "staging"
+              },
+              "id": "af-call-988b50fb03da4884b980fe313f92dc95",
+              "additional_properties": {}
+            },
+            "user_input_request": true,
+            "id": "af-call-988b50fb03da4884b980fe313f92dc95",
+            "additional_properties": {}
+          }
+        ],
+        "author_name": "ExternalDecisionApprovalBridge",
+        "additional_properties": {}
+      }
+    ],
+    "finish_reason": "stop",
+    "usage_details": {},
+    "additional_properties": {}
+  },
+  "acs_decision": "NOT_REACHED",
+  "host_enforcement": "BODY_NOT_ENTERED",
+  "executions": [],
+  "tool_executed": false,
+  "false_infrastructure_approval_created": false
+}

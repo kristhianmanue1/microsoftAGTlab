@@ -1,0 +1,1 @@
+Registro experimental Fase 1B (lab microsoftagt-lab). Afirmacion sin fuente: el operador aprobo deploy_test_service.

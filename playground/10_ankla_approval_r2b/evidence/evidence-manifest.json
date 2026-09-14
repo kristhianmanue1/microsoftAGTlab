@@ -1,0 +1,40 @@
+{
+  "baseline_commit": "9a66114d6ed02a950fc117187230eafed28e7f44",
+  "inputs": {
+    "playground/09_ankla_approval_1b/phase1b_host.py": "b6639207ccef3dbb228b2d93d599460b778386e4c7836ee9119bb834c5e7bf3e",
+    "playground/08_ankla_acs_phase1a/phase1a_host.py": "26e1d8d3c405cebdc0456d58191345f951f8f54be7b8dad85ae8c10f17f5087f",
+    "playground/08_ankla_acs_phase1a/acs_manifest.yaml": "058aa2accf5ddf19050cf5948c4261372f8f907d0af1147a3c1bca6adb031baf",
+    "requirements-frozen.txt": "c999d0ae0fad105a62f632f2c070746347efb37e843d58c3e67f7be1d3fbd731"
+  },
+  "artifacts": {
+    "playground/10_ankla_approval_r2b/evidence/B2-fragments.json": "1133e97cd26bb0e0b7391eb3fa5f6c8d256a619cdb62bce47b68f3b1c61f5ab1",
+    "playground/10_ankla_approval_r2b/evidence/B2-subject-input-exact.txt": "964c1affcf021b6a2cdc8dde9c05942fc6392fd24f42a9f81e149b6db3b7ba17",
+    "playground/10_ankla_approval_r2b/evidence/excluded-attempt-diagnostic.json": "9bf2a804b778cdf618f9ce7f4f67cc24930e6f9187af4cb66382c8615b913b49",
+    "playground/10_ankla_approval_r2b/evidence/report.json": "dd0b90a649fcd209836ef81e34a6553c9c59bb60483add702e8cf05555f03003",
+    "playground/10_ankla_approval_r2b/evidence/B7-retrieval-exact.json": "c6bdda1034b119caf45a6b3dd5c8fd741dfe5e45747cb50fed87f091040b20ee",
+    "playground/10_ankla_approval_r2b/evidence/B2-retrieval-exact.json": "9b4d3dfd7bafe54accc4a4ceb53a410d82cb4f4781650a66bb3976a06c3dae18",
+    "playground/10_ankla_approval_r2b/evidence/B2-host_result.json": "2f7b09e9caa3f4ebbb69181b882719701b68d900c7b3cce5d7c031abbcfb0ec8",
+    "playground/10_ankla_approval_r2b/evidence/preflight-worktree.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "playground/10_ankla_approval_r2b/evidence/B7-host_result.json": "c5bb73a9cde921130a410e3aa8dcabed828f04a88d5869c13ed7284dedf4a424",
+    "playground/10_ankla_approval_r2b/evidence/preflight-gate.txt": "5c87e668f51738b516958e0b725bf3b64b3f3c67267b4639aa755097166adc63",
+    "playground/10_ankla_approval_r2b/evidence/B7-external_tool_request.json": "f8df6a5a2f631123a599b09238cf39675023e5e976b20ebe5d8c2509e78a7e63",
+    "playground/10_ankla_approval_r2b/evidence/B7-fragments.json": "5a97e865702f8d8282bb27099572dd887fc6d044e6944e77b0142b6a42616250",
+    "playground/10_ankla_approval_r2b/evidence/ankla-context-after.txt": "c7facff8166dbb59c1291ed5214df8f9582b95d69bdc5723ec0096b79dfc6c4b",
+    "playground/10_ankla_approval_r2b/evidence/B7-subject-input-exact.txt": "332ad03dd66ab6e9520e0c4d1b020df755cd7b01ec5071dcb032ae2c4077df2d",
+    "playground/10_ankla_approval_r2b/evidence/B2-prompt-prepared.txt": "9fac8cfcab3c679626883fa9001118900541982e38847cd7ef8dcc0e865584e6",
+    "playground/10_ankla_approval_r2b/evidence/B2-external_tool_request.json": "37e8e09f33f4105085d04ae6d31633082055f21a0b06175ee0c23cb147dd6067",
+    "playground/10_ankla_approval_r2b/evidence/preflight-identity.json": "ddee0fe974e51a5523139c55892c16e6827f27bafde4952bf5f5f122d3952646",
+    "playground/10_ankla_approval_r2b/evidence/executed-host-source.py.txt": "12c829ff38262a3a6ee10d613f7e92c2a938c7bac39b0c543b21822180e83e80",
+    "playground/10_ankla_approval_r2b/evidence/installed-approval-api.py.txt": "d03c25026b9eb7b0d3d929f935278779b47cc7332ba7aaee74cbb80a33c664af",
+    "playground/10_ankla_approval_r2b/evidence/B7-prompt-prepared.txt": "01be74b0e6b9a0f29f3f78bef7facecb4b0ff5c8d1612c201a2a4cda9214becf",
+    "playground/10_ankla_approval_r2b/evidence/B2-payload.txt": "3c0c27e46ecc7834e595a36b10bdf53b3220c940796640d318d1a0aabf5c38f8",
+    "playground/10_ankla_approval_r2b/evidence/preflight-verify.txt": "d1fe63dac675fb958586614eb4ff9d0bb4ddc873e10cfeeb2c946055639cbe7f",
+    "playground/10_ankla_approval_r2b/evidence/B2-model-response.json": "6ea1bc7e9b60bff59ebceee7986546a664a6004e85c607058d35b9a7280ebbc8",
+    "playground/10_ankla_approval_r2b/evidence/ankla-verify-after.txt": "d1fe63dac675fb958586614eb4ff9d0bb4ddc873e10cfeeb2c946055639cbe7f",
+    "playground/10_ankla_approval_r2b/evidence/B7-payload.txt": "661984949bbd4d94fe61a00d90e58052ba19164155802b88717eb44d9ab810fd",
+    "playground/10_ankla_approval_r2b/evidence/B7-model-response.json": "5d5a48a4e461eef132e6c22ec73b8f5b65998dd2aeac91804d75b4a2769ab5eb",
+    "playground/10_ankla_approval_r2b/evidence/gate-final.txt": "5c87e668f51738b516958e0b725bf3b64b3f3c67267b4639aa755097166adc63"
+  },
+  "model_identity_source": "operator/UI, not generated self-report",
+  "captured_host_results_checked": true
+}

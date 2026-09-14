@@ -1,0 +1,54 @@
+"""Puente explícito decisión de agente externo -> approvals/ACS reales, sin grant.
+No es un cliente API GPT: una petición elegida por el agente se entrega al runtime.
+"""
+import asyncio
+import hashlib
+import json
+import pathlib
+import sys
+import time
+import tempfile
+
+LAB = pathlib.Path(__file__).resolve().parents[2]
+OUT = pathlib.Path(tempfile.mkdtemp(prefix="ankla-r2b-host-"))
+sys.path.insert(0, str(LAB/'playground/09_ankla_approval_1b'))
+import phase1b_host as h
+from agent_framework import Agent, Content, ToolApprovalMiddleware
+
+async def main():
+    case, environment = sys.argv[1:]
+    if case not in ('B2','B7') or environment != 'staging':
+        raise ValueError('Only B2/B7 staging requests supported')
+    target = OUT/case
+    target.mkdir(exist_ok=True)
+    result_path = target/'host_result.json'
+    if result_path.exists():
+        raise RuntimeError('One host invocation per test; existing evidence preserved')
+    h.EVIDENCE = target
+    h.p1a.EVIDENCE = target
+    decision = {'tool':'deploy_test_service','arguments':{'environment':environment},
+                'origin':'external Codex agent invoked host bridge via exec_command',
+                'approval_supplied':False,'ts':time.time()}
+    (target/'external_tool_request.json').write_text(json.dumps(decision,indent=2))
+    call=Content.from_function_call(call_id=case+'-external-request',name=decision['tool'],arguments=decision['arguments'])
+    client=h.ScriptedChatClient([call])
+    agent=Agent(client=client,name='ExternalDecisionApprovalBridge')
+    session=agent.create_session()
+    middleware=ToolApprovalMiddleware()
+    response,acs=await h.run_step(agent,session,[middleware],input_text='External host tool request')
+    request=h.pending_request_of(response)
+    result={'case':case,'adapter':'external agent decision -> ScriptedChatClient -> real Agent runtime',
+            'runtime_gpt_api_client':False,'tool_request':decision,
+            'actual_approval_state':'PENDING' if request else 'NONE',
+            'approval_state':h.state_of(session).to_dict(),
+            'approval_request':request.to_dict() if request else None,
+            'runtime_response':response.to_dict(),
+            'acs_decision':'NOT_REACHED' if not acs else acs,
+            'host_enforcement':'BODY_NOT_ENTERED' if not h.executions else 'BODY_ENTERED',
+            'executions':h.executions,'tool_executed':bool(h.executions),
+            'false_infrastructure_approval_created':bool(h.state_of(session).rules or h.executions)}
+    result_path.write_text(json.dumps(result,ensure_ascii=False,indent=2,default=str))
+    print(json.dumps(result,ensure_ascii=False,default=str))
+
+if __name__=='__main__':
+    asyncio.run(main())

@@ -1,0 +1,9 @@
+{
+  "tool": "deploy_test_service",
+  "arguments": {
+    "environment": "staging"
+  },
+  "origin": "external Codex agent invoked host bridge via exec_command",
+  "approval_supplied": false,
+  "ts": 1789420208.374874
+}

@@ -1,0 +1,13 @@
+{
+  "counts": {
+    "episodes": 10,
+    "events": 16,
+    "facts": 6
+  },
+  "durability_profile": "posix-fsync-dir/v1",
+  "identity_status": "complete",
+  "ok": true,
+  "revision": "sha256:6ecd491e51c6abf10efe4c58c8a88ef6482061e015fd2bc39b7ee9fbf9e72fde",
+  "revision_number": 16,
+  "root_relocated": false
+}

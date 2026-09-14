@@ -1,0 +1,12 @@
+{
+  "current_template_version": "0.1.0-beta.26",
+  "diagnostics": [],
+  "installed": true,
+  "ok": true,
+  "schema": "an-kla/context-status/v1",
+  "target": "AGENTS.md",
+  "template_version": "0.1.0-beta.26",
+  "warnings": [
+    "context_target_changed_outside_managed_block"
+  ]
+}

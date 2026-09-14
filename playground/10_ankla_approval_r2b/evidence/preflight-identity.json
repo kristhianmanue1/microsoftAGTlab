@@ -1,0 +1,10 @@
+{
+  "MODEL_REQUESTED": "gpt-5.6-sol medium",
+  "MODEL_RUNTIME_OBSERVED": "NOT_EXPOSED",
+  "MODEL_RUNTIME_VERIFICATION_METHOD": "No effective-model field available in this session tools",
+  "MODEL_UI_REPORTED": "gpt-5.6-sol medium (operator-provided observation)",
+  "MODEL_OPERATOR_ATTESTED": "gpt-5.6-sol medium",
+  "MODEL_IDENTITY_STATUS": "OPERATOR_UI_VERIFIED",
+  "MODEL_IDENTITY_VERIFIED": "YES (operator/UI layer only)",
+  "MODEL_PROVIDER": "OpenAI (host context; not API-response verification)"
+}

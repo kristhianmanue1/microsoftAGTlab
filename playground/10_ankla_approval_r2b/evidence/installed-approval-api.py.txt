@@ -1,0 +1,309 @@
+class ToolApprovalMiddleware(AgentMiddleware):
+    """Coordinate standing tool approvals and queued approval prompts for an agent.
+
+    This middleware is opt-in and requires callers to run the agent with an
+    :class:`AgentSession`, because approval rules and queued requests are stored
+    in session state.
+    """
+
+    def __init__(
+        self,
+        *,
+        source_id: str = DEFAULT_TOOL_APPROVAL_SOURCE_ID,
+        auto_approval_rules: Sequence[ToolApprovalRuleCallback] | None = None,
+    ) -> None:
+        """Initialize the middleware.
+
+        Keyword Args:
+            source_id: Session-state key used by this middleware.
+            auto_approval_rules: Optional callbacks that can auto-approve a
+                ``function_call``. Each callback receives the function-call
+                content and returns ``True`` to approve it.
+
+                .. warning::
+                    **Security.** Auto-approval rules may match tool calls by
+                    name (each callback receives the full ``function_call``
+                    content, including arguments, and can implement stricter,
+                    argument-aware matching). A rule provided for one feature
+                    (for example a provider's read-only rule) may auto-approve
+                    **any** local tool whose name matches, not just the tool the
+                    rule was designed for. When adding rules here, ensure no
+                    unrelated tools you register collide with a name approved by
+                    any rule in this list, otherwise that tool may be
+                    auto-approved without a human prompt, bypassing the approval
+                    boundary.
+        """
+        self.source_id = source_id
+        self.auto_approval_rules = tuple(auto_approval_rules or ())
+
+    async def process(self, context: AgentContext, call_next: Callable[[], Awaitable[None]]) -> None:
+        """Process one agent invocation."""
+        mark_feature_used(FeatureIndex.CORE_TOOL_APPROVAL)
+        if context.session is None:
+            raise RuntimeError("ToolApprovalMiddleware requires an AgentSession.")
+
+        state = _get_state(context.session, source_id=self.source_id)
+        session_budget = context.session.state.setdefault(_FUNCTION_INVOCATION_BUDGET_STATE_KEY, {})
+        context.client_kwargs.setdefault(_FUNCTION_INVOCATION_BUDGET_STATE_KEY, session_budget)
+        context.messages = self._prepare_inbound_messages(context.messages, state, context.session)
+        await self._drain_auto_approvable_queue(state)
+        if next_queued := self._pop_next_queued_request(state):
+            _save_state(context.session, state, source_id=self.source_id)
+            context.result = self._response_for_queued_request(next_queued, stream=context.stream)
+            return
+        if context.stream:
+            context.result = self._process_stream(context, call_next, state)
+            return
+
+        while True:
+            context.messages = self._inject_collected_responses(context.messages, state)
+            state_changed = bool(state.collected_approval_responses)
+            state.collected_approval_responses.clear()
+            if state_changed:
+                _save_state(context.session, state, source_id=self.source_id)
+
+            await call_next()
+            if isinstance(context.result, ResponseStream):
+                return
+            if context.result is None:
+                _save_state(context.session, state, source_id=self.source_id)
+                return
+
+            all_auto_approved = await self._process_outbound_messages(context.result.messages, state)
+            _save_state(context.session, state, source_id=self.source_id)
+            if not all_auto_approved:
+                return
+            context.messages = []
+            context.result = None
+
+    def _response_for_queued_request(
+        self,
+        request: Content,
+        *,
+        stream: bool,
+    ) -> AgentResponse | ResponseStream[AgentResponseUpdate, AgentResponse]:
+        if not stream:
+            return AgentResponse(messages=[Message(role="assistant", contents=[request])])
+
+        async def _stream() -> AsyncIterable[AgentResponseUpdate]:
+            await sleep(0)
+            yield AgentResponseUpdate(role="assistant", contents=[request])
+
+        return ResponseStream(_stream(), finalizer=AgentResponse.from_updates)
+
+    def _process_stream(
+        self,
+        context: AgentContext,
+        call_next: Callable[[], Awaitable[None]],
+        state: ToolApprovalState,
+    ) -> ResponseStream[AgentResponseUpdate, AgentResponse]:
+        async def _stream() -> AsyncIterable[AgentResponseUpdate]:
+            if context.session is None:
+                raise RuntimeError("ToolApprovalMiddleware requires an AgentSession.")
+            while True:
+                context.messages = self._inject_collected_responses(context.messages, state)
+                state_changed = bool(state.collected_approval_responses)
+                state.collected_approval_responses.clear()
+                if state_changed:
+                    _save_state(context.session, state, source_id=self.source_id)
+
+                await call_next()
+                if not isinstance(context.result, ResponseStream):
+                    raise ValueError("Streaming ToolApprovalMiddleware requires a ResponseStream result.")
+
+                approval_requests: list[Content] = []
+                async for update in context.result:
+                    approval_contents = [
+                        content for content in update.contents if content.type == "function_approval_request"
+                    ]
+                    if not approval_contents:
+                        yield update
+                        continue
+                    approval_requests.extend(approval_contents)
+                    remaining_contents = [
+                        content for content in update.contents if content.type != "function_approval_request"
+                    ]
+                    if remaining_contents:
+                        raw_finish_reason = update.finish_reason
+                        finish_reason: FinishReasonLiteral | FinishReason | None
+                        if isinstance(raw_finish_reason, str):
+                            finish_reason = FinishReason(raw_finish_reason)
+                        else:
+                            finish_reason = cast(FinishReasonLiteral | FinishReason | None, raw_finish_reason)
+                        yield AgentResponseUpdate(
+                            contents=remaining_contents,
+                            role=update.role,
+                            author_name=update.author_name,
+                            agent_id=update.agent_id,
+                            response_id=update.response_id,
+                            message_id=update.message_id,
+                            created_at=update.created_at,
+                            finish_reason=finish_reason,
+                            continuation_token=update.continuation_token,
+                            additional_properties=update.additional_properties,
+                            raw_representation=update.raw_representation,
+                        )
+                await context.result.get_final_response()
+                if not approval_requests:
+                    return
+
+                response_messages = [Message(role="assistant", contents=approval_requests)]
+                all_auto_approved = await self._process_outbound_messages(response_messages, state)
+                _save_state(context.session, state, source_id=self.source_id)
+                if not all_auto_approved:
+                    for message in response_messages:
+                        if message.contents:
+                            yield AgentResponseUpdate(role=message.role, contents=message.contents)
+                    return
+                context.messages = []
+                context.result = None
+
+        return ResponseStream(_stream(), finalizer=AgentResponse.from_updates)
+
+    def _prepare_inbound_messages(
+        self,
+        messages: Sequence[Message],
+        state: ToolApprovalState,
+        session: AgentSession,
+    ) -> list[Message]:
+        prepared: list[Message] = []
+        for message in messages:
+            replacement_contents: list[Content] = []
+            changed = False
+            for content in message.contents:
+                if content.type == "function_approval_response":
+                    replacement = self._handle_inbound_approval_response(content, state, session)
+                    if replacement is None:
+                        changed = True
+                        continue
+                    state.collected_approval_responses.append(replacement)
+                    changed = True
+                    continue
+                replacement_contents.append(content)
+
+            if not changed:
+                prepared.append(message)
+                continue
+            if replacement_contents:
+                cloned = copy.copy(message)
+                cloned.contents = replacement_contents
+                prepared.append(cloned)
+        return prepared
+
+    def _handle_inbound_approval_response(
+        self,
+        response: Content,
+        state: ToolApprovalState,
+        session: AgentSession,
+    ) -> Content | None:
+        from .._tools import (
+            _bind_approval_response_to_pending_request,  # pyright: ignore[reportPrivateUsage]
+            _is_approval_granted,  # pyright: ignore[reportPrivateUsage]
+        )
+
+        bound_response = _bind_approval_response_to_pending_request(response, session, consume=False)
+        if bound_response is None:
+            return None
+        response = bound_response
+        scope = _get_always_approve_scope(response)
+        if scope is None or not _is_approval_granted(response.approved):
+            return response
+
+        function_call = response.function_call
+        if function_call is not None and function_call.type == "function_call" and function_call.name is not None:
+            if scope == ALWAYS_APPROVE_TOOL:
+                _add_rule_if_missing(
+                    state,
+                    ToolApprovalRule(
+                        tool_name=function_call.name,
+                        server_label=_server_label(function_call),
+                    ),
+                )
+            else:
+                _add_rule_if_missing(
+                    state,
+                    ToolApprovalRule(
+                        tool_name=function_call.name,
+                        arguments=_serialize_arguments(function_call),
+                        server_label=_server_label(function_call),
+                    ),
+                )
+        return _clone_without_always_approve_metadata(response)
+
+    def _inject_collected_responses(self, messages: Sequence[Message], state: ToolApprovalState) -> list[Message]:
+        if not state.collected_approval_responses:
+            return list(messages)
+        return [Message(role="user", contents=list(state.collected_approval_responses)), *messages]
+
+    async def _drain_auto_approvable_queue(self, state: ToolApprovalState) -> None:
+        remaining: list[Content] = []
+        for request in state.queued_approval_requests:
+            if _matches_rule(request, state.rules) or await self._matches_auto_rule(request):
+                state.collected_approval_responses.append(request.to_function_approval_response(approved=True))
+                continue
+            remaining.append(request)
+        state.queued_approval_requests = remaining
+
+    def _pop_next_queued_request(self, state: ToolApprovalState) -> Content | None:
+        if not state.queued_approval_requests:
+            return None
+        return state.queued_approval_requests.pop(0)
+
+    async def _process_outbound_messages(self, messages: list[Message], state: ToolApprovalState) -> bool:
+        approval_requests = [
+            content
+            for message in messages
+            for content in message.contents
+            if content.type == "function_approval_request"
+        ]
+        if not approval_requests:
+            return False
+
+        auto_approved: set[int] = set()
+        unresolved: list[Content] = []
+        for request in approval_requests:
+            if _matches_rule(request, state.rules) or await self._matches_auto_rule(request):
+                state.collected_approval_responses.append(request.to_function_approval_response(approved=True))
+                auto_approved.add(id(request))
+            else:
+                unresolved.append(request)
+
+        if not auto_approved and len(unresolved) <= 1:
+            return False
+
+        queued_ids: set[int] = set()
+        for request in unresolved[1:]:
+            queued_ids.add(id(request))
+            state.queued_approval_requests.append(request)
+
+        remove_ids = auto_approved | queued_ids
+        self._remove_approval_requests(messages, remove_ids)
+        return not unresolved
+
+    @staticmethod
+    def _remove_approval_requests(messages: list[Message], remove_ids: set[int]) -> None:
+        for message_index in range(len(messages) - 1, -1, -1):
+            message = messages[message_index]
+            filtered = [
+                content
+                for content in message.contents
+                if content.type != "function_approval_request" or id(content) not in remove_ids
+            ]
+            if len(filtered) == len(message.contents):
+                continue
+            if filtered:
+                message.contents = filtered
+            else:
+                messages.pop(message_index)
+
+    async def _matches_auto_rule(self, request: Content) -> bool:
+        function_call = _function_call_from_request(request)
+        if function_call is None:
+            return False
+        for rule in self.auto_approval_rules:
+            result = rule(function_call)
+            if inspect.isawaitable(result):
+                result = await result
+            if result:
+                return True
+        return False

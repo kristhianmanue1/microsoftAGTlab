@@ -1,0 +1,12 @@
+check_environment — microsoftAGTlab
+  python -> 3.12.12 [pass]
+  import agent_framework -> OK, core 1.18.0 [pass]
+  agent-framework-* proveedores (estables) -> 1.0.4, 1.1.1, 1.13.0, 1.14.3, 1.3.0, 2.0.0 [pass]
+  agent-framework-* paquetes beta/alpha -> 22 [pass]
+  entry point devui -> presente [pass]
+  entry point mcp -> presente [pass]
+  .env existe -> true [pass]
+  ZAI_API_KEY -> presente [pass]
+  ZAI_BASE_URL -> https://api.z.ai/api/coding/paas/v4/ [pass]
+  ZAI_MODEL -> glm-5.3-flash [pass]
+RESULTADO: OK
