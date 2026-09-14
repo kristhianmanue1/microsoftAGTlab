@@ -1,0 +1,13 @@
+[project]
+name = "microsoftAGTlab"
+version = "0.1.0"
+description = "Laboratorio y hub de contexto del Microsoft Agent Framework en esta máquina (Z.ai GLM vía endpoint OpenAI-compatible)."
+requires-python = ">=3.12"
+
+# Pins deliberadamente conservadores: el metapaquete fija el core; los
+# proveedores avanzan en cadencias distintas (ver docs/instalacion-local.md).
+# Para recrear el venv completo tal cual está: uv pip install -r requirements-frozen.txt
+dependencies = [
+    "agent-framework==1.18.0",
+    "python-dotenv>=1.2,<2",
+]

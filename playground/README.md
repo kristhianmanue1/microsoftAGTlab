@@ -1,0 +1,24 @@
+# Playground — ejemplos y ejercicios
+
+Ejemplos **numerados e independientes**. Cada uno declara en su cabecera la
+superficie de coste (llamadas GLM reales vs ejecución local).
+
+```bash
+# desde la raíz del lab, siempre con este intérprete:
+.venv/bin/python playground/01_hello_agent.py
+```
+
+Requisitos comunes: `.env` con `ZAI_API_KEY` (plantilla: `.env.example`).
+Ejecuta antes `scripts/check_environment.py`.
+
+| Ejemplo | Coste | Qué demuestra |
+|---|---|---|
+| `01_hello_agent.py` | 1 llamada | agente mínimo, instrucciones, cliente Z.ai |
+| `02_tools_memoria_stream.py` | 3 llamadas | tools, memoria de sesión, streaming |
+| `03_structured_output.py` | 1 llamada | salida tipada (`response_format` + pydantic) |
+| `04_workflow.py` | **0 llamadas** | workflow determinista (executors puros) |
+| `05_devui/` | 0 hasta que ejecutes | servidor DevUI en loopback |
+| `06_epistates_spike.py` | 1 llamada (sólo si la tarjeta es válida) | ejecutor in-process bajo disciplina epistates (prototipo) |
+
+`ejercicios.md` — retos por dificultad, sin solución. La salida de un modelo
+**no es verdad**: valida contra código y estado real.

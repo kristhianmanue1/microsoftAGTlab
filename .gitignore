@@ -1,0 +1,17 @@
+# Secretos — nunca versionar
+.env
+
+# Entorno y artefactos Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# SO / artefactos locales
+.DS_Store
+
+# DevUI / artefactos locales
+.devui/
+
+# AN-KLA — memoria local, estado no versionable
+.an-kla/

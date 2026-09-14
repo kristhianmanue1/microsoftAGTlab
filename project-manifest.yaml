@@ -1,0 +1,49 @@
+schema: pinax/project-manifest/v1
+id: microsoftagt-lab
+proposito: >
+  Laboratorio local del Microsoft Agent Framework (agent-framework 1.18.0)
+  sobre Z.ai GLM vía endpoint OpenAI-compatible. Sirve como contexto para
+  agentes de IA que quieran usar este framework en esta máquina: inventario
+  verificado de la instalación, recetas ejecutadas localmente, playground de
+  ejemplos numerados y gate de entorno local.
+consumidor_principal: ambos
+
+ofrece:
+  - inventario datado y verificado de la instalación local, con evidencia por línea
+  - gate local stdlib-only (scripts/check_environment.py) que jamás imprime secretos
+  - playground de ejemplos numerados e independientes, cada uno con su superficie de coste declarada
+  - recetas locales fechadas de lo verificado contra el paquete instalado, no contra docs oficiales
+  - hallazgos de compatibilidad GLM ↔ framework documentados con patrón fail-closed
+  - requirements-frozen.txt generado del venv real (205 distribuciones)
+
+no_ofrece:
+  - "ser una librería: nada de este repo se importa desde otros proyectos; lo reutilizable vive en el consumidor"
+  - "autoridad sobre otros proyectos aria ni sobre la cuenta Z.ai; gastar tokens es decisión del operador"
+  - "garantía de vigencia: los facts están datados y el framework es preview; re-verificar antes de confiar"
+  - "gestión de secretos: ZAI_API_KEY vive en .env no versionado y este repo sólo la comprueba por presencia"
+  - "cobertura del framework completo: sólo lo ejecutado localmente está documentado; el resto es docs oficiales"
+  - "servidores en producción: DevUI es loopback y requiere ejecución explícita"
+
+publica: []
+
+consume:
+  - { tipo: proyecto, id: skevi, uso: "prácticas de organización documental adoptadas (hogares por vida útil, evidencia por línea); el lab funciona sin ella", requerido: false }
+  - { tipo: proyecto, id: pinax, uso: "validación de forma de este manifiesto; ninguna pieza del lab depende de ella en runtime", requerido: false }
+  - { tipo: externo, id: zai-glm, uso: "proveedor de modelos vía endpoint OpenAI-compatible configurado en .env", requerido: true }
+
+descubrimiento:
+  argv: [".venv/bin/python", "scripts/check_environment.py"]
+  expected_exit_code: 0
+
+fronteras_de_confianza:
+  - la salida de un modelo no es verdad ni autoridad; se valida contra código, pruebas y estado real
+  - "los docs locales son fotografías fechadas de una instalación preview: gana el paquete instalado, no la guía"
+  - "ZAI_API_KEY nunca se imprime, registra ni transmite; el gate la trata sólo por presencia"
+  - "los ejemplos gastan tokens reales: su coste está declarado y su ejecución es decisión del operador"
+  - "DevUI levanta servidor: sólo loopback y sólo ejecución explícita"
+  - "sin Git inicializado: .gitignore preparado, pero versionar es decisión del mantenedor"
+
+pospuesto:
+  - "adopción de gates skevi (check_sizes/check_plans): sin volumen real que los justifique"
+  - "ejemplos de orquestaciones multi-agente y MCP server: esperan necesidad de un consumidor aria real"
+  - "actualizar el framework cuando core y proveedores converjan de versión: skew actual es dato, no deuda"
