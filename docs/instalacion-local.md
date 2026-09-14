@@ -1,6 +1,7 @@
 # Instalación local — facts de esta máquina (macOS)
 
-**Fecha de verificación:** 2026-09-11. **Método:** comandos ejecutados contra
+**Fecha de verificación:** 2026-09-14 (re-verifica base 2026-09-11).
+**Método:** comandos ejecutados contra
 el `.venv/` de esta carpeta; cada línea declara su veredicto
 `[pass|fail|inconclusive]`. Un fact datado no es vigencia perpetua: re-verifica
 con `scripts/check_environment.py` y `inspect` si vas a confiar en él.
@@ -10,8 +11,8 @@ con `scripts/check_environment.py` y `inspect` si vas a confiar en él.
 - `.venv/bin/python` → Python 3.12.12 [pass]
 - venv creado y gestionado con **uv** 0.9.27 (Homebrew); el venv **no tiene
   `pip`** [pass]
-- congelado del entorno: `requirements-frozen.txt` (205 distribuciones,
-  generado por `importlib.metadata`) [pass]
+- congelado del entorno: `requirements-frozen.txt` (222 distribuciones tras
+  instalar AGT+ACS el 2026-09-14; era 205) [pass]
 
 ## Microsoft Agent Framework
 
@@ -35,6 +36,36 @@ con `scripts/check_environment.py` y `inspect` si vas a confiar en él.
 - vecinos útiles ya instalados: `mcp==1.30.0`, `a2a-sdk==1.1.2`,
   `claude-agent-sdk==0.2.152`, `openai-agents==0.22.2`, `openai==3.13.0`,
   `pydantic-monty` (runtime sandboxed para tools de código) [pass]
+
+## Governance: AGT + ACS (instalados 2026-09-14)
+
+- `agent-governance-toolkit==4.1.0` (metapaquete, Public Preview) con
+  `-core/-cli/-integrations/-protocols` 4.1.0 [pass]
+- combinación coherente publicada: meta 4.1.0 fija core `<5.0` — el core
+  5.0.0 de PyPI NO es la combinación del metapaquete vigente [pass]
+- entry points nuevos: `agt`, `agent-governance`, `agent-os` (emite
+  DeprecationWarning: usar `agent-governance-toolkit-core`), `agentmesh`,
+  `hypervisor`, `mcp-scan`, `agent-sre` [pass]
+- `agent-control-specification==0.3.1b1` (Alpha, owner PyPI microsoft)
+  [pass]
+- ACS en macOS arm64: sin wheel → compilado desde source con maturin/Rust
+  (rustc/cargo 1.93.1 Homebrew ya presentes; no se instaló toolchain):
+  build PASS 4m00s, `_native.abi3.so` Mach-O arm64 [pass]
+- imports verificados sin modelos: `agent_framework`, `agent_os`,
+  `agentmesh`, `agent_control_specification` [pass]
+- nota API: `agent_os.kernel` (README de consolidación) corresponde a core
+  5.0.0; en el 4.1.0 instalado el kernel es `agent_os.StatelessKernel`
+  top-level [pass]
+- smoke determinista sin GLM (`playground/07_acs_smoke/`): read_file →
+  allow, delete_protected_file → deny, tool no declarada → deny
+  fail-closed (`runtime_error:tool_unknown`); `ACS_POLICY_ENGINE =
+  FUNCTIONAL`, `HOST_ENFORCEMENT = NOT_YET_TESTED` [pass]
+- limitación: el dispatcher default de Rego del core nativo requiere un
+  binario `opa` EXTERNO (no instalado); la ruta local verificada usa el
+  `policy_dispatcher` del host [pass, con reserva]
+- downgrade aceptado: `cryptography 50.0.1 → 48.0.1` (pin de core
+  `<50.0,>=46.0.7`); seguro para dependencias activas; conflicto latente
+  si alguien activa `openai-agents[encrypt]` (exige `<46`) [pass, datado]
 
 ## Proveedor de modelos (Z.ai GLM)
 

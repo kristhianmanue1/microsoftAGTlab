@@ -41,7 +41,7 @@ fronteras_de_confianza:
   - "ZAI_API_KEY nunca se imprime, registra ni transmite; el gate la trata sólo por presencia"
   - "los ejemplos gastan tokens reales: su coste está declarado y su ejecución es decisión del operador"
   - "DevUI levanta servidor: sólo loopback y sólo ejecución explícita"
-  - "sin Git inicializado: .gitignore preparado, pero versionar es decisión del mantenedor"
+  - "Git inicializado con remoto GitHub público (rama main): versionar y publicar sigue siendo decisión del mantenedor"
 
 pospuesto:
   - "adopción de gates skevi (check_sizes/check_plans): sin volumen real que los justifique"

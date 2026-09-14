@@ -1,0 +1,29 @@
+agent_control_specification_version: "0.3.1-beta"
+metadata:
+  name: acs-smoke-microsoftagt-lab
+  purpose: >
+    Smoke local determinista (sin ejecutar tools, sin GLM) para el lab
+    microsoftAGTlab: read_file -> ALLOW, delete_protected_file -> DENY.
+policies:
+  acs-tools:
+    type: rego
+    rego: |
+      package acs
+
+      default verdict = {"decision": "allow", "message": "tool permitida por default"}
+
+      verdict = {"decision": "deny", "message": "tool protegida: borrado denegado"} {
+        input.tool == "delete_protected_file"
+      }
+tools:
+  read_file:
+    args: {}
+  delete_protected_file:
+    args: {}
+intervention_points:
+  pre_tool_call:
+    policy_target: $.tool_call
+    tool_name_from: $.tool_call.name
+    policy:
+      id: acs-tools
+      query: data.acs.verdict

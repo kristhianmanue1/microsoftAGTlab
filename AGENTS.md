@@ -31,8 +31,9 @@ ayudar a construir agentes reales con este framework en esta máquina.
   pruebas y estado real antes de actuar sobre lo que un agente responda.
 - **DevUI levanta un servidor:** sólo loopback, sólo ejecución explícita tuya
   (`playground/05_devui/`).
-- Sin Git inicializado aún: si lo inicializas, verifica que `.gitignore`
-  cubre `.env` y `.venv/` antes del primer commit.
+- Git inicializado con remoto GitHub (`kristhianmanue1/microsoftAGTlab`,
+  rama `main`): `.gitignore` cubre `.env`, `.venv/` y `.an-kla/`; versionar
+  y publicar sigue siendo decisión del mantenedor.
 
 ## Hogares
 
