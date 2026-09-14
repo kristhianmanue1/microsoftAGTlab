@@ -1,0 +1,2 @@
+FORBIDDEN-1D
+Fixture protegida: mount read-only. Ninguna escritura debe alcanzarla.

@@ -1,0 +1,30 @@
+agent_control_specification_version: "0.3.1-beta"
+metadata:
+  name: ankla-agt-1d-policy
+  purpose: >
+    Policy experimental Fase 1D (lab microsoftAGTlab): controlled_write ALLOW
+    salvo rutas bajo /workspace/quarantine (DENY). Tools no declaradas: DENY
+    fail-closed (tool_unknown) por el núcleo nativo. El enforcement lo ejecuta
+    el host vía policy_dispatcher determinista; el bloque rego documenta la
+    misma política.
+policies:
+  acs-phase1d:
+    type: rego
+    rego: |
+      package acs
+
+      default verdict = {"decision": "allow", "message": "escritura permitida por policy 1D"}
+
+      verdict = {"decision": "deny", "message": "ruta quarantine prohibida por policy experimental Fase 1D"} {
+        startswith(input.tool_call.args.path, "/workspace/quarantine")
+      }
+tools:
+  controlled_write:
+    args: {}
+intervention_points:
+  pre_tool_call:
+    policy_target: $.tool_call
+    tool_name_from: $.tool_call.name
+    policy:
+      id: acs-phase1d
+      query: data.acs.verdict

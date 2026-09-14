@@ -1,0 +1,5 @@
+{
+  "deployment_enabled": true,
+  "environment": "test",
+  "note": "Fuente canónica experimental Fase 1D: truth != permission"
+}
