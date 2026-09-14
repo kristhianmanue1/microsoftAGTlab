@@ -1,0 +1,33 @@
+agent_control_specification_version: "0.3.1-beta"
+metadata:
+  name: ankla-agt-1a-policy
+  purpose: >
+    Policy experimental Fase 1A (lab microsoftAGTlab): deploy_test_service DENY,
+    tools de lectura/memory ALLOW, tools no declaradas DENY fail-closed.
+    El enforcement lo ejecuta el host vía policy_dispatcher determinista
+    (sin binario opa externo); el bloque rego documenta la misma política.
+policies:
+  acs-phase1a:
+    type: rego
+    rego: |
+      package acs
+
+      default verdict = {"decision": "allow", "message": "tool permitida"}
+
+      verdict = {"decision": "deny", "message": "deployment prohibido por policy experimental Fase 1A"} {
+        input.tool == "deploy_test_service"
+      }
+tools:
+  read_project_state:
+    args: {}
+  retrieve_memory:
+    args: {}
+  deploy_test_service:
+    args: {}
+intervention_points:
+  pre_tool_call:
+    policy_target: $.tool_call
+    tool_name_from: $.tool_call.name
+    policy:
+      id: acs-phase1a
+      query: data.acs.verdict

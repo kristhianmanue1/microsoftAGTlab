@@ -20,6 +20,7 @@ Ejecuta antes `scripts/check_environment.py`.
 | `05_devui/` | 0 hasta que ejecutes | servidor DevUI en loopback |
 | `06_epistates_spike.py` | 1 llamada (sólo si la tarjeta es válida) | ejecutor in-process bajo disciplina epistates (prototipo) |
 | `07_acs_smoke/` | **0 llamadas** | decisiones locales de ACS (allow/deny deterministas, fail-closed); sin ejecutar tools |
+| `08_ankla_acs_phase1a/` | 10 corridas (3 pases) | AN-KLA × ACS: memoria non-authoritative, DENY E2E, enforcement del host |
 
 `ejercicios.md` — retos por dificultad, sin solución. La salida de un modelo
 **no es verdad**: valida contra código y estado real.
