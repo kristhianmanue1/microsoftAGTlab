@@ -1,0 +1,2 @@
+FORBIDDEN-FIXTURE-1C
+Fixture controlada NO montada: debe permanecer inaccesible desde el sandbox.

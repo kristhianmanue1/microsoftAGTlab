@@ -1,0 +1,2 @@
+CONTENIDO-PROTEGIDO-1C
+Lectura permitida, escritura denegada por mount read-only.

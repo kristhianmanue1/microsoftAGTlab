@@ -1,0 +1,855 @@
+{
+  "phase": "ANKLA-AGT-1C",
+  "suite": "mechanical",
+  "started_utc": "2026-09-14T21:28:34.484343+00:00",
+  "llm_tokens": 0,
+  "environment": {
+    "python": "3.12.12",
+    "pydantic_monty": "0.0.23",
+    "agent_framework_monty": "1.0.0b260730",
+    "agent_framework_core": "1.18.0",
+    "platform": "darwin",
+    "workspace_root_tmp": "/private/tmp/monty_boundary_1c_rrcf9801"
+  },
+  "cases": [
+    {
+      "id": "C1_READONLY_READ",
+      "description": "Lectura permitida en mount read-only",
+      "expected": "READ_ALLOWED=YES, contenido y digest registrados",
+      "mounts": [
+        {
+          "virtual_path": "/data",
+          "host_path": "/private/tmp/monty_boundary_1c_rrcf9801/ro",
+          "mode": "read-only",
+          "write_bytes_limit": null
+        }
+      ],
+      "code": "from pathlib import Path\nprint(Path('/data/protected.txt').read_text())",
+      "interpreter_result": {
+        "stdout": "CONTENIDO-PROTEGIDO-1C\nLectura permitida, escritura denegada por mount read-only.\n\n",
+        "error": null
+      },
+      "physical_before": {
+        "outside/forbidden.txt": {
+          "bytes": 98,
+          "sha256": "fb67422ebe47e393f0e4dbd66ef3d6e1262eb29f56c2d4cbe530151ae810caf0"
+        },
+        "ro/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "ro/protected.txt": {
+          "bytes": 82,
+          "sha256": "41f0e4f2398df19e595080313526f96ba6326674f1345880124a1ee9c60a1b58"
+        },
+        "rw/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "rw/mutable.txt": {
+          "bytes": 16,
+          "sha256": "15b4fc222745da7b35bc0b8ee41453909d5c63e1a212609d9832245f73e7ce45"
+        }
+      },
+      "physical_after": {
+        "outside/forbidden.txt": {
+          "bytes": 98,
+          "sha256": "fb67422ebe47e393f0e4dbd66ef3d6e1262eb29f56c2d4cbe530151ae810caf0"
+        },
+        "ro/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "ro/protected.txt": {
+          "bytes": 82,
+          "sha256": "41f0e4f2398df19e595080313526f96ba6326674f1345880124a1ee9c60a1b58"
+        },
+        "rw/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "rw/mutable.txt": {
+          "bytes": 16,
+          "sha256": "15b4fc222745da7b35bc0b8ee41453909d5c63e1a212609d9832245f73e7ce45"
+        }
+      },
+      "passed": true,
+      "detail": "READ_ALLOWED=YES bytes=82 sha256=41f0e4f2398df19e595080313526f96ba6326674f1345880124a1ee9c60a1b58"
+    },
+    {
+      "id": "C2_READONLY_WRITE",
+      "description": "Escritura bloqueada en mount read-only",
+      "expected": "WRITE_ALLOWED=NO ORIGINAL_CONTENT_UNCHANGED=YES",
+      "mounts": [
+        {
+          "virtual_path": "/data",
+          "host_path": "/private/tmp/monty_boundary_1c_rrcf9801/ro",
+          "mode": "read-only",
+          "write_bytes_limit": null
+        }
+      ],
+      "code": "from pathlib import Path\np = Path('/data/protected.txt')\nprint(p.read_text())\np.write_text('EDITADO-POR-AGENTE\\n')\nprint('WRITE-SUCCEEDED')",
+      "interpreter_result": {
+        "stdout": "CONTENIDO-PROTEGIDO-1C\nLectura permitida, escritura denegada por mount read-only.\n\n",
+        "error": {
+          "type": "MontyRuntimeError",
+          "message": "PermissionError: [Errno 30] Read-only file system: '/data/protected.txt'"
+        }
+      },
+      "physical_before": {
+        "outside/forbidden.txt": {
+          "bytes": 98,
+          "sha256": "fb67422ebe47e393f0e4dbd66ef3d6e1262eb29f56c2d4cbe530151ae810caf0"
+        },
+        "ro/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "ro/protected.txt": {
+          "bytes": 82,
+          "sha256": "41f0e4f2398df19e595080313526f96ba6326674f1345880124a1ee9c60a1b58"
+        },
+        "rw/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "rw/mutable.txt": {
+          "bytes": 16,
+          "sha256": "15b4fc222745da7b35bc0b8ee41453909d5c63e1a212609d9832245f73e7ce45"
+        }
+      },
+      "physical_after": {
+        "outside/forbidden.txt": {
+          "bytes": 98,
+          "sha256": "fb67422ebe47e393f0e4dbd66ef3d6e1262eb29f56c2d4cbe530151ae810caf0"
+        },
+        "ro/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "ro/protected.txt": {
+          "bytes": 82,
+          "sha256": "41f0e4f2398df19e595080313526f96ba6326674f1345880124a1ee9c60a1b58"
+        },
+        "rw/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "rw/mutable.txt": {
+          "bytes": 16,
+          "sha256": "15b4fc222745da7b35bc0b8ee41453909d5c63e1a212609d9832245f73e7ce45"
+        }
+      },
+      "passed": true,
+      "detail": "WRITE_ALLOWED=NO ORIGINAL_CONTENT_UNCHANGED=YES (verificado físicamente)"
+    },
+    {
+      "id": "C3_READONLY_CREATE",
+      "description": "Creación de archivo nuevo en mount read-only",
+      "expected": "CREATE_IN_READONLY=DENIED",
+      "mounts": [
+        {
+          "virtual_path": "/data",
+          "host_path": "/private/tmp/monty_boundary_1c_rrcf9801/ro",
+          "mode": "read-only",
+          "write_bytes_limit": null
+        }
+      ],
+      "code": "from pathlib import Path\nPath('/data/new.txt').write_text('x')",
+      "interpreter_result": {
+        "stdout": "",
+        "error": {
+          "type": "MontyRuntimeError",
+          "message": "PermissionError: [Errno 30] Read-only file system: '/data/new.txt'"
+        }
+      },
+      "physical_before": {
+        "outside/forbidden.txt": {
+          "bytes": 98,
+          "sha256": "fb67422ebe47e393f0e4dbd66ef3d6e1262eb29f56c2d4cbe530151ae810caf0"
+        },
+        "ro/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "ro/protected.txt": {
+          "bytes": 82,
+          "sha256": "41f0e4f2398df19e595080313526f96ba6326674f1345880124a1ee9c60a1b58"
+        },
+        "rw/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "rw/mutable.txt": {
+          "bytes": 16,
+          "sha256": "15b4fc222745da7b35bc0b8ee41453909d5c63e1a212609d9832245f73e7ce45"
+        }
+      },
+      "physical_after": {
+        "outside/forbidden.txt": {
+          "bytes": 98,
+          "sha256": "fb67422ebe47e393f0e4dbd66ef3d6e1262eb29f56c2d4cbe530151ae810caf0"
+        },
+        "ro/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "ro/protected.txt": {
+          "bytes": 82,
+          "sha256": "41f0e4f2398df19e595080313526f96ba6326674f1345880124a1ee9c60a1b58"
+        },
+        "rw/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "rw/mutable.txt": {
+          "bytes": 16,
+          "sha256": "15b4fc222745da7b35bc0b8ee41453909d5c63e1a212609d9832245f73e7ce45"
+        }
+      },
+      "passed": true,
+      "detail": "CREATE_IN_READONLY=DENIED"
+    },
+    {
+      "id": "C4_RW_READWRITE",
+      "description": "Lectura, escritura y relectura en mount read-write",
+      "expected": "RW_READ=PASS RW_WRITE=PASS RW_READBACK=PASS",
+      "mounts": [
+        {
+          "virtual_path": "/data",
+          "host_path": "/private/tmp/monty_boundary_1c_rrcf9801/ro",
+          "mode": "read-only",
+          "write_bytes_limit": null
+        },
+        {
+          "virtual_path": "/work",
+          "host_path": "/private/tmp/monty_boundary_1c_rrcf9801/rw",
+          "mode": "read-write",
+          "write_bytes_limit": null
+        }
+      ],
+      "code": "from pathlib import Path\np = Path('/work/mutable.txt')\nprint(p.read_text())\np.write_text('ESCRITO-POR-SUITE-1C\\n')\nprint(p.read_text())",
+      "interpreter_result": {
+        "stdout": "INICIAL-MUTABLE\n\nESCRITO-POR-SUITE-1C\n\n",
+        "error": null
+      },
+      "physical_before": {
+        "outside/forbidden.txt": {
+          "bytes": 98,
+          "sha256": "fb67422ebe47e393f0e4dbd66ef3d6e1262eb29f56c2d4cbe530151ae810caf0"
+        },
+        "ro/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "ro/protected.txt": {
+          "bytes": 82,
+          "sha256": "41f0e4f2398df19e595080313526f96ba6326674f1345880124a1ee9c60a1b58"
+        },
+        "rw/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "rw/mutable.txt": {
+          "bytes": 16,
+          "sha256": "15b4fc222745da7b35bc0b8ee41453909d5c63e1a212609d9832245f73e7ce45"
+        }
+      },
+      "physical_after": {
+        "outside/forbidden.txt": {
+          "bytes": 98,
+          "sha256": "fb67422ebe47e393f0e4dbd66ef3d6e1262eb29f56c2d4cbe530151ae810caf0"
+        },
+        "ro/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "ro/protected.txt": {
+          "bytes": 82,
+          "sha256": "41f0e4f2398df19e595080313526f96ba6326674f1345880124a1ee9c60a1b58"
+        },
+        "rw/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "rw/mutable.txt": {
+          "bytes": 21,
+          "sha256": "eb58168bc177e5fa2ce9fd3ddcdfeecdb2b89e24854e3d7b9c0167810a707439"
+        }
+      },
+      "passed": true,
+      "detail": "RW_READ=PASS RW_WRITE=PASS RW_READBACK=PASS (write-through verificado)"
+    },
+    {
+      "id": "C5_OUT_OF_SCOPE_READ",
+      "description": "Lectura de fixture existente pero NO montada (v RPC virtual y host absoluta)",
+      "expected": "OUT_OF_SCOPE_READ=DENIED",
+      "mounts": [
+        {
+          "virtual_path": "/data",
+          "host_path": "/private/tmp/monty_boundary_1c_rrcf9801/ro",
+          "mode": "read-only",
+          "write_bytes_limit": null
+        },
+        {
+          "virtual_path": "/work",
+          "host_path": "/private/tmp/monty_boundary_1c_rrcf9801/rw",
+          "mode": "read-write",
+          "write_bytes_limit": null
+        }
+      ],
+      "code": "from pathlib import Path\nprint(Path('/outside/forbidden.txt').read_text())\nprint(Path('/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt').read_text()[:20])",
+      "interpreter_result": {
+        "stdout": "",
+        "error": {
+          "type": "MontyRuntimeError",
+          "message": "PermissionError: Permission denied: '/outside/forbidden.txt'"
+        }
+      },
+      "physical_before": {
+        "outside/forbidden.txt": {
+          "bytes": 98,
+          "sha256": "fb67422ebe47e393f0e4dbd66ef3d6e1262eb29f56c2d4cbe530151ae810caf0"
+        },
+        "ro/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "ro/protected.txt": {
+          "bytes": 82,
+          "sha256": "41f0e4f2398df19e595080313526f96ba6326674f1345880124a1ee9c60a1b58"
+        },
+        "rw/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "rw/mutable.txt": {
+          "bytes": 21,
+          "sha256": "eb58168bc177e5fa2ce9fd3ddcdfeecdb2b89e24854e3d7b9c0167810a707439"
+        }
+      },
+      "physical_after": {
+        "outside/forbidden.txt": {
+          "bytes": 98,
+          "sha256": "fb67422ebe47e393f0e4dbd66ef3d6e1262eb29f56c2d4cbe530151ae810caf0"
+        },
+        "ro/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "ro/protected.txt": {
+          "bytes": 82,
+          "sha256": "41f0e4f2398df19e595080313526f96ba6326674f1345880124a1ee9c60a1b58"
+        },
+        "rw/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "rw/mutable.txt": {
+          "bytes": 21,
+          "sha256": "eb58168bc177e5fa2ce9fd3ddcdfeecdb2b89e24854e3d7b9c0167810a707439"
+        }
+      },
+      "passed": true,
+      "detail": "OUT_OF_SCOPE_READ=DENIED (MontyRuntimeError: PermissionError: Permission denied: '/outside/forbidden.txt')"
+    },
+    {
+      "id": "C6_PATH_TRAVERSAL",
+      "description": "Escape por path traversal ../.. (variantes seguras)",
+      "expected": "PATH_TRAVERSAL_ESCAPE=DENIED",
+      "mounts": [],
+      "code": "from pathlib import Path\nprint(Path('/data/../outside/forbidden.txt').read_text()[:10])\nprint(Path('/data/../../outside/forbidden.txt').read_text()[:10])",
+      "interpreter_result": {
+        "stdout": "",
+        "error": {
+          "type": "MontyRuntimeError",
+          "message": "PermissionError: Permission denied: '/data/../outside/forbidden.txt'"
+        }
+      },
+      "physical_before": {
+        "outside/forbidden.txt": {
+          "bytes": 98,
+          "sha256": "fb67422ebe47e393f0e4dbd66ef3d6e1262eb29f56c2d4cbe530151ae810caf0"
+        },
+        "ro/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "ro/protected.txt": {
+          "bytes": 82,
+          "sha256": "41f0e4f2398df19e595080313526f96ba6326674f1345880124a1ee9c60a1b58"
+        },
+        "rw/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "rw/mutable.txt": {
+          "bytes": 21,
+          "sha256": "eb58168bc177e5fa2ce9fd3ddcdfeecdb2b89e24854e3d7b9c0167810a707439"
+        }
+      },
+      "physical_after": {
+        "outside/forbidden.txt": {
+          "bytes": 98,
+          "sha256": "fb67422ebe47e393f0e4dbd66ef3d6e1262eb29f56c2d4cbe530151ae810caf0"
+        },
+        "ro/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "ro/protected.txt": {
+          "bytes": 82,
+          "sha256": "41f0e4f2398df19e595080313526f96ba6326674f1345880124a1ee9c60a1b58"
+        },
+        "rw/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "rw/mutable.txt": {
+          "bytes": 21,
+          "sha256": "eb58168bc177e5fa2ce9fd3ddcdfeecdb2b89e24854e3d7b9c0167810a707439"
+        }
+      },
+      "passed": true,
+      "detail": "PATH_TRAVERSAL_ESCAPE=DENIED (2 variantes, Forbidden intacta: True)"
+    },
+    {
+      "id": "C7_SYMLINK_BOUNDARY",
+      "description": "Symlink dentro del mount apuntando a fixture fuera de scope",
+      "expected": "SYMLINK_ESCAPE_READ/WRITE=DENIED en mounts RW y RO",
+      "mounts": [],
+      "code": "from pathlib import Path\nprint(Path('/work/leak.lnk').read_text()[:10]); from pathlib import Path\nPath('/work/leak.lnk').write_text('PWN'); from pathlib import Path\nprint(Path('/data/leak.lnk').read_text()[:10]); from pathlib import Path\nPath('/data/leak.lnk').write_text('PWN')",
+      "interpreter_result": {
+        "stdout": "",
+        "error": {
+          "type": "MontyRuntimeError",
+          "message": "PermissionError: Permission denied: '/work/leak.lnk'"
+        }
+      },
+      "physical_before": {
+        "outside/forbidden.txt": {
+          "bytes": 98,
+          "sha256": "fb67422ebe47e393f0e4dbd66ef3d6e1262eb29f56c2d4cbe530151ae810caf0"
+        },
+        "ro/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "ro/protected.txt": {
+          "bytes": 82,
+          "sha256": "41f0e4f2398df19e595080313526f96ba6326674f1345880124a1ee9c60a1b58"
+        },
+        "rw/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "rw/mutable.txt": {
+          "bytes": 21,
+          "sha256": "eb58168bc177e5fa2ce9fd3ddcdfeecdb2b89e24854e3d7b9c0167810a707439"
+        }
+      },
+      "physical_after": {
+        "outside/forbidden.txt": {
+          "bytes": 98,
+          "sha256": "fb67422ebe47e393f0e4dbd66ef3d6e1262eb29f56c2d4cbe530151ae810caf0"
+        },
+        "ro/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "ro/protected.txt": {
+          "bytes": 82,
+          "sha256": "41f0e4f2398df19e595080313526f96ba6326674f1345880124a1ee9c60a1b58"
+        },
+        "rw/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "rw/mutable.txt": {
+          "bytes": 21,
+          "sha256": "eb58168bc177e5fa2ce9fd3ddcdfeecdb2b89e24854e3d7b9c0167810a707439"
+        }
+      },
+      "passed": true,
+      "detail": "SYMLINK_ESCAPE_READ=DENIED/DENIED SYMLINK_ESCAPE_WRITE=DENIED/DENIED target_intact=True"
+    },
+    {
+      "id": "C8_WRITE_BYTE_CAP",
+      "description": "write_bytes_limit=16: dentro del cap, sobre el cap y acumulado",
+      "expected": "WITHIN_CAP=PASS OVER_CAP=DENIED sin estado parcial",
+      "mounts": [],
+      "code": "from pathlib import Path\np = Path('/work/within_cap.txt')\np.write_text('AAAAAAAAAA')\nprint('written', len(p.read_text())); from pathlib import Path\nPath('/work/over_cap.txt').write_text('BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB'); from pathlib import Path\nPath('/work/cum_first.txt').write_text('12345678')\nPath('/work/cum_second.txt').write_text('CCCCCCCCCCCCCCCCCCCC')\nprint('both-written')",
+      "interpreter_result": {
+        "stdout": "",
+        "error": {
+          "type": "MontyRuntimeError",
+          "message": "PermissionError: Permission denied: '/work/within_cap.txt'"
+        }
+      },
+      "physical_before": {
+        "outside/forbidden.txt": {
+          "bytes": 98,
+          "sha256": "fb67422ebe47e393f0e4dbd66ef3d6e1262eb29f56c2d4cbe530151ae810caf0"
+        },
+        "ro/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "ro/protected.txt": {
+          "bytes": 82,
+          "sha256": "41f0e4f2398df19e595080313526f96ba6326674f1345880124a1ee9c60a1b58"
+        },
+        "rw/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "rw/mutable.txt": {
+          "bytes": 21,
+          "sha256": "eb58168bc177e5fa2ce9fd3ddcdfeecdb2b89e24854e3d7b9c0167810a707439"
+        }
+      },
+      "physical_after": {
+        "outside/forbidden.txt": {
+          "bytes": 98,
+          "sha256": "fb67422ebe47e393f0e4dbd66ef3d6e1262eb29f56c2d4cbe530151ae810caf0"
+        },
+        "ro/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "ro/protected.txt": {
+          "bytes": 82,
+          "sha256": "41f0e4f2398df19e595080313526f96ba6326674f1345880124a1ee9c60a1b58"
+        },
+        "rw/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "rw/mutable.txt": {
+          "bytes": 21,
+          "sha256": "eb58168bc177e5fa2ce9fd3ddcdfeecdb2b89e24854e3d7b9c0167810a707439"
+        }
+      },
+      "passed": true,
+      "detail": "WITHIN_CAP=PASS OVER_CAP=DENIED sin estado parcial. acumulado: denegado; first=12345678 second_exists=False"
+    },
+    {
+      "id": "C9_OVERWRITE_APPEND",
+      "description": "Overwrite (write_text / open 'w') vs append (append_text / open 'a')",
+      "expected": "overwrite trunca; append preserva; sin asumir atomicidad",
+      "mounts": [
+        {
+          "virtual_path": "/data",
+          "host_path": "/private/tmp/monty_boundary_1c_rrcf9801/ro",
+          "mode": "read-only",
+          "write_bytes_limit": null
+        },
+        {
+          "virtual_path": "/work",
+          "host_path": "/private/tmp/monty_boundary_1c_rrcf9801/rw",
+          "mode": "read-write",
+          "write_bytes_limit": null
+        }
+      ],
+      "code": "from pathlib import Path\np = Path('/work/oa.txt')\np.write_text('AA')\np.append_text('BB')\nprint('after_overwrite+append=' + p.read_text())\np.write_text('AA')\nprint('after_overwrite=' + p.read_text())\np.append_text('CC')\nprint('after_append=' + p.read_text())\nw = open('/work/open_w.txt', 'w')\nw.write('via-open-w')\nw.close()\nprint('open_w=' + open('/work/open_w.txt').read())\na1 = open('/work/open_a.txt', 'a')\na1.write('l1')\na1.close()\na2 = open('/work/open_a.txt', 'a')\na2.write('l2')\na2.close()\nprint('open_a=' + open('/work/open_a.txt').read())",
+      "interpreter_result": {
+        "stdout": "after_overwrite+append=AABB\nafter_overwrite=AA\nafter_append=AACC\nopen_w=via-open-w\nopen_a=l1l2\n",
+        "error": null
+      },
+      "physical_before": {
+        "outside/forbidden.txt": {
+          "bytes": 98,
+          "sha256": "fb67422ebe47e393f0e4dbd66ef3d6e1262eb29f56c2d4cbe530151ae810caf0"
+        },
+        "ro/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "ro/protected.txt": {
+          "bytes": 82,
+          "sha256": "41f0e4f2398df19e595080313526f96ba6326674f1345880124a1ee9c60a1b58"
+        },
+        "rw/cum_first.txt": {
+          "bytes": 8,
+          "sha256": "ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f"
+        },
+        "rw/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "rw/mutable.txt": {
+          "bytes": 21,
+          "sha256": "eb58168bc177e5fa2ce9fd3ddcdfeecdb2b89e24854e3d7b9c0167810a707439"
+        },
+        "rw/within_cap.txt": {
+          "bytes": 10,
+          "sha256": "1d65bf29403e4fb1767522a107c827b8884d16640cf0e3b18c4c1dd107e0d49d"
+        }
+      },
+      "physical_after": {
+        "outside/forbidden.txt": {
+          "bytes": 98,
+          "sha256": "fb67422ebe47e393f0e4dbd66ef3d6e1262eb29f56c2d4cbe530151ae810caf0"
+        },
+        "ro/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "ro/protected.txt": {
+          "bytes": 82,
+          "sha256": "41f0e4f2398df19e595080313526f96ba6326674f1345880124a1ee9c60a1b58"
+        },
+        "rw/cum_first.txt": {
+          "bytes": 8,
+          "sha256": "ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f"
+        },
+        "rw/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "rw/mutable.txt": {
+          "bytes": 21,
+          "sha256": "eb58168bc177e5fa2ce9fd3ddcdfeecdb2b89e24854e3d7b9c0167810a707439"
+        },
+        "rw/oa.txt": {
+          "bytes": 4,
+          "sha256": "c771fe3bee866c27caec38d6aa30810302050eca3257f1837d68fc5b509487a5"
+        },
+        "rw/open_a.txt": {
+          "bytes": 4,
+          "sha256": "63d56e0dedfd2d1dd3e3edb22459a71cd065e8e299f89ea84f31051e222bb739"
+        },
+        "rw/open_w.txt": {
+          "bytes": 10,
+          "sha256": "f2f05473e8a804ed22d5449aaa9e693d1c8d10f2a985f4e1466b74527d24cb1e"
+        },
+        "rw/within_cap.txt": {
+          "bytes": 10,
+          "sha256": "1d65bf29403e4fb1767522a107c827b8884d16640cf0e3b18c4c1dd107e0d49d"
+        }
+      },
+      "passed": true,
+      "detail": "overwrite('w') trunca, append('a') preserva. Observado: 'after_overwrite+append=AABB\\nafter_overwrite=AA\\nafter_append=AACC\\nopen_w=via-open-w\\nopen_a=l1l2'"
+    },
+    {
+      "id": "C10_UNDECLARED_PATH",
+      "description": "Path inexistente bajo mount, path sin mount y creación con padre ausente",
+      "expected": "UNDECLARED_PATH=DENIED_OR_ERROR, clasificar fail-closed",
+      "mounts": [],
+      "code": "from pathlib import Path\nprint(Path('/work/never_exists.txt').read_text()); from pathlib import Path\nprint(Path('/no_mount/file.txt').read_text()); from pathlib import Path\nPath('/work/missing_dir/child.txt').write_text('x')",
+      "interpreter_result": {
+        "stdout": "",
+        "error": {
+          "type": "MontyRuntimeError",
+          "message": "PermissionError: Permission denied: '/work/never_exists.txt'"
+        }
+      },
+      "physical_before": {
+        "outside/forbidden.txt": {
+          "bytes": 98,
+          "sha256": "fb67422ebe47e393f0e4dbd66ef3d6e1262eb29f56c2d4cbe530151ae810caf0"
+        },
+        "ro/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "ro/protected.txt": {
+          "bytes": 82,
+          "sha256": "41f0e4f2398df19e595080313526f96ba6326674f1345880124a1ee9c60a1b58"
+        },
+        "rw/cum_first.txt": {
+          "bytes": 8,
+          "sha256": "ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f"
+        },
+        "rw/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "rw/mutable.txt": {
+          "bytes": 21,
+          "sha256": "eb58168bc177e5fa2ce9fd3ddcdfeecdb2b89e24854e3d7b9c0167810a707439"
+        },
+        "rw/oa.txt": {
+          "bytes": 4,
+          "sha256": "c771fe3bee866c27caec38d6aa30810302050eca3257f1837d68fc5b509487a5"
+        },
+        "rw/open_a.txt": {
+          "bytes": 4,
+          "sha256": "63d56e0dedfd2d1dd3e3edb22459a71cd065e8e299f89ea84f31051e222bb739"
+        },
+        "rw/open_w.txt": {
+          "bytes": 10,
+          "sha256": "f2f05473e8a804ed22d5449aaa9e693d1c8d10f2a985f4e1466b74527d24cb1e"
+        },
+        "rw/within_cap.txt": {
+          "bytes": 10,
+          "sha256": "1d65bf29403e4fb1767522a107c827b8884d16640cf0e3b18c4c1dd107e0d49d"
+        }
+      },
+      "physical_after": {
+        "outside/forbidden.txt": {
+          "bytes": 98,
+          "sha256": "fb67422ebe47e393f0e4dbd66ef3d6e1262eb29f56c2d4cbe530151ae810caf0"
+        },
+        "ro/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "ro/protected.txt": {
+          "bytes": 82,
+          "sha256": "41f0e4f2398df19e595080313526f96ba6326674f1345880124a1ee9c60a1b58"
+        },
+        "rw/cum_first.txt": {
+          "bytes": 8,
+          "sha256": "ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f"
+        },
+        "rw/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "rw/mutable.txt": {
+          "bytes": 21,
+          "sha256": "eb58168bc177e5fa2ce9fd3ddcdfeecdb2b89e24854e3d7b9c0167810a707439"
+        },
+        "rw/oa.txt": {
+          "bytes": 4,
+          "sha256": "c771fe3bee866c27caec38d6aa30810302050eca3257f1837d68fc5b509487a5"
+        },
+        "rw/open_a.txt": {
+          "bytes": 4,
+          "sha256": "63d56e0dedfd2d1dd3e3edb22459a71cd065e8e299f89ea84f31051e222bb739"
+        },
+        "rw/open_w.txt": {
+          "bytes": 10,
+          "sha256": "f2f05473e8a804ed22d5449aaa9e693d1c8d10f2a985f4e1466b74527d24cb1e"
+        },
+        "rw/within_cap.txt": {
+          "bytes": 10,
+          "sha256": "1d65bf29403e4fb1767522a107c827b8884d16640cf0e3b18c4c1dd107e0d49d"
+        }
+      },
+      "passed": true,
+      "detail": "UNDECLARED_PATH=DENIED_OR_ERROR; clasificación: FAIL-CLOSED (excepción explícita, nunca acceso silencioso: FileNotFoundError para inexistentes bajo mount, PermissionError para rutas sin mount)"
+    },
+    {
+      "id": "S8_CONTROLLED_SCRIPT",
+      "description": "Test de código controlado: 4 operaciones, cada resultado por separado",
+      "expected": "read_allowed=OK write_allowed=OK write_readonly=DENIED read_outside=DENIED",
+      "mounts": [
+        {
+          "virtual_path": "/data",
+          "host_path": "/private/tmp/monty_boundary_1c_rrcf9801/ro",
+          "mode": "read-only",
+          "write_bytes_limit": null
+        },
+        {
+          "virtual_path": "/work",
+          "host_path": "/private/tmp/monty_boundary_1c_rrcf9801/rw",
+          "mode": "read-write",
+          "write_bytes_limit": null
+        }
+      ],
+      "code": "from pathlib import Path\nops = {}\n\ndef record(name, fn):\n    try:\n        fn()\n        ops[name] = 'OK'\n    except Exception as exc:\n        ops[name] = 'DENIED:' + type(exc).__name__\n\ndef op_read_allowed():\n    print('READ:', Path('/data/protected.txt').read_text().splitlines()[0])\ndef op_write_allowed():\n    Path('/work/mutable.txt').write_text('GUARDADO-EN-MOUNT-RW\\n')\ndef op_write_readonly():\n    Path('/data/protected.txt').write_text('DEBE-FALLAR\\n')\ndef op_read_outside():\n    print(Path('/outside/forbidden.txt').read_text()[:10])\n\nrecord('read_allowed', op_read_allowed)\nrecord('write_allowed', op_write_allowed)\nrecord('write_readonly', op_write_readonly)\nrecord('read_outside', op_read_outside)\nfor name in ('read_allowed', 'write_allowed', 'write_readonly', 'read_outside'):\n    print('OP', name, ops[name])\n",
+      "interpreter_result": {
+        "stdout": "READ: CONTENIDO-PROTEGIDO-1C\nOP read_allowed OK\nOP write_allowed OK\nOP write_readonly DENIED:PermissionError\nOP read_outside DENIED:PermissionError\n",
+        "error": null
+      },
+      "physical_before": {
+        "outside/forbidden.txt": {
+          "bytes": 98,
+          "sha256": "fb67422ebe47e393f0e4dbd66ef3d6e1262eb29f56c2d4cbe530151ae810caf0"
+        },
+        "ro/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "ro/protected.txt": {
+          "bytes": 82,
+          "sha256": "41f0e4f2398df19e595080313526f96ba6326674f1345880124a1ee9c60a1b58"
+        },
+        "rw/cum_first.txt": {
+          "bytes": 8,
+          "sha256": "ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f"
+        },
+        "rw/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "rw/mutable.txt": {
+          "bytes": 21,
+          "sha256": "eb58168bc177e5fa2ce9fd3ddcdfeecdb2b89e24854e3d7b9c0167810a707439"
+        },
+        "rw/oa.txt": {
+          "bytes": 4,
+          "sha256": "c771fe3bee866c27caec38d6aa30810302050eca3257f1837d68fc5b509487a5"
+        },
+        "rw/open_a.txt": {
+          "bytes": 4,
+          "sha256": "63d56e0dedfd2d1dd3e3edb22459a71cd065e8e299f89ea84f31051e222bb739"
+        },
+        "rw/open_w.txt": {
+          "bytes": 10,
+          "sha256": "f2f05473e8a804ed22d5449aaa9e693d1c8d10f2a985f4e1466b74527d24cb1e"
+        },
+        "rw/within_cap.txt": {
+          "bytes": 10,
+          "sha256": "1d65bf29403e4fb1767522a107c827b8884d16640cf0e3b18c4c1dd107e0d49d"
+        }
+      },
+      "physical_after": {
+        "outside/forbidden.txt": {
+          "bytes": 98,
+          "sha256": "fb67422ebe47e393f0e4dbd66ef3d6e1262eb29f56c2d4cbe530151ae810caf0"
+        },
+        "ro/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "ro/protected.txt": {
+          "bytes": 82,
+          "sha256": "41f0e4f2398df19e595080313526f96ba6326674f1345880124a1ee9c60a1b58"
+        },
+        "rw/cum_first.txt": {
+          "bytes": 8,
+          "sha256": "ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f"
+        },
+        "rw/leak.lnk": {
+          "bytes": "symlink",
+          "sha256": "/private/tmp/monty_boundary_1c_rrcf9801/outside/forbidden.txt"
+        },
+        "rw/mutable.txt": {
+          "bytes": 21,
+          "sha256": "4199164e0900e6816a940bbee7dc22599dd57667fd10f3b09b9fbb5d740627ee"
+        },
+        "rw/oa.txt": {
+          "bytes": 4,
+          "sha256": "c771fe3bee866c27caec38d6aa30810302050eca3257f1837d68fc5b509487a5"
+        },
+        "rw/open_a.txt": {
+          "bytes": 4,
+          "sha256": "63d56e0dedfd2d1dd3e3edb22459a71cd065e8e299f89ea84f31051e222bb739"
+        },
+        "rw/open_w.txt": {
+          "bytes": 10,
+          "sha256": "f2f05473e8a804ed22d5449aaa9e693d1c8d10f2a985f4e1466b74527d24cb1e"
+        },
+        "rw/within_cap.txt": {
+          "bytes": 10,
+          "sha256": "1d65bf29403e4fb1767522a107c827b8884d16640cf0e3b18c4c1dd107e0d49d"
+        }
+      },
+      "passed": true,
+      "detail": "read_allowed=OK write_allowed=OK write_readonly=DENIED read_outside=DENIED; protected_intact=True mutable_written=True"
+    }
+  ],
+  "c0_bridge_compat": {
+    "compatible": false,
+    "observed": "TypeError: Monty.__new__() takes 0 positional arguments but 1 was given"
+  },
+  "finished_utc": "2026-09-14T21:28:34.691179+00:00",
+  "summary": {
+    "total": 11,
+    "passed": 11,
+    "failed": 0
+  }
+}
