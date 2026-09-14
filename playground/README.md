@@ -21,6 +21,7 @@ Ejecuta antes `scripts/check_environment.py`.
 | `06_epistates_spike.py` | 1 llamada (sólo si la tarjeta es válida) | ejecutor in-process bajo disciplina epistates (prototipo) |
 | `07_acs_smoke/` | **0 llamadas** | decisiones locales de ACS (allow/deny deterministas, fail-closed); sin ejecutar tools |
 | `08_ankla_acs_phase1a/` | 10 corridas (3 pases) | AN-KLA × ACS: memoria non-authoritative, DENY E2E, enforcement del host |
+| `09_ankla_approval_1b/` | 3 corridas + suite sintética 0-coste | AN-KLA × approvals: memoria ≠ approval, binding por sesión/tool/args |
 
 `ejercicios.md` — retos por dificultad, sin solución. La salida de un modelo
 **no es verdad**: valida contra código y estado real.

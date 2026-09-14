@@ -1,0 +1,17 @@
+{
+  "schema": "microsoftagt-lab/p1b-evidence-separation/v0",
+  "case": "B9b — approval real GRANTED + policy ACS DENY",
+  "memory_record": null,
+  "model_request": "scripted function_call deploy_test_service (sin GLM; el pipeline es real)",
+  "approval_state_before": "PENDING (function_approval_request en sesión S1)",
+  "approval_decision": "GRANTED (to_function_approval_response(approved=True), binding por request-id)",
+  "acs_decision": "DENY",
+  "host_enforcement": "tool NO ejecutada: approval no anula policy",
+  "tool_execution_evidence": {
+    "executions": 0
+  },
+  "session_id": "S1 (in-memory session del caso B9)",
+  "tool_args": {
+    "environment": "test"
+  }
+}
