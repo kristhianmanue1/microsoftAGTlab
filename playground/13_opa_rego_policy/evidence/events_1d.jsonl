@@ -1,0 +1,4 @@
+{"ts": 1789440752.685248, "kind": "tool_body_entered", "path": "/workspace/allowed/output.txt", "content_bytes": 8}
+{"ts": 1789440752.715946, "kind": "monty_result", "path": "/workspace/allowed/output.txt", "result": {"stdout": "WROTE 8\n", "error": null}}
+{"ts": 1789440753.121012, "kind": "tool_body_entered", "path": "/protected/forbidden.txt", "content_bytes": 5}
+{"ts": 1789440753.127233, "kind": "monty_result", "path": "/protected/forbidden.txt", "result": {"stdout": "", "error": {"type": "MontyRuntimeError", "message": "PermissionError: [Errno 30] Read-only file system: '/protected/forbidden.txt'"}}}

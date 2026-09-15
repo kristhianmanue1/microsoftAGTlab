@@ -1,0 +1,275 @@
+{
+  "phase": "ANKLA-AGT-1D-R2",
+  "test": "OPA_DIRECT_SMOKE",
+  "origin_finding": "H1 (ANKLA-MICROSOFT-1A-1D-EXTERNAL; OPEN tras 1D-R1)",
+  "started_utc": "2026-09-15T02:49:40.393999+00:00",
+  "llm_tokens": 0,
+  "acs_involved": false,
+  "opa": {
+    "executable": "/Users/krisnova/.local/bin/opa",
+    "version": "1.20.2",
+    "rego_version": "v1",
+    "platform": "darwin/arm64",
+    "build_commit": "b2c26708e9d55645d7f837db495031f7e4152594"
+  },
+  "policy_file": "playground/13_opa_rego_policy/policy/filesystem.rego",
+  "policy_sha256": "sha256:29e21323f9198dbce8d931bcb0964e804f1e856bfc8b0b7407741db3f035adf0",
+  "query": "data.acs.verdict",
+  "opa_check_ok": true,
+  "fail_closed_by_default": true,
+  "no_default_allow_true": false,
+  "cases": [
+    {
+      "case": "known_allowed",
+      "expected": "allow",
+      "tool_call": {
+        "name": "controlled_write",
+        "args": {
+          "path": "/workspace/allowed/output.txt"
+        }
+      },
+      "opa_decision": "allow",
+      "opa_message": "policy 1D-R2 (rego): 'controlled_write' permitida sobre /workspace/allowed/output.txt (canónico de /workspace/allowed/output.txt)",
+      "opa_error": null,
+      "pass": true
+    },
+    {
+      "case": "known_allowed_nested",
+      "expected": "allow",
+      "tool_call": {
+        "name": "controlled_write",
+        "args": {
+          "path": "/workspace/allowed/sub/nested.txt"
+        }
+      },
+      "opa_decision": "allow",
+      "opa_message": "policy 1D-R2 (rego): 'controlled_write' permitida sobre /workspace/allowed/sub/nested.txt (canónico de /workspace/allowed/sub/nested.txt)",
+      "opa_error": null,
+      "pass": true
+    },
+    {
+      "case": "known_denied_quarantine",
+      "expected": "deny",
+      "tool_call": {
+        "name": "controlled_write",
+        "args": {
+          "path": "/workspace/quarantine/target.txt"
+        }
+      },
+      "opa_decision": "deny",
+      "opa_message": "policy 1D-R2 (rego): ruta denegada tras canonicalizar (/workspace/quarantine/target.txt -> /workspace/quarantine/target.txt)",
+      "opa_error": null,
+      "pass": true
+    },
+    {
+      "case": "traversal_sibling",
+      "expected": "deny",
+      "tool_call": {
+        "name": "controlled_write",
+        "args": {
+          "path": "/workspace/allowed/../quarantine/target.txt"
+        }
+      },
+      "opa_decision": "deny",
+      "opa_message": "policy 1D-R2 (rego): ruta denegada tras canonicalizar (/workspace/allowed/../quarantine/target.txt -> /workspace/quarantine/target.txt)",
+      "opa_error": null,
+      "pass": true
+    },
+    {
+      "case": "traversal_nested",
+      "expected": "deny",
+      "tool_call": {
+        "name": "controlled_write",
+        "args": {
+          "path": "/workspace/allowed/sub/../../quarantine/target.txt"
+        }
+      },
+      "opa_decision": "deny",
+      "opa_message": "policy 1D-R2 (rego): ruta denegada tras canonicalizar (/workspace/allowed/sub/../../quarantine/target.txt -> /workspace/quarantine/target.txt)",
+      "opa_error": null,
+      "pass": true
+    },
+    {
+      "case": "traversal_double_slash",
+      "expected": "deny",
+      "tool_call": {
+        "name": "controlled_write",
+        "args": {
+          "path": "/workspace/allowed//../quarantine/target.txt"
+        }
+      },
+      "opa_decision": "deny",
+      "opa_message": "policy 1D-R2 (rego): ruta denegada tras canonicalizar (/workspace/allowed//../quarantine/target.txt -> /workspace/quarantine/target.txt)",
+      "opa_error": null,
+      "pass": true
+    },
+    {
+      "case": "traversal_dot_segment",
+      "expected": "deny",
+      "tool_call": {
+        "name": "controlled_write",
+        "args": {
+          "path": "/workspace/allowed/./../quarantine/target.txt"
+        }
+      },
+      "opa_decision": "deny",
+      "opa_message": "policy 1D-R2 (rego): ruta denegada tras canonicalizar (/workspace/allowed/./../quarantine/target.txt -> /workspace/quarantine/target.txt)",
+      "opa_error": null,
+      "pass": true
+    },
+    {
+      "case": "escape_above_root",
+      "expected": "deny",
+      "tool_call": {
+        "name": "controlled_write",
+        "args": {
+          "path": "/workspace/../../etc/passwd"
+        }
+      },
+      "opa_decision": "deny",
+      "opa_message": "policy 1D-R2 (rego): denegado por defecto — la solicitud no satisface ninguna regla de permiso",
+      "opa_error": null,
+      "pass": true
+    },
+    {
+      "case": "outside_allowed_scope",
+      "expected": "deny",
+      "tool_call": {
+        "name": "controlled_write",
+        "args": {
+          "path": "/workspace/other/x.txt"
+        }
+      },
+      "opa_decision": "deny",
+      "opa_message": "policy 1D-R2 (rego): denegado por defecto — la solicitud no satisface ninguna regla de permiso",
+      "opa_error": null,
+      "pass": true
+    },
+    {
+      "case": "malformed_path_missing",
+      "expected": "deny",
+      "tool_call": {
+        "name": "controlled_write",
+        "args": {}
+      },
+      "opa_decision": "deny",
+      "opa_message": "policy 1D-R2 (rego): denegado por defecto — la solicitud no satisface ninguna regla de permiso",
+      "opa_error": null,
+      "pass": true
+    },
+    {
+      "case": "malformed_path_list",
+      "expected": "deny",
+      "tool_call": {
+        "name": "controlled_write",
+        "args": {
+          "path": [
+            "/workspace/allowed/x"
+          ]
+        }
+      },
+      "opa_decision": "deny",
+      "opa_message": "policy 1D-R2 (rego): denegado por defecto — la solicitud no satisface ninguna regla de permiso",
+      "opa_error": null,
+      "pass": true
+    },
+    {
+      "case": "malformed_path_null",
+      "expected": "deny",
+      "tool_call": {
+        "name": "controlled_write",
+        "args": {
+          "path": null
+        }
+      },
+      "opa_decision": "deny",
+      "opa_message": "policy 1D-R2 (rego): denegado por defecto — la solicitud no satisface ninguna regla de permiso",
+      "opa_error": null,
+      "pass": true
+    },
+    {
+      "case": "malformed_path_object",
+      "expected": "deny",
+      "tool_call": {
+        "name": "controlled_write",
+        "args": {
+          "path": {
+            "p": "/workspace/allowed/x"
+          }
+        }
+      },
+      "opa_decision": "deny",
+      "opa_message": "policy 1D-R2 (rego): denegado por defecto — la solicitud no satisface ninguna regla de permiso",
+      "opa_error": null,
+      "pass": true
+    },
+    {
+      "case": "malformed_args_string",
+      "expected": "deny",
+      "tool_call": {
+        "name": "controlled_write",
+        "args": "path=/workspace/allowed/x"
+      },
+      "opa_decision": "deny",
+      "opa_message": "policy 1D-R2 (rego): denegado por defecto — la solicitud no satisface ninguna regla de permiso",
+      "opa_error": null,
+      "pass": true
+    },
+    {
+      "case": "unknown_tool",
+      "expected": "deny",
+      "tool_call": {
+        "name": "tool_fantasma_experimental",
+        "args": {
+          "path": "/workspace/allowed/output.txt"
+        }
+      },
+      "opa_decision": "deny",
+      "opa_message": "policy 1D-R2 (rego): denegado por defecto — la solicitud no satisface ninguna regla de permiso",
+      "opa_error": null,
+      "pass": true
+    },
+    {
+      "case": "tool_name_casing",
+      "expected": "deny",
+      "tool_call": {
+        "name": "Controlled_Write",
+        "args": {
+          "path": "/workspace/allowed/output.txt"
+        }
+      },
+      "opa_decision": "deny",
+      "opa_message": "policy 1D-R2 (rego): denegado por defecto — la solicitud no satisface ninguna regla de permiso",
+      "opa_error": null,
+      "pass": true
+    },
+    {
+      "case": "tool_name_absent",
+      "expected": "deny",
+      "tool_call": {
+        "args": {
+          "path": "/workspace/allowed/output.txt"
+        }
+      },
+      "opa_decision": "deny",
+      "opa_message": "policy 1D-R2 (rego): denegado por defecto — la solicitud no satisface ninguna regla de permiso",
+      "opa_error": null,
+      "pass": true
+    },
+    {
+      "case": "empty_target",
+      "expected": "deny",
+      "tool_call": {},
+      "opa_decision": "deny",
+      "opa_message": "policy 1D-R2 (rego): denegado por defecto — la solicitud no satisface ninguna regla de permiso",
+      "opa_error": null,
+      "pass": true
+    }
+  ],
+  "summary": {
+    "total": 18,
+    "passed": 18,
+    "failed": 0
+  },
+  "finished_utc": "2026-09-15T02:49:40.641172+00:00"
+}

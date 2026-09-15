@@ -1,0 +1,24 @@
+agent_control_specification_version: "0.3.1-beta"
+metadata:
+  name: ankla-agt-1d-r2-opa-rego
+  purpose: >
+    Policy declarativa Fase 1D-R2 (lab microsoftAGTlab). A diferencia de 1A/1D,
+    NO se suministra policy_dispatcher: la decisión la produce el dispatcher
+    bundled de ACS ejecutando `opa eval` sobre policy/filesystem.rego.
+    `bundle` es una ruta de DIRECTORIO relativa a este manifest — contrato
+    verificado empíricamente contra agent-control-specification 0.3.1b1, no
+    copiado de otra versión. La `query` vive en el intervention point.
+policies:
+  acs-phase1d-r2:
+    type: rego
+    bundle: policy
+tools:
+  controlled_write:
+    args: {}
+intervention_points:
+  pre_tool_call:
+    policy_target: $.tool_call
+    tool_name_from: $.tool_call.name
+    policy:
+      id: acs-phase1d-r2
+      query: data.acs.verdict

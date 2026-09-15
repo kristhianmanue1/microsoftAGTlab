@@ -1,0 +1,104 @@
+{
+  "phase": "ANKLA-AGT-1D-R2",
+  "test": "COMPARISON_TABLE",
+  "generated_utc": "2026-09-15T02:53:26.719978+00:00",
+  "sources": {
+    "t3_1d_r1": "playground/12_adversarial_remediation/evidence/t3_fail_open_latest.json",
+    "mechanical_1d_r2": "playground/13_opa_rego_policy/evidence/mechanical_latest.json"
+  },
+  "rows": [
+    {
+      "case": "valid allow",
+      "dispatcher_1D_original": "allow",
+      "dispatcher_1D_R1": "allow",
+      "opa_rego_1D_R2": "allow",
+      "t3_case_id": "C0_BASELINE_LEGITIMATE",
+      "r2_case_id": "T-R2-2_ALLOW_POSITIVE"
+    },
+    {
+      "case": "valid deny",
+      "dispatcher_1D_original": "deny",
+      "dispatcher_1D_R1": "deny",
+      "opa_rego_1D_R2": "deny",
+      "t3_case_id": "C1_BASELINE_QUARANTINE",
+      "r2_case_id": "T-R2-3_DENY_QUARANTINE"
+    },
+    {
+      "case": "traversal",
+      "dispatcher_1D_original": "allow",
+      "dispatcher_1D_R1": "deny",
+      "opa_rego_1D_R2": "deny",
+      "t3_case_id": "C10_PATH_TRAVERSAL",
+      "r2_case_id": "V2_TRAVERSAL_SIBLING"
+    },
+    {
+      "case": "missing path",
+      "dispatcher_1D_original": "allow",
+      "dispatcher_1D_R1": "deny",
+      "opa_rego_1D_R2": "deny",
+      "t3_case_id": "C5_MISSING_PATH_KEY",
+      "r2_case_id": "M1_PATH_KEY_ABSENT"
+    },
+    {
+      "case": "list path",
+      "dispatcher_1D_original": "allow",
+      "dispatcher_1D_R1": "deny",
+      "opa_rego_1D_R2": "deny",
+      "t3_case_id": "C8_PATH_AS_LIST",
+      "r2_case_id": "M2_PATH_AS_LIST"
+    },
+    {
+      "case": "unknown tool",
+      "dispatcher_1D_original": "allow",
+      "dispatcher_1D_R1": "deny",
+      "opa_rego_1D_R2": "deny",
+      "t3_case_id": "C3_TOOL_NAME_UNKNOWN",
+      "r2_case_id": "M7_UNKNOWN_TOOL"
+    }
+  ],
+  "guarantee_attribution": [
+    {
+      "guarantee": "tool no declarada en el manifest → deny",
+      "layer": "ACS (núcleo nativo)",
+      "evidence": "runtime_error:tool_unknown",
+      "note": "independiente del decisor de policy: presente en 1D, 1D-R1 y 1D-R2"
+    },
+    {
+      "guarantee": "argumentos malformados → deny",
+      "layer": "implementación de policy",
+      "evidence": "T3 C5/C8 vs T-R2-5 M1/M2",
+      "note": "ACS no inspecciona argumentos; en 1D el dispatcher permitía"
+    },
+    {
+      "guarantee": "traversal / canonicalización → deny",
+      "layer": "implementación de policy",
+      "evidence": "T1 vs T-R2-4",
+      "note": "en 1D-R2 la canonicalización vive en el propio Rego"
+    },
+    {
+      "guarantee": "motor de policy ausente o inválido → deny",
+      "layer": "ACS (normalización de errores)",
+      "evidence": "runtime_error:policy_invocation_failed",
+      "note": "T-R2-6 y T-R2-7: el fallo del motor no se convierte en allow"
+    },
+    {
+      "guarantee": "veredicto deny impide ejecución del cuerpo",
+      "layer": "enforcement del host",
+      "evidence": "AcsOpaMiddleware → MiddlewareTermination",
+      "note": "el host debe respetar el verdict; ACS no ejecuta la tool"
+    },
+    {
+      "guarantee": "escritura fuera del mount → denegada físicamente",
+      "layer": "Monty (capability)",
+      "evidence": "T-R2-8, EROFS",
+      "note": "independiente de policy: 1D-R1 T2 lo estableció como causal"
+    }
+  ],
+  "cases_fixed_by_declarative_policy": [
+    "traversal",
+    "missing path",
+    "list path",
+    "unknown tool"
+  ],
+  "divergences_r1_vs_r2": []
+}
