@@ -1,0 +1,628 @@
+[
+  {
+    "ts": 1789441976.710541,
+    "kind": "acs_decision",
+    "tool": "copy_allowed_file",
+    "args": {
+      "src": "/workspace/allowed/source.txt",
+      "dst": "/workspace/quarantine/target.txt"
+    },
+    "decision": "deny",
+    "reason": null
+  },
+  {
+    "ts": 1789441976.7424011,
+    "kind": "acs_decision",
+    "tool": "copy_allowed_file",
+    "args": {
+      "src": "/workspace/allowed/source.txt",
+      "dst": "/workspace/allowed/../quarantine/target.txt"
+    },
+    "decision": "deny",
+    "reason": null
+  },
+  {
+    "ts": 1789441976.7738109,
+    "kind": "acs_decision",
+    "tool": "copy_allowed_file",
+    "args": {
+      "src": "/workspace/allowed/source.txt",
+      "dst": "/workspace/allowed/sub/../../quarantine/t.txt"
+    },
+    "decision": "deny",
+    "reason": null
+  },
+  {
+    "ts": 1789441976.8059871,
+    "kind": "acs_decision",
+    "tool": "copy_allowed_file",
+    "args": {
+      "src": "/workspace/allowed/source.txt",
+      "dst": "/protected/forbidden.txt"
+    },
+    "decision": "allow",
+    "reason": null
+  },
+  {
+    "ts": 1789441976.8060732,
+    "kind": "tool_body_entered",
+    "label": "copy_allowed_file",
+    "src": "/workspace/allowed/source.txt",
+    "dst": "/protected/forbidden.txt"
+  },
+  {
+    "ts": 1789441976.838175,
+    "kind": "monty_result",
+    "label": "copy_allowed_file",
+    "dst": "/protected/forbidden.txt",
+    "error": "MontyRuntimeError",
+    "stdout": ""
+  },
+  {
+    "ts": 1789441976.868366,
+    "kind": "acs_decision",
+    "tool": "copy_allowed_file",
+    "args": {
+      "src": "/workspace/allowed/source.txt",
+      "dst": "/outside/secret-like.txt"
+    },
+    "decision": "deny",
+    "reason": null
+  },
+  {
+    "ts": 1789441976.900637,
+    "kind": "acs_decision",
+    "tool": "copy_allowed_file",
+    "args": {
+      "src": "/workspace/allowed/source.txt",
+      "dst": "/workspace/allowed/copy.txt"
+    },
+    "decision": "allow",
+    "reason": null
+  },
+  {
+    "ts": 1789441976.9007082,
+    "kind": "tool_body_entered",
+    "label": "copy_allowed_file",
+    "src": "/workspace/allowed/source.txt",
+    "dst": "/workspace/allowed/copy.txt"
+  },
+  {
+    "ts": 1789441976.9076102,
+    "kind": "monty_result",
+    "label": "copy_allowed_file",
+    "dst": "/workspace/allowed/copy.txt",
+    "error": null,
+    "stdout": "COPIED 16"
+  },
+  {
+    "ts": 1789441976.939685,
+    "kind": "acs_decision",
+    "tool": "outer_tool",
+    "args": {
+      "path": "/workspace/allowed/output.txt",
+      "content": "E2-DECLARED"
+    },
+    "decision": "allow",
+    "reason": null
+  },
+  {
+    "ts": 1789441976.93974,
+    "kind": "tool_body_entered",
+    "label": "outer_tool:declared",
+    "path": "/workspace/allowed/output.txt"
+  },
+  {
+    "ts": 1789441976.9454432,
+    "kind": "monty_result",
+    "label": "outer_tool:declared",
+    "path": "/workspace/allowed/output.txt",
+    "error": null,
+    "stdout": "WROTE 11"
+  },
+  {
+    "ts": 1789441976.945445,
+    "kind": "inner_operation_attempted",
+    "parent": "outer_tool",
+    "target": "/workspace/quarantine/target.txt"
+  },
+  {
+    "ts": 1789441976.9454458,
+    "kind": "tool_body_entered",
+    "label": "outer_tool:inner_undeclared",
+    "path": "/workspace/quarantine/target.txt"
+  },
+  {
+    "ts": 1789441976.95059,
+    "kind": "monty_result",
+    "label": "outer_tool:inner_undeclared",
+    "path": "/workspace/quarantine/target.txt",
+    "error": null,
+    "stdout": "WROTE 12"
+  },
+  {
+    "ts": 1789441976.950592,
+    "kind": "tool_body_entered",
+    "label": "outer_tool:inner_outside",
+    "path": "/outside/secret-like.txt"
+  },
+  {
+    "ts": 1789441976.9555461,
+    "kind": "monty_result",
+    "label": "outer_tool:inner_outside",
+    "path": "/outside/secret-like.txt",
+    "error": "MontyRuntimeError",
+    "stdout": ""
+  },
+  {
+    "ts": 1789441976.97594,
+    "kind": "acs_decision",
+    "tool": "controlled_write",
+    "args": {
+      "path": "/workspace/allowed/./../quarantine/t3.txt",
+      "content": "E3-DOT_SEGMENT"
+    },
+    "decision": "deny",
+    "reason": null
+  },
+  {
+    "ts": 1789441977.0078201,
+    "kind": "acs_decision",
+    "tool": "controlled_write",
+    "args": {
+      "path": "/workspace/allowed//../quarantine/t3.txt",
+      "content": "E3-DOUBLE_SLASH"
+    },
+    "decision": "deny",
+    "reason": null
+  },
+  {
+    "ts": 1789441977.040707,
+    "kind": "acs_decision",
+    "tool": "controlled_write",
+    "args": {
+      "path": "/workspace/quarantine/",
+      "content": "E3-TRAILING_SLASH"
+    },
+    "decision": "deny",
+    "reason": null
+  },
+  {
+    "ts": 1789441977.0607092,
+    "kind": "acs_decision",
+    "tool": "controlled_write",
+    "args": {
+      "path": "/workspace///quarantine///t3.txt",
+      "content": "E3-EMPTY_SEGMENTS"
+    },
+    "decision": "deny",
+    "reason": null
+  },
+  {
+    "ts": 1789441977.092971,
+    "kind": "acs_decision",
+    "tool": "controlled_write",
+    "args": {
+      "path": "/workspace/allowed/sub/../../../workspace/quarantine/t3.txt",
+      "content": "E3-DEEP_TRAVERSAL"
+    },
+    "decision": "deny",
+    "reason": null
+  },
+  {
+    "ts": 1789441977.1248908,
+    "kind": "acs_decision",
+    "tool": "controlled_write",
+    "args": {
+      "path": "/workspace/./allowed/./../quarantine/./t3.txt",
+      "content": "E3-MIXED_DOTS"
+    },
+    "decision": "deny",
+    "reason": null
+  },
+  {
+    "ts": 1789441977.155454,
+    "kind": "acs_decision",
+    "tool": "controlled_write",
+    "args": {
+      "path": "/workspace/../../etc/hosts",
+      "content": "E3-ROOT_ESCAPE"
+    },
+    "decision": "deny",
+    "reason": null
+  },
+  {
+    "ts": 1789441977.1871092,
+    "kind": "acs_decision",
+    "tool": "controlled_write",
+    "args": {
+      "path": "/workspace/a/b/c/d/e/f/g/h/i/../../../../../../../../../workspace/quarantine/t3.txt",
+      "content": "E3-OVER_FOLD_LIMIT"
+    },
+    "decision": "deny",
+    "reason": null
+  },
+  {
+    "ts": 1789441977.2195299,
+    "kind": "acs_decision",
+    "tool": "controlled_write",
+    "args": {
+      "path": "/workspace/allowed/swap.txt",
+      "content": "E4-TOCTOU"
+    },
+    "decision": "allow",
+    "reason": null
+  },
+  {
+    "ts": 1789441977.219535,
+    "kind": "post_decision_hook",
+    "label": "E4_swap_to_symlink",
+    "tool": "controlled_write"
+  },
+  {
+    "ts": 1789441977.219777,
+    "kind": "tool_body_entered",
+    "label": "controlled_write",
+    "path": "/workspace/allowed/swap.txt"
+  },
+  {
+    "ts": 1789441977.225997,
+    "kind": "monty_result",
+    "label": "controlled_write",
+    "path": "/workspace/allowed/swap.txt",
+    "error": "MontyRuntimeError",
+    "stdout": ""
+  },
+  {
+    "ts": 1789441977.412547,
+    "kind": "acs_decision",
+    "tool": "controlled_write",
+    "args": {
+      "path": "/workspace/allowed/output.txt",
+      "content": "E8-RACE"
+    },
+    "decision": "allow",
+    "reason": null
+  },
+  {
+    "ts": 1789441977.41255,
+    "kind": "post_decision_hook",
+    "label": "E8_swap_policy",
+    "tool": "controlled_write"
+  },
+  {
+    "ts": 1789441977.4129128,
+    "kind": "tool_body_entered",
+    "label": "controlled_write",
+    "path": "/workspace/allowed/output.txt"
+  },
+  {
+    "ts": 1789441977.419035,
+    "kind": "monty_result",
+    "label": "controlled_write",
+    "path": "/workspace/allowed/output.txt",
+    "error": null,
+    "stdout": "WROTE 7"
+  },
+  {
+    "ts": 1789441977.467243,
+    "kind": "acs_decision",
+    "tool": "controlled_write",
+    "args": {
+      "path": "/workspace/allowed/output.txt",
+      "content": "E9-REVOKE"
+    },
+    "decision": "allow",
+    "reason": null
+  },
+  {
+    "ts": 1789441977.467246,
+    "kind": "post_decision_hook",
+    "label": "E9_revoke_approval",
+    "tool": "controlled_write"
+  },
+  {
+    "ts": 1789441977.467305,
+    "kind": "tool_body_entered",
+    "label": "controlled_write",
+    "path": "/workspace/allowed/output.txt"
+  },
+  {
+    "ts": 1789441977.4736278,
+    "kind": "monty_result",
+    "label": "controlled_write",
+    "path": "/workspace/allowed/output.txt",
+    "error": null,
+    "stdout": "WROTE 9"
+  },
+  {
+    "ts": 1789441977.47826,
+    "kind": "acs_layer_error",
+    "tool": "controlled_write"
+  },
+  {
+    "ts": 1789441977.498265,
+    "kind": "acs_decision",
+    "tool": "controlled_write",
+    "args": {
+      "path": "/workspace/allowed/output.txt",
+      "content": "E10-BODY"
+    },
+    "decision": "allow",
+    "reason": null
+  },
+  {
+    "ts": 1789441977.498325,
+    "kind": "host_body_error",
+    "tool": "controlled_write"
+  },
+  {
+    "ts": 1789441977.504152,
+    "kind": "acs_decision",
+    "tool": "controlled_write",
+    "args": {
+      "path": "/workspace/allowed/output.txt",
+      "content": "E10-OPA"
+    },
+    "decision": "deny",
+    "reason": "runtime_error:policy_invocation_failed"
+  },
+  {
+    "ts": 1789441977.53619,
+    "kind": "acs_decision",
+    "tool": "controlled_write",
+    "args": {
+      "path": "/workspace/allowed/output.txt",
+      "content": "E10-BADOUT"
+    },
+    "decision": "deny",
+    "reason": "runtime_error:policy_output_invalid"
+  },
+  {
+    "ts": 1789441977.567158,
+    "kind": "acs_decision",
+    "tool": "controlled_write",
+    "args": {
+      "path": "/protected/forbidden.txt",
+      "content": "E10-MONTY"
+    },
+    "decision": "allow",
+    "reason": null
+  },
+  {
+    "ts": 1789441977.5672162,
+    "kind": "tool_body_entered",
+    "label": "controlled_write",
+    "path": "/protected/forbidden.txt"
+  },
+  {
+    "ts": 1789441977.5729332,
+    "kind": "monty_result",
+    "label": "controlled_write",
+    "path": "/protected/forbidden.txt",
+    "error": "MontyRuntimeError",
+    "stdout": ""
+  },
+  {
+    "ts": 1789441977.593459,
+    "kind": "acs_decision",
+    "tool": "controlled_write",
+    "args": {
+      "path": "/workspace/allowed/output.txt",
+      "content": "E11-ALLOW"
+    },
+    "decision": "allow",
+    "reason": null
+  },
+  {
+    "ts": 1789441977.593517,
+    "kind": "tool_body_entered",
+    "label": "controlled_write",
+    "path": "/workspace/allowed/output.txt"
+  },
+  {
+    "ts": 1789441977.599545,
+    "kind": "monty_result",
+    "label": "controlled_write",
+    "path": "/workspace/allowed/output.txt",
+    "error": null,
+    "stdout": "WROTE 9"
+  },
+  {
+    "ts": 1789441977.631405,
+    "kind": "acs_decision",
+    "tool": "controlled_write",
+    "args": {
+      "path": "/workspace/quarantine/target.txt",
+      "content": "E11-DENY"
+    },
+    "decision": "deny",
+    "reason": null
+  },
+  {
+    "ts": 1789441977.651762,
+    "kind": "acs_decision",
+    "tool": "controlled_write",
+    "args": {
+      "path": "/protected/forbidden.txt",
+      "content": "E11-RO"
+    },
+    "decision": "allow",
+    "reason": null
+  },
+  {
+    "ts": 1789441977.651825,
+    "kind": "tool_body_entered",
+    "label": "controlled_write",
+    "path": "/protected/forbidden.txt"
+  },
+  {
+    "ts": 1789441977.657726,
+    "kind": "monty_result",
+    "label": "controlled_write",
+    "path": "/protected/forbidden.txt",
+    "error": "MontyRuntimeError",
+    "stdout": ""
+  },
+  {
+    "ts": 1789441977.677726,
+    "kind": "acs_decision",
+    "tool": "controlled_write",
+    "args": {
+      "path": "/workspace/allowed/output.txt",
+      "content": "E12-NAME"
+    },
+    "decision": "allow",
+    "reason": null
+  },
+  {
+    "ts": 1789441977.677782,
+    "kind": "tool_body_entered",
+    "label": "controlled_write",
+    "path": "/workspace/allowed/output.txt"
+  },
+  {
+    "ts": 1789441977.683836,
+    "kind": "monty_result",
+    "label": "controlled_write",
+    "path": "/workspace/allowed/output.txt",
+    "error": null,
+    "stdout": "WROTE 8"
+  },
+  {
+    "ts": 1789441977.711379,
+    "kind": "acs_decision",
+    "tool": "controlled_write",
+    "args": {
+      "path": "/workspace/allowed/other.txt",
+      "content": "E12-NAME"
+    },
+    "decision": "allow",
+    "reason": null
+  },
+  {
+    "ts": 1789441977.7114408,
+    "kind": "tool_body_entered",
+    "label": "controlled_write",
+    "path": "/workspace/allowed/other.txt"
+  },
+  {
+    "ts": 1789441977.7172742,
+    "kind": "monty_result",
+    "label": "controlled_write",
+    "path": "/workspace/allowed/other.txt",
+    "error": null,
+    "stdout": "WROTE 8"
+  },
+  {
+    "ts": 1789441977.733964,
+    "kind": "acs_decision",
+    "tool": "controlled_write",
+    "args": {
+      "path": "/protected/forbidden.txt",
+      "content": "E12-NAME"
+    },
+    "decision": "allow",
+    "reason": null
+  },
+  {
+    "ts": 1789441977.734022,
+    "kind": "tool_body_entered",
+    "label": "controlled_write",
+    "path": "/protected/forbidden.txt"
+  },
+  {
+    "ts": 1789441977.739386,
+    "kind": "monty_result",
+    "label": "controlled_write",
+    "path": "/protected/forbidden.txt",
+    "error": "MontyRuntimeError",
+    "stdout": ""
+  },
+  {
+    "ts": 1789441977.769588,
+    "kind": "acs_decision",
+    "tool": "controlled_write",
+    "args": {
+      "path": "/workspace/allowed/output.txt",
+      "content": "E12-ARGS"
+    },
+    "decision": "allow",
+    "reason": null
+  },
+  {
+    "ts": 1789441977.7696488,
+    "kind": "tool_body_entered",
+    "label": "controlled_write",
+    "path": "/workspace/allowed/output.txt"
+  },
+  {
+    "ts": 1789441977.775444,
+    "kind": "monty_result",
+    "label": "controlled_write",
+    "path": "/workspace/allowed/output.txt",
+    "error": null,
+    "stdout": "WROTE 8"
+  },
+  {
+    "ts": 1789441977.795688,
+    "kind": "acs_decision",
+    "tool": "safe_tool",
+    "args": {
+      "path": "/workspace/allowed/output.txt",
+      "content": "E13-safe_tool"
+    },
+    "decision": "allow",
+    "reason": null
+  },
+  {
+    "ts": 1789441977.795733,
+    "kind": "tool_body_entered",
+    "label": "safe_tool",
+    "path": "/workspace/allowed/output.txt"
+  },
+  {
+    "ts": 1789441977.80129,
+    "kind": "monty_result",
+    "label": "safe_tool",
+    "path": "/workspace/allowed/output.txt",
+    "error": null,
+    "stdout": "WROTE 13"
+  },
+  {
+    "ts": 1789441977.833896,
+    "kind": "acs_decision",
+    "tool": "safe_tool_wrapper",
+    "args": {
+      "path": "/workspace/allowed/output.txt",
+      "content": "E13-safe_tool_wrapper"
+    },
+    "decision": "allow",
+    "reason": null
+  },
+  {
+    "ts": 1789441977.833951,
+    "kind": "tool_body_entered",
+    "label": "safe_tool_wrapper",
+    "path": "/workspace/allowed/output.txt"
+  },
+  {
+    "ts": 1789441977.839732,
+    "kind": "monty_result",
+    "label": "safe_tool_wrapper",
+    "path": "/workspace/allowed/output.txt",
+    "error": null,
+    "stdout": "WROTE 21"
+  },
+  {
+    "ts": 1789441977.860054,
+    "kind": "acs_decision",
+    "tool": "safe_tool_alias",
+    "args": {
+      "path": "/workspace/allowed/output.txt",
+      "content": "E13-safe_tool_alias"
+    },
+    "decision": "deny",
+    "reason": null
+  }
+]

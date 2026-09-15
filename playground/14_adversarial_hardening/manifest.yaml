@@ -1,0 +1,39 @@
+agent_control_specification_version: "0.3.1-beta"
+metadata:
+  name: ankla-agt-1e-adversarial
+  purpose: >
+    Manifest del harness adversarial Fase 1E. Sin policy_dispatcher: la decisión
+    la produce el dispatcher bundled de ACS ejecutando OPA sobre policy/.
+    Declara deliberadamente más tools de las que la policy mapea
+    (safe_tool_alias, unmapped_tool) para comprobar que una identidad de tool
+    no contemplada por la policy falla cerrada.
+policies:
+  acs-phase1e:
+    type: rego
+    bundle: policy
+tools:
+  controlled_write:
+    args: {}
+  copy_allowed_file:
+    args: {}
+  outer_tool:
+    args: {}
+  inner_tool:
+    args: {}
+  safe_tool:
+    args: {}
+  safe_tool_alias:
+    args: {}
+  safe_tool_wrapper:
+    args: {}
+  unmapped_tool:
+    args: {}
+  deploy_test_service:
+    args: {}
+intervention_points:
+  pre_tool_call:
+    policy_target: $.tool_call
+    tool_name_from: $.tool_call.name
+    policy:
+      id: acs-phase1e
+      query: data.acs.verdict
