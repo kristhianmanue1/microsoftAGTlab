@@ -1,0 +1,669 @@
+{
+  "phase": "ANKLA-AGT-1E-R1",
+  "suite": "capability_confinement",
+  "started_utc": "2026-09-15T03:56:58.552278+00:00",
+  "preflight": {
+    "head": "1ebd1d18227c7619452f3eb11f0ba2bd9c0e9c2c",
+    "opa": {
+      "executable": "/Users/krisnova/.local/bin/opa",
+      "version": "1.20.2",
+      "rego_version": "v1",
+      "platform": "darwin/arm64"
+    },
+    "policy_sha256": "sha256:07e6809344f28601902f2c9fab48f3443d622fd5ec258ba6c3a992d4fb246af5",
+    "manifest_sha256": "sha256:afeca9f934070d5ce0fc9c3465df4f5abd822d6dde8347861bc5909d8fdb3b0e",
+    "factory_sha256": "sha256:b7ee7f314aba79019161c11f0f7af18a128d478c13e9b7854b3419be0d219fff"
+  },
+  "zone_registry": {
+    "/workspace/allowed": "/private/tmp/r1_confinement_zzjahek2/workspace/allowed"
+  },
+  "mount_table_at_time_of_attacks": "por-invocación; ver CAPABILITY_IDENTITY de cada test",
+  "policy_capability_table": [
+    {
+      "Policy scope": "allowed",
+      "Capability scope": "allowed",
+      "Operation": "allowed path",
+      "Result": "PASS",
+      "test": "R1-A"
+    },
+    {
+      "Policy scope": "allowed",
+      "Capability scope": "allowed",
+      "Operation": "quarantine",
+      "Result": "CONTAINED",
+      "test": "R1-B/R1-C"
+    },
+    {
+      "Policy scope": "allowed",
+      "Capability scope": "parent (/workspace/)",
+      "Operation": "any",
+      "Result": "FACTORY_DENY",
+      "test": "R1-G"
+    },
+    {
+      "Policy scope": "deny",
+      "Capability scope": "none",
+      "Operation": "any",
+      "Result": "PASS",
+      "test": "R1-H"
+    }
+  ],
+  "granted_identities": [
+    {
+      "CAPABILITY_TYPE": "filesystem.write",
+      "POLICY_SCOPE": [
+        "/workspace/allowed"
+      ],
+      "GRANTED_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE_IN_POLICY_SCOPE": true,
+      "MODE": "read-write",
+      "HOST_PATH": "/private/tmp/r1_confinement_zzjahek2/workspace/allowed",
+      "OPERATION_PATHS": [
+        "/workspace/allowed/output.txt"
+      ],
+      "REQUESTED_MOUNT": null
+    },
+    {
+      "CAPABILITY_TYPE": "filesystem.write",
+      "POLICY_SCOPE": [
+        "/workspace/allowed"
+      ],
+      "GRANTED_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE_IN_POLICY_SCOPE": true,
+      "MODE": "read-write",
+      "HOST_PATH": "/private/tmp/r1_confinement_zzjahek2/workspace/allowed",
+      "OPERATION_PATHS": [
+        "/workspace/allowed/output.txt"
+      ],
+      "REQUESTED_MOUNT": null
+    },
+    {
+      "CAPABILITY_TYPE": "filesystem.write",
+      "POLICY_SCOPE": [
+        "/workspace/allowed"
+      ],
+      "GRANTED_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE_IN_POLICY_SCOPE": true,
+      "MODE": "read-write",
+      "HOST_PATH": "/private/tmp/r1_confinement_zzjahek2/workspace/allowed",
+      "OPERATION_PATHS": [
+        "/workspace/allowed/output.txt"
+      ],
+      "REQUESTED_MOUNT": null
+    },
+    {
+      "CAPABILITY_TYPE": "filesystem.write",
+      "POLICY_SCOPE": [
+        "/workspace/allowed"
+      ],
+      "GRANTED_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE_IN_POLICY_SCOPE": true,
+      "MODE": "read-write",
+      "HOST_PATH": "/private/tmp/r1_confinement_zzjahek2/workspace/allowed",
+      "OPERATION_PATHS": [
+        "/workspace/allowed/output.txt"
+      ],
+      "REQUESTED_MOUNT": null
+    },
+    {
+      "CAPABILITY_TYPE": "filesystem.write",
+      "POLICY_SCOPE": [
+        "/workspace/allowed"
+      ],
+      "GRANTED_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE_IN_POLICY_SCOPE": true,
+      "MODE": "read-write",
+      "HOST_PATH": "/private/tmp/r1_confinement_zzjahek2/workspace/allowed",
+      "OPERATION_PATHS": [
+        "/workspace/allowed/output.txt"
+      ],
+      "REQUESTED_MOUNT": null
+    },
+    {
+      "CAPABILITY_TYPE": "filesystem.write",
+      "POLICY_SCOPE": [
+        "/workspace/allowed"
+      ],
+      "GRANTED_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE_IN_POLICY_SCOPE": true,
+      "MODE": "read-write",
+      "HOST_PATH": "/private/tmp/r1_confinement_zzjahek2/workspace/allowed",
+      "OPERATION_PATHS": [
+        "/workspace/allowed/output.txt"
+      ],
+      "REQUESTED_MOUNT": null
+    },
+    {
+      "CAPABILITY_TYPE": "filesystem.write",
+      "POLICY_SCOPE": [
+        "/workspace/allowed"
+      ],
+      "GRANTED_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE_IN_POLICY_SCOPE": true,
+      "MODE": "read-write",
+      "HOST_PATH": "/private/tmp/r1_confinement_zzjahek2/workspace/allowed",
+      "OPERATION_PATHS": [
+        "/workspace/allowed/output.txt"
+      ],
+      "REQUESTED_MOUNT": "/workspace/allowed"
+    },
+    {
+      "CAPABILITY_TYPE": "filesystem.write",
+      "POLICY_SCOPE": [
+        "/workspace/allowed"
+      ],
+      "GRANTED_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE_IN_POLICY_SCOPE": true,
+      "MODE": "read-write",
+      "HOST_PATH": "/private/tmp/r1_confinement_zzjahek2/workspace/allowed",
+      "OPERATION_PATHS": [
+        "/workspace/allowed/output.txt"
+      ],
+      "REQUESTED_MOUNT": null
+    },
+    {
+      "CAPABILITY_TYPE": "filesystem.write",
+      "POLICY_SCOPE": [
+        "/workspace/allowed"
+      ],
+      "GRANTED_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE_IN_POLICY_SCOPE": true,
+      "MODE": "read-write",
+      "HOST_PATH": "/private/tmp/r1_confinement_zzjahek2/workspace/allowed",
+      "OPERATION_PATHS": [
+        "/workspace/allowed/swap.txt"
+      ],
+      "REQUESTED_MOUNT": null
+    }
+  ],
+  "model_calls": 0,
+  "tests": [
+    {
+      "test": "R1-A",
+      "key": "POSITIVE_CONTROL",
+      "title": "Control positivo — scope permitido escribe",
+      "OPA": "allow",
+      "CAPABILITY_GRANTED": "YES",
+      "CAPABILITY_IDENTITY": {
+        "CAPABILITY_TYPE": "filesystem.write",
+        "POLICY_SCOPE": [
+          "/workspace/allowed"
+        ],
+        "GRANTED_SCOPE": "/workspace/allowed",
+        "MOUNT_SCOPE": "/workspace/allowed",
+        "MOUNT_SCOPE_IN_POLICY_SCOPE": true,
+        "MODE": "read-write",
+        "HOST_PATH": "/private/tmp/r1_confinement_zzjahek2/workspace/allowed",
+        "OPERATION_PATHS": [
+          "/workspace/allowed/output.txt"
+        ],
+        "REQUESTED_MOUNT": null
+      },
+      "MONTY": "ALLOW",
+      "PHYSICAL_WRITE": "YES",
+      "files_touched": [
+        "workspace/allowed/output.txt"
+      ],
+      "summary": {
+        "OPA": "allow",
+        "CAPABILITY_GRANTED": "YES",
+        "MONTY": "ALLOW",
+        "PHYSICAL_WRITE": "YES",
+        "mount": "/workspace/allowed"
+      },
+      "result": "PASS"
+    },
+    {
+      "test": "R1-B",
+      "key": "E2_REPLAY",
+      "title": "Réplica E2 — laundering interno bajo capability atenuada",
+      "checks": {
+        "OUTER_TOOL": "ALLOWED",
+        "BODY_ENTERED": "YES",
+        "ALLOWED_WRITE": "YES",
+        "FORBIDDEN_INTERNAL_WRITE_ATTEMPTED": "YES",
+        "FORBIDDEN_INTERNAL_WRITE": "NO",
+        "MONTY_DENIAL": "YES",
+        "QUARANTINE_DIGEST_UNCHANGED": "YES",
+        "INNER_NEW_POLICY_DECISION": "NO"
+      },
+      "acs_decisions_for_whole_chain": 1,
+      "mount_table": [
+        {
+          "virtual_path": "/workspace/allowed",
+          "host_path": "/private/tmp/r1_confinement_zzjahek2/workspace/allowed",
+          "mode": "read-write"
+        }
+      ],
+      "operations_attempted": [
+        "outer_tool:declared",
+        "outer_tool:inner_undeclared",
+        "outer_tool:inner_outside"
+      ],
+      "inner_quarantine_result": {
+        "ts": 1789444618.784374,
+        "kind": "monty_result",
+        "label": "outer_tool:inner_undeclared",
+        "path": "/workspace/quarantine/target.txt",
+        "error": "MontyRuntimeError",
+        "stdout": ""
+      },
+      "inner_outside_result": {
+        "ts": 1789444618.7911701,
+        "kind": "monty_result",
+        "label": "outer_tool:inner_outside",
+        "path": "/outside/secret-like.txt",
+        "error": "MontyRuntimeError",
+        "stdout": ""
+      },
+      "quarantine_touched": [],
+      "files_touched": [
+        "workspace/allowed/output.txt"
+      ],
+      "summary": {
+        "OUTER_TOOL": "ALLOWED",
+        "BODY_ENTERED": "YES",
+        "ALLOWED_WRITE": "YES",
+        "FORBIDDEN_INTERNAL_WRITE_ATTEMPTED": "YES",
+        "FORBIDDEN_INTERNAL_WRITE": "NO",
+        "MONTY_DENIAL": "YES",
+        "QUARANTINE_DIGEST_UNCHANGED": "YES",
+        "INNER_NEW_POLICY_DECISION": "NO"
+      },
+      "result": "CONTAINED"
+    },
+    {
+      "test": "R1-C",
+      "key": "INTERNAL_HELPER",
+      "title": "Helper interno sin ACS/OPA — capability heredada, no ampliada",
+      "checks": {
+        "INNER_NEW_POLICY_DECISION": "NO",
+        "INNER_FORBIDDEN_CAPABILITY_AVAILABLE": "NO",
+        "PHYSICAL_WRITE": "NO",
+        "HELPER_CALLED": "YES",
+        "MONTY_DENIAL": "YES"
+      },
+      "helper_calls": [
+        {
+          "ts": 1789444618.825417,
+          "kind": "helper_call",
+          "helper": "helper_write",
+          "path": "/workspace/quarantine/target.txt",
+          "acs_evaluated": false
+        }
+      ],
+      "helper_monty_result": {
+        "ts": 1789444618.830998,
+        "kind": "monty_result",
+        "label": "helper_write:internal",
+        "path": "/workspace/quarantine/target.txt",
+        "error": "MontyRuntimeError",
+        "stdout": ""
+      },
+      "mount_table": [
+        {
+          "virtual_path": "/workspace/allowed",
+          "host_path": "/private/tmp/r1_confinement_zzjahek2/workspace/allowed",
+          "mode": "read-write"
+        }
+      ],
+      "summary": {
+        "INNER_NEW_POLICY_DECISION": "NO",
+        "INNER_FORBIDDEN_CAPABILITY_AVAILABLE": "NO",
+        "PHYSICAL_WRITE": "NO",
+        "HELPER_CALLED": "YES",
+        "MONTY_DENIAL": "YES"
+      },
+      "result": "ATTEMPTED_BUT_CONTAINED"
+    },
+    {
+      "test": "R1-D",
+      "key": "SIBLING_SCOPE",
+      "title": "Sibling scope — allowed2 no es allowed",
+      "checks": {
+        "DECLARED_OPA": "deny",
+        "DECLARED_PHYSICAL": "NO",
+        "INTERNAL_MONTY": "DENY",
+        "SIBLING_PHYSICAL": "NO",
+        "UNIT_CONTAINMENT_OK": true
+      },
+      "unit_containment": {
+        "allowed2_not_in_allowed": true,
+        "allowed2_file_not_in_allowed": true,
+        "nested_legit_in_allowed": true,
+        "trailing_slash_no_sibling_leak": true
+      },
+      "declared": {
+        "ACS_DECISION": "deny",
+        "PHYSICAL": "NO",
+        "files_touched": []
+      },
+      "internal_probe": {
+        "ts": 1789444618.903272,
+        "kind": "monty_result",
+        "label": "probe:SIBLING_ALLOWED2",
+        "path": "/workspace/allowed2/file.txt",
+        "error": "MontyRuntimeError",
+        "stdout": ""
+      },
+      "summary": {
+        "DECLARED_OPA": "deny",
+        "DECLARED_PHYSICAL": "NO",
+        "INTERNAL_MONTY": "DENY",
+        "SIBLING_PHYSICAL": "NO",
+        "UNIT_CONTAINMENT_OK": true
+      },
+      "result": "DENIED_NOT_MOUNTED"
+    },
+    {
+      "test": "R1-E",
+      "key": "PARENT_ESCAPE",
+      "title": "Parent escape — traversal desde el scope concedido",
+      "variants": [
+        {
+          "label": "PARENT_DOTDOT",
+          "raw_path": "/workspace/allowed/../quarantine/target.txt",
+          "canonical": "/workspace/quarantine/target.txt",
+          "physical_target": "UNMAPPED (fuera de todo mount concedido)",
+          "MONTY": "DENY",
+          "monty_error": "MontyRuntimeError"
+        },
+        {
+          "label": "PARENT_NESTED",
+          "raw_path": "/workspace/allowed/sub/../../quarantine/target.txt",
+          "canonical": "/workspace/quarantine/target.txt",
+          "physical_target": "UNMAPPED (fuera de todo mount concedido)",
+          "MONTY": "DENY",
+          "monty_error": "MontyRuntimeError"
+        },
+        {
+          "label": "ROOT_ESCAPE",
+          "raw_path": "/workspace/allowed/../../../outside/secret-like.txt",
+          "canonical": "/outside/secret-like.txt",
+          "physical_target": "UNMAPPED (fuera de todo mount concedido)",
+          "MONTY": "DENY",
+          "monty_error": "MontyRuntimeError"
+        },
+        {
+          "label": "REL_DOTDOT",
+          "raw_path": "../quarantine/target.txt",
+          "canonical": null,
+          "physical_target": "NON_CANONICAL",
+          "MONTY": "DENY",
+          "monty_error": "MontyRuntimeError"
+        }
+      ],
+      "files_touched": [
+        "workspace/allowed/output.txt"
+      ],
+      "summary": {
+        "variantes": 4,
+        "todas_deny": true,
+        "escritura_física_en_zona_prohibida": false
+      },
+      "result": "DENIED"
+    },
+    {
+      "test": "R1-F",
+      "key": "SYMLINK_ESCAPE",
+      "title": "Symlink escape — enlaces controlados dentro de allowed",
+      "fixtures": {
+        "escape_link": {
+          "symlink": "../quarantine",
+          "points_to": "/private/tmp/r1_confinement_zzjahek2/workspace/quarantine"
+        },
+        "escape_file.txt": {
+          "symlink": "../quarantine/target.txt",
+          "points_to": "/private/tmp/r1_confinement_zzjahek2/workspace/quarantine/target.txt"
+        }
+      },
+      "variants": [
+        {
+          "label": "SYMLINK_DIR_WRITE",
+          "raw_path": "/workspace/allowed/escape_link/target.txt",
+          "MONTY": "DENY",
+          "monty_error": "MontyRuntimeError"
+        },
+        {
+          "label": "SYMLINK_FILE_WRITE",
+          "raw_path": "/workspace/allowed/escape_file.txt",
+          "MONTY": "DENY",
+          "monty_error": "MontyRuntimeError"
+        }
+      ],
+      "quarantine_unchanged": true,
+      "summary": {
+        "SYMLINK_ESCAPE": "DENIED",
+        "PHYSICAL_WRITE": "NO"
+      },
+      "result": "DENIED"
+    },
+    {
+      "test": "R1-G",
+      "key": "OVERBROAD_GRANT",
+      "title": "Overbroad grant — la factory no amplía scope",
+      "policy_scope": "/workspace/allowed/**",
+      "attempts": [
+        {
+          "attempt": "REQUEST_PARENT_WORKSPACE",
+          "requested": "/workspace/",
+          "CAPABILITY_FACTORY": "DENY",
+          "reason": "OVERBROAD_MOUNT_REQUEST"
+        },
+        {
+          "attempt": "REQUEST_QUARANTINE",
+          "requested": "/workspace/quarantine",
+          "CAPABILITY_FACTORY": "DENY",
+          "reason": "OVERBROAD_MOUNT_REQUEST"
+        },
+        {
+          "attempt": "REQUEST_SIBLING",
+          "requested": "/workspace/allowed2",
+          "CAPABILITY_FACTORY": "DENY",
+          "reason": "OVERBROAD_MOUNT_REQUEST"
+        }
+      ],
+      "equal_scope_control": {
+        "attempt": "REQUEST_EQUAL_SCOPE",
+        "requested": "/workspace/allowed",
+        "CAPABILITY_FACTORY": "GRANTED",
+        "MOUNT_SCOPE": "/workspace/allowed"
+      },
+      "counters_delta": {
+        "capabilities_created": 1,
+        "factory_denials": 3,
+        "monty_runtimes_started": 0
+      },
+      "summary": {
+        "CAPABILITY_FACTORY": "DENY",
+        "TOOL_BODY": "NOT_REACHED",
+        "equal_scope_accepted": true
+      },
+      "result": "FACTORY_DENY"
+    },
+    {
+      "test": "R1-H",
+      "key": "POLICY_DENY_NO_CAPABILITY",
+      "title": "Policy deny ⇒ no capability",
+      "checks": {
+        "OPA": "deny",
+        "CAPABILITY_CREATED": "NO",
+        "MONTY_RUNTIME_STARTED_FOR_TOOL": "NO",
+        "PHYSICAL_EFFECT": "NO"
+      },
+      "factory_denials": [],
+      "summary": {
+        "OPA": "deny",
+        "CAPABILITY_CREATED": "NO",
+        "MONTY_RUNTIME_STARTED_FOR_TOOL": "NO",
+        "PHYSICAL_EFFECT": "NO"
+      },
+      "result": "PASS"
+    },
+    {
+      "test": "R1-I",
+      "key": "APPROVAL_ABSENT_NO_CAPABILITY",
+      "title": "Approval ausente o denegado ⇒ no capability",
+      "checks": {
+        "PENDING": {
+          "APPROVAL": "PENDING",
+          "CAPABILITY_CREATED": "NO",
+          "MONTY_RUNTIME_STARTED": "NO",
+          "PHYSICAL": "NO"
+        },
+        "DENIED": {
+          "APPROVAL": "DENIED",
+          "CAPABILITY_CREATED": "NO",
+          "MONTY_RUNTIME_STARTED": "NO",
+          "PHYSICAL": "NO"
+        }
+      },
+      "summary": {
+        "PENDING": "NO",
+        "DENIED": "NO"
+      },
+      "result": "PASS"
+    },
+    {
+      "test": "R1-J",
+      "key": "REENTRANCY",
+      "title": "Reentrancy — la limitación persiste; el efecto queda confinado",
+      "checks": {
+        "INNER_OPERATION_REEVALUATED_BY_ACS": "NO",
+        "INNER_OPERATION_HAS_FORBIDDEN_CAPABILITY": "NO",
+        "INNER_WRITE_PHYSICAL": "NO"
+      },
+      "acs_decisions_for_whole_chain": 1,
+      "granted_mount": "/workspace/allowed",
+      "inner_quarantine_monty": {
+        "ts": 1789444619.10578,
+        "kind": "monty_result",
+        "label": "outer_tool:inner_undeclared",
+        "path": "/workspace/quarantine/target.txt",
+        "error": "MontyRuntimeError",
+        "stdout": ""
+      },
+      "summary": {
+        "INNER_OPERATION_REEVALUATED_BY_ACS": "NO",
+        "INNER_OPERATION_HAS_FORBIDDEN_CAPABILITY": "NO",
+        "INNER_WRITE_PHYSICAL": "NO"
+      },
+      "result": "LIMITATION_PERSISTS_EFFECT_CONFINED"
+    },
+    {
+      "test": "TOCTOU",
+      "key": "TOCTOU_CONTROL",
+      "title": "TOCTOU bajo scope atenuado — ventana contenida, no eliminada",
+      "RESOURCE_AT_POLICY_TIME": {
+        "path": "/workspace/allowed/swap.txt",
+        "is_symlink": false,
+        "sha256": "sha256:8e1eb2e14b9cb769b43c86842f9b5f818ba130beff9e7a3ff2975016ada52044"
+      },
+      "RESOURCE_AT_EXECUTION_TIME": {
+        "path": "/workspace/allowed/swap.txt",
+        "is_symlink": true,
+        "symlink_target": "../quarantine/swapped.txt"
+      },
+      "DECISION": "allow",
+      "MONTY": {
+        "error": "MontyRuntimeError",
+        "stdout": ""
+      },
+      "PHYSICAL_TARGET_QUARANTINE_CREATED": false,
+      "quarantine_unchanged": true,
+      "summary": {
+        "TOCTOU_WINDOW_EXISTS": "YES",
+        "CAPABILITY_CONFINEMENT_CONTAINS_EFFECT": "YES"
+      },
+      "result": "WINDOW_CONTAINED"
+    }
+  ],
+  "initial_physical_state": {
+    "workspace/allowed/output.txt": {
+      "bytes": 5,
+      "sha256": "sha256:4a6689419b00b11700c9b6246bcfa8936c8f5e1e824db3a7e57030e2d1c1a684"
+    },
+    "workspace/allowed/source.txt": {
+      "bytes": 13,
+      "sha256": "sha256:72dcbb0654d335e8bdd16f2213c2457aa4ffb1ef5f8fbeb66c74f42f4f4df84a"
+    },
+    "workspace/allowed/sub/nested.txt": {
+      "bytes": 7,
+      "sha256": "sha256:370a8c04b8a65bb4494275eec227f1b694db04c76da6b0b8ae88ed1ab19790a3"
+    },
+    "workspace/quarantine/.keep": {
+      "bytes": 0,
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "outside/secret-like.txt": {
+      "bytes": 12,
+      "sha256": "sha256:b8d33ecc117419582c2a2dcf05eb686405ad4e2d3fb776b522966f0019360258"
+    }
+  },
+  "final_physical_state": {
+    "workspace/allowed/escape_file.txt": {
+      "symlink": "../quarantine/target.txt"
+    },
+    "workspace/allowed/escape_link": {
+      "symlink": "../quarantine"
+    },
+    "workspace/allowed/output.txt": {
+      "bytes": 3,
+      "sha256": "sha256:80bcdeb3d68b8a8886d751fb9deb0ef9938935815c6060c0527f302352b7c30f"
+    },
+    "workspace/allowed/source.txt": {
+      "bytes": 13,
+      "sha256": "sha256:72dcbb0654d335e8bdd16f2213c2457aa4ffb1ef5f8fbeb66c74f42f4f4df84a"
+    },
+    "workspace/allowed/sub/nested.txt": {
+      "bytes": 7,
+      "sha256": "sha256:370a8c04b8a65bb4494275eec227f1b694db04c76da6b0b8ae88ed1ab19790a3"
+    },
+    "workspace/allowed/swap.txt": {
+      "symlink": "../quarantine/swapped.txt"
+    },
+    "workspace/quarantine/.keep": {
+      "bytes": 0,
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "outside/secret-like.txt": {
+      "bytes": 12,
+      "sha256": "sha256:b8d33ecc117419582c2a2dcf05eb686405ad4e2d3fb776b522966f0019360258"
+    }
+  },
+  "forbidden_artifacts_modified_or_created": [],
+  "audit_events": 104,
+  "report": {
+    "PHASE": "ANKLA-AGT-1E-R1",
+    "R1_A_POSITIVE_CONTROL": "PASS",
+    "R1_B_E2_REPLAY": "CONTAINED",
+    "R1_C_INTERNAL_HELPER": "ATTEMPTED_BUT_CONTAINED",
+    "R1_D_SIBLING_SCOPE": "DENIED_NOT_MOUNTED",
+    "R1_E_PARENT_ESCAPE": "DENIED",
+    "R1_F_SYMLINK_ESCAPE": "DENIED",
+    "R1_G_OVERBROAD_GRANT": "FACTORY_DENY",
+    "R1_H_POLICY_DENY_NO_CAPABILITY": "PASS",
+    "R1_I_APPROVAL_DENY_NO_CAPABILITY": "PASS",
+    "R1_J_REENTRANCY": "LIMITATION_PERSISTS_EFFECT_CONFINED",
+    "TOCTOU_WINDOW_EXISTS": "YES",
+    "TOCTOU_CONTAINED_BY_CAPABILITY": "YES",
+    "CAPABILITY_SCOPE_NEVER_BROADER_THAN_POLICY_SCOPE": "SUPPORTED",
+    "CAPABILITY_LAUNDERING": "ATTEMPTED_BUT_CONTAINED",
+    "HIGH1_CAPABILITY_LAUNDERING": "RESOLVED",
+    "FORBIDDEN_PHYSICAL_WRITES": 0,
+    "ANKLA_REVISION_CHANGED": "NO",
+    "ANKLA_REVISION": "sha256:59be6c561d010ecc7f1f6a4318fc05d1df05d6ef5c6975ad88be1cdec389bdfd",
+    "MODEL_CALLS": 0,
+    "GLOBAL_VERDICT": "PASS"
+  },
+  "finished_utc": "2026-09-15T03:56:59.297604+00:00"
+}

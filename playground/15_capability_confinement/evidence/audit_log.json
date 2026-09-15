@@ -1,0 +1,1025 @@
+[
+  {
+    "ts": 1789444635.391552,
+    "kind": "acs_decision",
+    "tool": "controlled_write",
+    "args": {
+      "path": "/workspace/allowed/output.txt",
+      "content": "R1A-OK"
+    },
+    "decision": "allow",
+    "reason": null,
+    "result_labels": [
+      "scope:filesystem.write:/workspace/allowed"
+    ]
+  },
+  {
+    "ts": 1789444635.391583,
+    "kind": "capability_scope_verification",
+    "policy_scope": "/workspace/allowed",
+    "mount_scope": "/workspace/allowed",
+    "contains": true
+  },
+  {
+    "ts": 1789444635.391593,
+    "kind": "capability_created",
+    "identity": {
+      "CAPABILITY_TYPE": "filesystem.write",
+      "POLICY_SCOPE": [
+        "/workspace/allowed"
+      ],
+      "GRANTED_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE_IN_POLICY_SCOPE": true,
+      "MODE": "read-write",
+      "HOST_PATH": "/private/tmp/r1_confinement_7fipc7j1/workspace/allowed",
+      "OPERATION_PATHS": [
+        "/workspace/allowed/output.txt"
+      ],
+      "REQUESTED_MOUNT": null
+    }
+  },
+  {
+    "ts": 1789444635.391691,
+    "kind": "operation_attempted",
+    "label": "controlled_write:declared",
+    "path": "/workspace/allowed/output.txt",
+    "via": "monty"
+  },
+  {
+    "ts": 1789444635.3917708,
+    "kind": "monty_runtime_started",
+    "label": "controlled_write:declared",
+    "mounts": [
+      {
+        "virtual_path": "/workspace/allowed",
+        "host_path": "/private/tmp/r1_confinement_7fipc7j1/workspace/allowed",
+        "mode": "read-write"
+      }
+    ]
+  },
+  {
+    "ts": 1789444635.4002318,
+    "kind": "monty_result",
+    "label": "controlled_write:declared",
+    "path": "/workspace/allowed/output.txt",
+    "error": null,
+    "stdout": "WROTE 6"
+  },
+  {
+    "ts": 1789444635.4292748,
+    "kind": "acs_decision",
+    "tool": "outer_tool",
+    "args": {
+      "path": "/workspace/allowed/output.txt",
+      "content": "R1B-DECLARED"
+    },
+    "decision": "allow",
+    "reason": null,
+    "result_labels": [
+      "scope:filesystem.write:/workspace/allowed"
+    ]
+  },
+  {
+    "ts": 1789444635.429356,
+    "kind": "capability_scope_verification",
+    "policy_scope": "/workspace/allowed",
+    "mount_scope": "/workspace/allowed",
+    "contains": true
+  },
+  {
+    "ts": 1789444635.4293702,
+    "kind": "capability_created",
+    "identity": {
+      "CAPABILITY_TYPE": "filesystem.write",
+      "POLICY_SCOPE": [
+        "/workspace/allowed"
+      ],
+      "GRANTED_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE_IN_POLICY_SCOPE": true,
+      "MODE": "read-write",
+      "HOST_PATH": "/private/tmp/r1_confinement_7fipc7j1/workspace/allowed",
+      "OPERATION_PATHS": [
+        "/workspace/allowed/output.txt"
+      ],
+      "REQUESTED_MOUNT": null
+    }
+  },
+  {
+    "ts": 1789444635.429514,
+    "kind": "operation_attempted",
+    "label": "outer_tool:declared",
+    "path": "/workspace/allowed/output.txt",
+    "via": "monty"
+  },
+  {
+    "ts": 1789444635.4295738,
+    "kind": "monty_runtime_started",
+    "label": "outer_tool:declared",
+    "mounts": [
+      {
+        "virtual_path": "/workspace/allowed",
+        "host_path": "/private/tmp/r1_confinement_7fipc7j1/workspace/allowed",
+        "mode": "read-write"
+      }
+    ]
+  },
+  {
+    "ts": 1789444635.4384341,
+    "kind": "monty_result",
+    "label": "outer_tool:declared",
+    "path": "/workspace/allowed/output.txt",
+    "error": null,
+    "stdout": "WROTE 12"
+  },
+  {
+    "ts": 1789444635.4384372,
+    "kind": "inner_operation_attempted",
+    "parent": "outer_tool",
+    "target": "/workspace/quarantine/target.txt"
+  },
+  {
+    "ts": 1789444635.438439,
+    "kind": "operation_attempted",
+    "label": "outer_tool:inner_undeclared",
+    "path": "/workspace/quarantine/target.txt",
+    "via": "monty"
+  },
+  {
+    "ts": 1789444635.438477,
+    "kind": "monty_runtime_started",
+    "label": "outer_tool:inner_undeclared",
+    "mounts": [
+      {
+        "virtual_path": "/workspace/allowed",
+        "host_path": "/private/tmp/r1_confinement_7fipc7j1/workspace/allowed",
+        "mode": "read-write"
+      }
+    ]
+  },
+  {
+    "ts": 1789444635.444522,
+    "kind": "monty_result",
+    "label": "outer_tool:inner_undeclared",
+    "path": "/workspace/quarantine/target.txt",
+    "error": "MontyRuntimeError",
+    "stdout": ""
+  },
+  {
+    "ts": 1789444635.444523,
+    "kind": "inner_operation_attempted",
+    "parent": "outer_tool",
+    "target": "/outside/secret-like.txt"
+  },
+  {
+    "ts": 1789444635.444525,
+    "kind": "operation_attempted",
+    "label": "outer_tool:inner_outside",
+    "path": "/outside/secret-like.txt",
+    "via": "monty"
+  },
+  {
+    "ts": 1789444635.444552,
+    "kind": "monty_runtime_started",
+    "label": "outer_tool:inner_outside",
+    "mounts": [
+      {
+        "virtual_path": "/workspace/allowed",
+        "host_path": "/private/tmp/r1_confinement_7fipc7j1/workspace/allowed",
+        "mode": "read-write"
+      }
+    ]
+  },
+  {
+    "ts": 1789444635.4509141,
+    "kind": "monty_result",
+    "label": "outer_tool:inner_outside",
+    "path": "/outside/secret-like.txt",
+    "error": "MontyRuntimeError",
+    "stdout": ""
+  },
+  {
+    "ts": 1789444635.478812,
+    "kind": "acs_decision",
+    "tool": "outer_tool_via_helper",
+    "args": {
+      "path": "/workspace/allowed/output.txt",
+      "content": "R1C-DECLARED"
+    },
+    "decision": "allow",
+    "reason": null,
+    "result_labels": [
+      "scope:filesystem.write:/workspace/allowed"
+    ]
+  },
+  {
+    "ts": 1789444635.4788322,
+    "kind": "capability_scope_verification",
+    "policy_scope": "/workspace/allowed",
+    "mount_scope": "/workspace/allowed",
+    "contains": true
+  },
+  {
+    "ts": 1789444635.478836,
+    "kind": "capability_created",
+    "identity": {
+      "CAPABILITY_TYPE": "filesystem.write",
+      "POLICY_SCOPE": [
+        "/workspace/allowed"
+      ],
+      "GRANTED_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE_IN_POLICY_SCOPE": true,
+      "MODE": "read-write",
+      "HOST_PATH": "/private/tmp/r1_confinement_7fipc7j1/workspace/allowed",
+      "OPERATION_PATHS": [
+        "/workspace/allowed/output.txt"
+      ],
+      "REQUESTED_MOUNT": null
+    }
+  },
+  {
+    "ts": 1789444635.478911,
+    "kind": "operation_attempted",
+    "label": "outer_tool_via_helper:declared",
+    "path": "/workspace/allowed/output.txt",
+    "via": "monty"
+  },
+  {
+    "ts": 1789444635.478972,
+    "kind": "monty_runtime_started",
+    "label": "outer_tool_via_helper:declared",
+    "mounts": [
+      {
+        "virtual_path": "/workspace/allowed",
+        "host_path": "/private/tmp/r1_confinement_7fipc7j1/workspace/allowed",
+        "mode": "read-write"
+      }
+    ]
+  },
+  {
+    "ts": 1789444635.486248,
+    "kind": "monty_result",
+    "label": "outer_tool_via_helper:declared",
+    "path": "/workspace/allowed/output.txt",
+    "error": null,
+    "stdout": "WROTE 12"
+  },
+  {
+    "ts": 1789444635.486253,
+    "kind": "helper_call",
+    "helper": "helper_write",
+    "path": "/workspace/quarantine/target.txt",
+    "acs_evaluated": false
+  },
+  {
+    "ts": 1789444635.4862552,
+    "kind": "operation_attempted",
+    "label": "helper_write:internal",
+    "path": "/workspace/quarantine/target.txt",
+    "via": "monty"
+  },
+  {
+    "ts": 1789444635.486284,
+    "kind": "monty_runtime_started",
+    "label": "helper_write:internal",
+    "mounts": [
+      {
+        "virtual_path": "/workspace/allowed",
+        "host_path": "/private/tmp/r1_confinement_7fipc7j1/workspace/allowed",
+        "mode": "read-write"
+      }
+    ]
+  },
+  {
+    "ts": 1789444635.49315,
+    "kind": "monty_result",
+    "label": "helper_write:internal",
+    "path": "/workspace/quarantine/target.txt",
+    "error": "MontyRuntimeError",
+    "stdout": ""
+  },
+  {
+    "ts": 1789444635.5207229,
+    "kind": "acs_decision",
+    "tool": "controlled_write",
+    "args": {
+      "path": "/workspace/allowed2/file.txt",
+      "content": "R1D"
+    },
+    "decision": "deny",
+    "reason": null,
+    "result_labels": []
+  },
+  {
+    "ts": 1789444635.551616,
+    "kind": "acs_decision",
+    "tool": "probe_tool",
+    "args": {
+      "path": "/workspace/allowed/output.txt",
+      "content": "R1D-DECLARED"
+    },
+    "decision": "allow",
+    "reason": null,
+    "result_labels": [
+      "scope:filesystem.write:/workspace/allowed"
+    ]
+  },
+  {
+    "ts": 1789444635.5516422,
+    "kind": "capability_scope_verification",
+    "policy_scope": "/workspace/allowed",
+    "mount_scope": "/workspace/allowed",
+    "contains": true
+  },
+  {
+    "ts": 1789444635.551657,
+    "kind": "capability_created",
+    "identity": {
+      "CAPABILITY_TYPE": "filesystem.write",
+      "POLICY_SCOPE": [
+        "/workspace/allowed"
+      ],
+      "GRANTED_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE_IN_POLICY_SCOPE": true,
+      "MODE": "read-write",
+      "HOST_PATH": "/private/tmp/r1_confinement_7fipc7j1/workspace/allowed",
+      "OPERATION_PATHS": [
+        "/workspace/allowed/output.txt"
+      ],
+      "REQUESTED_MOUNT": null
+    }
+  },
+  {
+    "ts": 1789444635.551768,
+    "kind": "operation_attempted",
+    "label": "probe_tool:declared",
+    "path": "/workspace/allowed/output.txt",
+    "via": "monty"
+  },
+  {
+    "ts": 1789444635.551821,
+    "kind": "monty_runtime_started",
+    "label": "probe_tool:declared",
+    "mounts": [
+      {
+        "virtual_path": "/workspace/allowed",
+        "host_path": "/private/tmp/r1_confinement_7fipc7j1/workspace/allowed",
+        "mode": "read-write"
+      }
+    ]
+  },
+  {
+    "ts": 1789444635.561449,
+    "kind": "monty_result",
+    "label": "probe_tool:declared",
+    "path": "/workspace/allowed/output.txt",
+    "error": null,
+    "stdout": "WROTE 12"
+  },
+  {
+    "ts": 1789444635.561471,
+    "kind": "inner_operation_attempted",
+    "parent": "probe_tool",
+    "target": "/workspace/allowed2/file.txt",
+    "probe": "SIBLING_ALLOWED2"
+  },
+  {
+    "ts": 1789444635.561476,
+    "kind": "operation_attempted",
+    "label": "probe:SIBLING_ALLOWED2",
+    "path": "/workspace/allowed2/file.txt",
+    "via": "monty"
+  },
+  {
+    "ts": 1789444635.561633,
+    "kind": "monty_runtime_started",
+    "label": "probe:SIBLING_ALLOWED2",
+    "mounts": [
+      {
+        "virtual_path": "/workspace/allowed",
+        "host_path": "/private/tmp/r1_confinement_7fipc7j1/workspace/allowed",
+        "mode": "read-write"
+      }
+    ]
+  },
+  {
+    "ts": 1789444635.5713742,
+    "kind": "monty_result",
+    "label": "probe:SIBLING_ALLOWED2",
+    "path": "/workspace/allowed2/file.txt",
+    "error": "MontyRuntimeError",
+    "stdout": ""
+  },
+  {
+    "ts": 1789444635.599838,
+    "kind": "acs_decision",
+    "tool": "probe_tool",
+    "args": {
+      "path": "/workspace/allowed/output.txt",
+      "content": "R1E-DECLARED"
+    },
+    "decision": "allow",
+    "reason": null,
+    "result_labels": [
+      "scope:filesystem.write:/workspace/allowed"
+    ]
+  },
+  {
+    "ts": 1789444635.5998652,
+    "kind": "capability_scope_verification",
+    "policy_scope": "/workspace/allowed",
+    "mount_scope": "/workspace/allowed",
+    "contains": true
+  },
+  {
+    "ts": 1789444635.59987,
+    "kind": "capability_created",
+    "identity": {
+      "CAPABILITY_TYPE": "filesystem.write",
+      "POLICY_SCOPE": [
+        "/workspace/allowed"
+      ],
+      "GRANTED_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE_IN_POLICY_SCOPE": true,
+      "MODE": "read-write",
+      "HOST_PATH": "/private/tmp/r1_confinement_7fipc7j1/workspace/allowed",
+      "OPERATION_PATHS": [
+        "/workspace/allowed/output.txt"
+      ],
+      "REQUESTED_MOUNT": null
+    }
+  },
+  {
+    "ts": 1789444635.5999749,
+    "kind": "operation_attempted",
+    "label": "probe_tool:declared",
+    "path": "/workspace/allowed/output.txt",
+    "via": "monty"
+  },
+  {
+    "ts": 1789444635.6000352,
+    "kind": "monty_runtime_started",
+    "label": "probe_tool:declared",
+    "mounts": [
+      {
+        "virtual_path": "/workspace/allowed",
+        "host_path": "/private/tmp/r1_confinement_7fipc7j1/workspace/allowed",
+        "mode": "read-write"
+      }
+    ]
+  },
+  {
+    "ts": 1789444635.607127,
+    "kind": "monty_result",
+    "label": "probe_tool:declared",
+    "path": "/workspace/allowed/output.txt",
+    "error": null,
+    "stdout": "WROTE 12"
+  },
+  {
+    "ts": 1789444635.60713,
+    "kind": "inner_operation_attempted",
+    "parent": "probe_tool",
+    "target": "/workspace/allowed/../quarantine/target.txt",
+    "probe": "PARENT_DOTDOT"
+  },
+  {
+    "ts": 1789444635.607132,
+    "kind": "operation_attempted",
+    "label": "probe:PARENT_DOTDOT",
+    "path": "/workspace/allowed/../quarantine/target.txt",
+    "via": "monty"
+  },
+  {
+    "ts": 1789444635.60716,
+    "kind": "monty_runtime_started",
+    "label": "probe:PARENT_DOTDOT",
+    "mounts": [
+      {
+        "virtual_path": "/workspace/allowed",
+        "host_path": "/private/tmp/r1_confinement_7fipc7j1/workspace/allowed",
+        "mode": "read-write"
+      }
+    ]
+  },
+  {
+    "ts": 1789444635.6126962,
+    "kind": "monty_result",
+    "label": "probe:PARENT_DOTDOT",
+    "path": "/workspace/allowed/../quarantine/target.txt",
+    "error": "MontyRuntimeError",
+    "stdout": ""
+  },
+  {
+    "ts": 1789444635.612711,
+    "kind": "inner_operation_attempted",
+    "parent": "probe_tool",
+    "target": "/workspace/allowed/sub/../../quarantine/target.txt",
+    "probe": "PARENT_NESTED"
+  },
+  {
+    "ts": 1789444635.6127129,
+    "kind": "operation_attempted",
+    "label": "probe:PARENT_NESTED",
+    "path": "/workspace/allowed/sub/../../quarantine/target.txt",
+    "via": "monty"
+  },
+  {
+    "ts": 1789444635.6127381,
+    "kind": "monty_runtime_started",
+    "label": "probe:PARENT_NESTED",
+    "mounts": [
+      {
+        "virtual_path": "/workspace/allowed",
+        "host_path": "/private/tmp/r1_confinement_7fipc7j1/workspace/allowed",
+        "mode": "read-write"
+      }
+    ]
+  },
+  {
+    "ts": 1789444635.6192892,
+    "kind": "monty_result",
+    "label": "probe:PARENT_NESTED",
+    "path": "/workspace/allowed/sub/../../quarantine/target.txt",
+    "error": "MontyRuntimeError",
+    "stdout": ""
+  },
+  {
+    "ts": 1789444635.6193018,
+    "kind": "inner_operation_attempted",
+    "parent": "probe_tool",
+    "target": "/workspace/allowed/../../../outside/secret-like.txt",
+    "probe": "ROOT_ESCAPE"
+  },
+  {
+    "ts": 1789444635.619304,
+    "kind": "operation_attempted",
+    "label": "probe:ROOT_ESCAPE",
+    "path": "/workspace/allowed/../../../outside/secret-like.txt",
+    "via": "monty"
+  },
+  {
+    "ts": 1789444635.619333,
+    "kind": "monty_runtime_started",
+    "label": "probe:ROOT_ESCAPE",
+    "mounts": [
+      {
+        "virtual_path": "/workspace/allowed",
+        "host_path": "/private/tmp/r1_confinement_7fipc7j1/workspace/allowed",
+        "mode": "read-write"
+      }
+    ]
+  },
+  {
+    "ts": 1789444635.6250508,
+    "kind": "monty_result",
+    "label": "probe:ROOT_ESCAPE",
+    "path": "/workspace/allowed/../../../outside/secret-like.txt",
+    "error": "MontyRuntimeError",
+    "stdout": ""
+  },
+  {
+    "ts": 1789444635.625061,
+    "kind": "inner_operation_attempted",
+    "parent": "probe_tool",
+    "target": "../quarantine/target.txt",
+    "probe": "REL_DOTDOT"
+  },
+  {
+    "ts": 1789444635.625063,
+    "kind": "operation_attempted",
+    "label": "probe:REL_DOTDOT",
+    "path": "../quarantine/target.txt",
+    "via": "monty"
+  },
+  {
+    "ts": 1789444635.625087,
+    "kind": "monty_runtime_started",
+    "label": "probe:REL_DOTDOT",
+    "mounts": [
+      {
+        "virtual_path": "/workspace/allowed",
+        "host_path": "/private/tmp/r1_confinement_7fipc7j1/workspace/allowed",
+        "mode": "read-write"
+      }
+    ]
+  },
+  {
+    "ts": 1789444635.631032,
+    "kind": "monty_result",
+    "label": "probe:REL_DOTDOT",
+    "path": "../quarantine/target.txt",
+    "error": "MontyRuntimeError",
+    "stdout": ""
+  },
+  {
+    "ts": 1789444635.6594071,
+    "kind": "acs_decision",
+    "tool": "probe_tool",
+    "args": {
+      "path": "/workspace/allowed/output.txt",
+      "content": "R1F-DECLARED"
+    },
+    "decision": "allow",
+    "reason": null,
+    "result_labels": [
+      "scope:filesystem.write:/workspace/allowed"
+    ]
+  },
+  {
+    "ts": 1789444635.6594272,
+    "kind": "capability_scope_verification",
+    "policy_scope": "/workspace/allowed",
+    "mount_scope": "/workspace/allowed",
+    "contains": true
+  },
+  {
+    "ts": 1789444635.659431,
+    "kind": "capability_created",
+    "identity": {
+      "CAPABILITY_TYPE": "filesystem.write",
+      "POLICY_SCOPE": [
+        "/workspace/allowed"
+      ],
+      "GRANTED_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE_IN_POLICY_SCOPE": true,
+      "MODE": "read-write",
+      "HOST_PATH": "/private/tmp/r1_confinement_7fipc7j1/workspace/allowed",
+      "OPERATION_PATHS": [
+        "/workspace/allowed/output.txt"
+      ],
+      "REQUESTED_MOUNT": null
+    }
+  },
+  {
+    "ts": 1789444635.6595042,
+    "kind": "operation_attempted",
+    "label": "probe_tool:declared",
+    "path": "/workspace/allowed/output.txt",
+    "via": "monty"
+  },
+  {
+    "ts": 1789444635.659564,
+    "kind": "monty_runtime_started",
+    "label": "probe_tool:declared",
+    "mounts": [
+      {
+        "virtual_path": "/workspace/allowed",
+        "host_path": "/private/tmp/r1_confinement_7fipc7j1/workspace/allowed",
+        "mode": "read-write"
+      }
+    ]
+  },
+  {
+    "ts": 1789444635.667684,
+    "kind": "monty_result",
+    "label": "probe_tool:declared",
+    "path": "/workspace/allowed/output.txt",
+    "error": null,
+    "stdout": "WROTE 12"
+  },
+  {
+    "ts": 1789444635.667688,
+    "kind": "inner_operation_attempted",
+    "parent": "probe_tool",
+    "target": "/workspace/allowed/escape_link/target.txt",
+    "probe": "SYMLINK_DIR_WRITE"
+  },
+  {
+    "ts": 1789444635.667691,
+    "kind": "operation_attempted",
+    "label": "probe:SYMLINK_DIR_WRITE",
+    "path": "/workspace/allowed/escape_link/target.txt",
+    "via": "monty"
+  },
+  {
+    "ts": 1789444635.667731,
+    "kind": "monty_runtime_started",
+    "label": "probe:SYMLINK_DIR_WRITE",
+    "mounts": [
+      {
+        "virtual_path": "/workspace/allowed",
+        "host_path": "/private/tmp/r1_confinement_7fipc7j1/workspace/allowed",
+        "mode": "read-write"
+      }
+    ]
+  },
+  {
+    "ts": 1789444635.674945,
+    "kind": "monty_result",
+    "label": "probe:SYMLINK_DIR_WRITE",
+    "path": "/workspace/allowed/escape_link/target.txt",
+    "error": "MontyRuntimeError",
+    "stdout": ""
+  },
+  {
+    "ts": 1789444635.6750138,
+    "kind": "inner_operation_attempted",
+    "parent": "probe_tool",
+    "target": "/workspace/allowed/escape_file.txt",
+    "probe": "SYMLINK_FILE_WRITE"
+  },
+  {
+    "ts": 1789444635.675016,
+    "kind": "operation_attempted",
+    "label": "probe:SYMLINK_FILE_WRITE",
+    "path": "/workspace/allowed/escape_file.txt",
+    "via": "monty"
+  },
+  {
+    "ts": 1789444635.67505,
+    "kind": "monty_runtime_started",
+    "label": "probe:SYMLINK_FILE_WRITE",
+    "mounts": [
+      {
+        "virtual_path": "/workspace/allowed",
+        "host_path": "/private/tmp/r1_confinement_7fipc7j1/workspace/allowed",
+        "mode": "read-write"
+      }
+    ]
+  },
+  {
+    "ts": 1789444635.681479,
+    "kind": "monty_result",
+    "label": "probe:SYMLINK_FILE_WRITE",
+    "path": "/workspace/allowed/escape_file.txt",
+    "error": "MontyRuntimeError",
+    "stdout": ""
+  },
+  {
+    "ts": 1789444635.706609,
+    "kind": "factory_denied",
+    "reason": "OVERBROAD_MOUNT_REQUEST",
+    "requested": "/workspace",
+    "policy_scopes": [
+      "/workspace/allowed"
+    ]
+  },
+  {
+    "ts": 1789444635.706628,
+    "kind": "factory_denied",
+    "reason": "OVERBROAD_MOUNT_REQUEST",
+    "requested": "/workspace/quarantine",
+    "policy_scopes": [
+      "/workspace/allowed"
+    ]
+  },
+  {
+    "ts": 1789444635.706636,
+    "kind": "factory_denied",
+    "reason": "OVERBROAD_MOUNT_REQUEST",
+    "requested": "/workspace/allowed2",
+    "policy_scopes": [
+      "/workspace/allowed"
+    ]
+  },
+  {
+    "ts": 1789444635.706644,
+    "kind": "capability_scope_verification",
+    "policy_scope": "/workspace/allowed",
+    "mount_scope": "/workspace/allowed",
+    "contains": true
+  },
+  {
+    "ts": 1789444635.7066472,
+    "kind": "capability_created",
+    "identity": {
+      "CAPABILITY_TYPE": "filesystem.write",
+      "POLICY_SCOPE": [
+        "/workspace/allowed"
+      ],
+      "GRANTED_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE_IN_POLICY_SCOPE": true,
+      "MODE": "read-write",
+      "HOST_PATH": "/private/tmp/r1_confinement_7fipc7j1/workspace/allowed",
+      "OPERATION_PATHS": [
+        "/workspace/allowed/output.txt"
+      ],
+      "REQUESTED_MOUNT": "/workspace/allowed"
+    }
+  },
+  {
+    "ts": 1789444635.734795,
+    "kind": "acs_decision",
+    "tool": "controlled_write",
+    "args": {
+      "path": "/workspace/quarantine/target.txt",
+      "content": "R1H"
+    },
+    "decision": "deny",
+    "reason": null,
+    "result_labels": []
+  },
+  {
+    "ts": 1789444635.769483,
+    "kind": "acs_decision",
+    "tool": "outer_tool",
+    "args": {
+      "path": "/workspace/allowed/output.txt",
+      "content": "R1J"
+    },
+    "decision": "allow",
+    "reason": null,
+    "result_labels": [
+      "scope:filesystem.write:/workspace/allowed"
+    ]
+  },
+  {
+    "ts": 1789444635.7695072,
+    "kind": "capability_scope_verification",
+    "policy_scope": "/workspace/allowed",
+    "mount_scope": "/workspace/allowed",
+    "contains": true
+  },
+  {
+    "ts": 1789444635.769512,
+    "kind": "capability_created",
+    "identity": {
+      "CAPABILITY_TYPE": "filesystem.write",
+      "POLICY_SCOPE": [
+        "/workspace/allowed"
+      ],
+      "GRANTED_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE_IN_POLICY_SCOPE": true,
+      "MODE": "read-write",
+      "HOST_PATH": "/private/tmp/r1_confinement_7fipc7j1/workspace/allowed",
+      "OPERATION_PATHS": [
+        "/workspace/allowed/output.txt"
+      ],
+      "REQUESTED_MOUNT": null
+    }
+  },
+  {
+    "ts": 1789444635.7696111,
+    "kind": "operation_attempted",
+    "label": "outer_tool:declared",
+    "path": "/workspace/allowed/output.txt",
+    "via": "monty"
+  },
+  {
+    "ts": 1789444635.769666,
+    "kind": "monty_runtime_started",
+    "label": "outer_tool:declared",
+    "mounts": [
+      {
+        "virtual_path": "/workspace/allowed",
+        "host_path": "/private/tmp/r1_confinement_7fipc7j1/workspace/allowed",
+        "mode": "read-write"
+      }
+    ]
+  },
+  {
+    "ts": 1789444635.776802,
+    "kind": "monty_result",
+    "label": "outer_tool:declared",
+    "path": "/workspace/allowed/output.txt",
+    "error": null,
+    "stdout": "WROTE 3"
+  },
+  {
+    "ts": 1789444635.7768052,
+    "kind": "inner_operation_attempted",
+    "parent": "outer_tool",
+    "target": "/workspace/quarantine/target.txt"
+  },
+  {
+    "ts": 1789444635.7768059,
+    "kind": "operation_attempted",
+    "label": "outer_tool:inner_undeclared",
+    "path": "/workspace/quarantine/target.txt",
+    "via": "monty"
+  },
+  {
+    "ts": 1789444635.776834,
+    "kind": "monty_runtime_started",
+    "label": "outer_tool:inner_undeclared",
+    "mounts": [
+      {
+        "virtual_path": "/workspace/allowed",
+        "host_path": "/private/tmp/r1_confinement_7fipc7j1/workspace/allowed",
+        "mode": "read-write"
+      }
+    ]
+  },
+  {
+    "ts": 1789444635.78287,
+    "kind": "monty_result",
+    "label": "outer_tool:inner_undeclared",
+    "path": "/workspace/quarantine/target.txt",
+    "error": "MontyRuntimeError",
+    "stdout": ""
+  },
+  {
+    "ts": 1789444635.782874,
+    "kind": "inner_operation_attempted",
+    "parent": "outer_tool",
+    "target": "/outside/secret-like.txt"
+  },
+  {
+    "ts": 1789444635.7828748,
+    "kind": "operation_attempted",
+    "label": "outer_tool:inner_outside",
+    "path": "/outside/secret-like.txt",
+    "via": "monty"
+  },
+  {
+    "ts": 1789444635.7829041,
+    "kind": "monty_runtime_started",
+    "label": "outer_tool:inner_outside",
+    "mounts": [
+      {
+        "virtual_path": "/workspace/allowed",
+        "host_path": "/private/tmp/r1_confinement_7fipc7j1/workspace/allowed",
+        "mode": "read-write"
+      }
+    ]
+  },
+  {
+    "ts": 1789444635.788867,
+    "kind": "monty_result",
+    "label": "outer_tool:inner_outside",
+    "path": "/outside/secret-like.txt",
+    "error": "MontyRuntimeError",
+    "stdout": ""
+  },
+  {
+    "ts": 1789444635.818635,
+    "kind": "acs_decision",
+    "tool": "controlled_write",
+    "args": {
+      "path": "/workspace/allowed/swap.txt",
+      "content": "R1-TOCTOU"
+    },
+    "decision": "allow",
+    "reason": null,
+    "result_labels": [
+      "scope:filesystem.write:/workspace/allowed"
+    ]
+  },
+  {
+    "ts": 1789444635.818662,
+    "kind": "capability_scope_verification",
+    "policy_scope": "/workspace/allowed",
+    "mount_scope": "/workspace/allowed",
+    "contains": true
+  },
+  {
+    "ts": 1789444635.8186681,
+    "kind": "capability_created",
+    "identity": {
+      "CAPABILITY_TYPE": "filesystem.write",
+      "POLICY_SCOPE": [
+        "/workspace/allowed"
+      ],
+      "GRANTED_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE_IN_POLICY_SCOPE": true,
+      "MODE": "read-write",
+      "HOST_PATH": "/private/tmp/r1_confinement_7fipc7j1/workspace/allowed",
+      "OPERATION_PATHS": [
+        "/workspace/allowed/swap.txt"
+      ],
+      "REQUESTED_MOUNT": null
+    }
+  },
+  {
+    "ts": 1789444635.818676,
+    "kind": "post_decision_hook",
+    "label": "R1_swap_to_symlink",
+    "tool": "controlled_write"
+  },
+  {
+    "ts": 1789444635.818965,
+    "kind": "operation_attempted",
+    "label": "controlled_write:declared",
+    "path": "/workspace/allowed/swap.txt",
+    "via": "monty"
+  },
+  {
+    "ts": 1789444635.8190138,
+    "kind": "monty_runtime_started",
+    "label": "controlled_write:declared",
+    "mounts": [
+      {
+        "virtual_path": "/workspace/allowed",
+        "host_path": "/private/tmp/r1_confinement_7fipc7j1/workspace/allowed",
+        "mode": "read-write"
+      }
+    ]
+  },
+  {
+    "ts": 1789444635.826656,
+    "kind": "monty_result",
+    "label": "controlled_write:declared",
+    "path": "/workspace/allowed/swap.txt",
+    "error": "MontyRuntimeError",
+    "stdout": ""
+  }
+]

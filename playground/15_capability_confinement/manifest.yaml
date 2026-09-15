@@ -1,0 +1,30 @@
+agent_control_specification_version: "0.3.1-beta"
+metadata:
+  name: ankla-agt-1e-r1-capability-confinement
+  purpose: >
+    Manifest del harness de confinement Fase 1E-R1. Sin policy_dispatcher: la
+    decisión la produce el dispatcher bundled de ACS ejecutando OPA sobre
+    policy/. El veredicto ALLOW transporta el scope autorizado en
+    result_labels ("scope:<capability>:<path>"), que es la única fuente de la
+    capability_factory. Las herramientas de sondeo interno (helper, probes)
+    NO se declaran aquí: nunca pasan por ACS por construcción del ataque.
+policies:
+  acs-phase1e-r1:
+    type: rego
+    bundle: policy
+tools:
+  controlled_write:
+    args: {}
+  outer_tool:
+    args: {}
+  outer_tool_via_helper:
+    args: {}
+  probe_tool:
+    args: {}
+intervention_points:
+  pre_tool_call:
+    policy_target: $.tool_call
+    tool_name_from: $.tool_call.name
+    policy:
+      id: acs-phase1e-r1
+      query: data.acs.verdict
