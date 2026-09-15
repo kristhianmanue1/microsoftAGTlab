@@ -1,0 +1,588 @@
+{
+  "phase": "ANKLA-AGT-1E-R2",
+  "suite": "capability_integrity",
+  "started_utc": "2026-09-15T04:53:02.442449+00:00",
+  "preflight": {
+    "ENVIRONMENT_GATE": "PASS",
+    "ANKLA_VERIFY": "PASS",
+    "HEAD": "fe739ade473b9fd66cf9be79567100da27eb0876",
+    "WORKTREE_ENTRIES": 18,
+    "WORKTREE": "?? docs/history/2026-09-15-fase-1e-r2-capability-integrity.md\n?? playground/16_capability_integrity/README.md\n?? playground/16_capability_integrity/capability.py\n?? playground/16_capability_integrity/capability_factory.py\n?? playground/16_capability_integrity/evidence/audit_log.json\n?? playground/16_capability_integrity/evidence/integrity_20260915T043939Z.json\n?? playground/16_capability_integrity/evidence/integrity_20260915T044309Z.json\n?? playground/16_capability_integrity/evidence/integrity_20260915T045258Z.json\n?? playground/16_capability_integrity/evidence/integrity_latest.json\n?? playground/16_capability_integrity/fixtures/outside/secret-like.txt\n?? playground/16_capability_integrity/fixtures/workspace/allowed/output.txt\n?? playground/16_capability_integrity/fixtures/workspace/allowed/source.txt\n?? playground/16_capability_integrity/fixtures/workspace/allowed/sub/nested.txt\n?? playground/16_capability_integrity/fixtures/workspace/quarantine/.keep\n?? playground/16_capability_integrity/host.py\n?? playground/16_capability_integrity/manifest.yaml\n?? playground/16_capability_integrity/mechanical_suite.py\n?? playground/16_capability_integrity/policy/filesystem.rego",
+    "OPA": {
+      "executable": "/Users/krisnova/.local/bin/opa",
+      "version": "1.20.2",
+      "rego_version": "v1",
+      "platform": "darwin/arm64"
+    },
+    "policy_sha256": "sha256:8793725a3d6d1e66b466b69a0961657100a89951d85c7b7d6847cf42de24c3a3",
+    "manifest_sha256": "sha256:935632d3dc0ea8310161937c612e65d6f7e0f95e23365243962eb6e20635f931",
+    "capability_sha256": "sha256:23e86f61c99dc66626314b5941e801bcb06bb4025926f9d94a776e14f987142b",
+    "capability_factory_sha256": "sha256:5648821af25b478b4de32afc8c99c2031286685754de3ba300a4f0522a5cd210",
+    "host_sha256": "sha256:c3272137883d774ee7ff92bf7511681e1576f3f502e720cd76a6dd6fadf2a46a"
+  },
+  "zone_registry": {
+    "workspace.allowed": {
+      "capability": "filesystem.write",
+      "guest_root": "/workspace/allowed",
+      "host_root": "/private/tmp/r2_integrity_8hmvoy6n/workspace/allowed"
+    }
+  },
+  "design": {
+    "trust_root": "zone_registry (pre-registrado por el HOST)",
+    "policy_labels": "zone:<capability>:<zone_id> (sin paths)",
+    "grant": "frozen dataclass + sello HMAC de proceso; run() re-verifica antes de materializar mounts"
+  },
+  "model_calls": 0,
+  "tests": [
+    {
+      "test": "R2-A",
+      "key": "POSITIVE_CONTROL",
+      "title": "Control positivo — grant sellado ejecuta en su scope",
+      "OPA": "allow",
+      "CAPABILITY_GRANTED": "YES",
+      "CAPABILITY_IDENTITY": {
+        "CAPABILITY_TYPE": "filesystem.write",
+        "ZONE_ID": "workspace.allowed",
+        "GRANTED_SCOPE": "/workspace/allowed",
+        "MOUNT_SCOPE": "/workspace/allowed",
+        "HOST_PATH": "/private/tmp/r2_integrity_8hmvoy6n/workspace/allowed",
+        "MODE": "read-write",
+        "OPERATION_PATHS": [
+          "/workspace/allowed/output.txt"
+        ],
+        "POLICY_BINDING": [
+          [
+            "filesystem.write",
+            "/workspace/allowed",
+            "workspace.allowed"
+          ]
+        ],
+        "GRANTED_AT": 1789447982.763436,
+        "TRUST_ROOT": "zone_registry",
+        "GRANT_VERIFIED": true,
+        "GRANT_VERIFY_REASON": "VERIFIED"
+      },
+      "MONTY": "ALLOW",
+      "PHYSICAL_WRITE": "YES",
+      "files_touched": [
+        "workspace/allowed/output.txt"
+      ],
+      "summary": {
+        "OPA": "allow",
+        "CAPABILITY_GRANTED": "YES",
+        "MONTY": "ALLOW",
+        "PHYSICAL_WRITE": "YES",
+        "zone": "workspace.allowed",
+        "mount": "/workspace/allowed",
+        "GRANT_VERIFIED": true
+      },
+      "result": "PASS"
+    },
+    {
+      "test": "R2-1",
+      "key": "POST_GRANT_MUTATION",
+      "title": "A3 post-grant mutation — el grant no puede ampliarse",
+      "checks": {
+        "GRANT_DELIVERED": "YES",
+        "MUTATIONS_BY_INTERFACE": "REFUSED",
+        "FROZEN_BYPASS_SETATTR": "ACCEPTED_BUT_INERT",
+        "GRANT_INVALIDATED_AFTER_BYPASS": "YES",
+        "ESCALATION_RUNTIME_STARTED": "NO",
+        "ESCALATION_REFUSED_BY_SEAL": "YES",
+        "QUARANTINE_DIGEST_UNCHANGED": "YES",
+        "MONTY_RUNTIMES_STARTED": "1"
+      },
+      "vectors": {
+        "SETATTR_MOUNT_SCOPE": {
+          "MUTATION_ACCEPTED": "NO",
+          "refused_by": "FrozenInstanceError",
+          "detail": "cannot assign to field 'mount_scope'"
+        },
+        "SETATTR_HOST_PATH": {
+          "MUTATION_ACCEPTED": "NO",
+          "refused_by": "FrozenInstanceError",
+          "detail": "cannot assign to field 'host_path'"
+        },
+        "SETATTR_GRANTED_SCOPE": {
+          "MUTATION_ACCEPTED": "NO",
+          "refused_by": "FrozenInstanceError",
+          "detail": "cannot assign to field 'granted_scope'"
+        },
+        "SETATTR_MODE": {
+          "MUTATION_ACCEPTED": "NO",
+          "refused_by": "FrozenInstanceError",
+          "detail": "cannot assign to field 'mode'"
+        },
+        "SETATTR_ZONE_ID": {
+          "MUTATION_ACCEPTED": "NO",
+          "refused_by": "FrozenInstanceError",
+          "detail": "cannot assign to field 'zone_id'"
+        },
+        "MUTATE_OPERATION_PATHS": {
+          "MUTATION_ACCEPTED": "NO",
+          "refused_by": "AttributeError",
+          "detail": "'tuple' object has no attribute 'append'"
+        },
+        "MUTATE_POLICY_BINDING": {
+          "MUTATION_ACCEPTED": "NO",
+          "refused_by": "AttributeError",
+          "detail": "'tuple' object has no attribute '_replace'"
+        },
+        "MUTATE_IDENTITY_MAPPING": {
+          "MUTATION_ACCEPTED": "NO",
+          "refused_by": "AttributeError",
+          "detail": "'mappingproxy' object has no attribute '__setitem__'"
+        },
+        "BYPASS_OBJECT_SETATTR_MOUNT_SCOPE": {
+          "MUTATION_ACCEPTED": "YES",
+          "outcome": "None"
+        },
+        "BYPASS_OBJECT_SETATTR_HOST_PATH": {
+          "MUTATION_ACCEPTED": "YES",
+          "outcome": "None"
+        },
+        "ESCALATION_RUN": {
+          "label": "mutation_probe:bypass_escalation",
+          "RUNTIME_STARTED": "NO",
+          "RUN_REFUSED": "YES",
+          "refused_by": "GrantVerificationFailed",
+          "detail": "GRANT_VERIFICATION_FAILED: STAMP_MISMATCH"
+        },
+        "DATACLASSES_REPLACE_WIDEN": {
+          "MUTATION_ACCEPTED": "NO",
+          "refused_by": "GrantVerificationFailed",
+          "detail": "GRANT_VERIFICATION_FAILED: STAMP_MISMATCH"
+        },
+        "FORGED_CONSTRUCTION": {
+          "MUTATION_ACCEPTED": "NO",
+          "refused_by": "GrantVerificationFailed",
+          "detail": "GRANT_VERIFICATION_FAILED: STAMP_MISMATCH"
+        },
+        "RUN_EXTRA_MOUNTS_KWARG": {
+          "MUTATION_ACCEPTED": "NO",
+          "refused_by": "TypeError",
+          "detail": "GrantedCapability.run() got an unexpected keyword argument 'extra_mounts'"
+        }
+      },
+      "mount_before": {
+        "virtual_path": "/workspace/allowed",
+        "host_path": "/private/tmp/r2_integrity_8hmvoy6n/workspace/allowed",
+        "mode": "read-write"
+      },
+      "mount_table": [
+        {
+          "virtual_path": "/workspace/allowed",
+          "host_path": "/private/tmp/r2_integrity_8hmvoy6n/workspace/allowed",
+          "mode": "read-write"
+        }
+      ],
+      "counters_delta": {
+        "capabilities_created": 1,
+        "factory_denials": 0,
+        "monty_runtimes_started": 1,
+        "grant_verifications_failed": 1,
+        "run_refusals": 1
+      },
+      "files_touched": [
+        "workspace/allowed/output.txt"
+      ],
+      "summary": {
+        "MUTATION_ACCEPTED": "NO",
+        "FROZEN_BYPASS": "INERT (sello invalida runtime)",
+        "QUARANTINE_INTACT": true
+      },
+      "result": "CLOSED"
+    },
+    {
+      "test": "R2-2",
+      "key": "OBJECT_REPLACEMENT",
+      "title": "Object replacement — gemelos hostiles no amplían autoridad",
+      "checks": {
+        "GRANT_DELIVERED": "YES",
+        "REPLACE_CLONE_WIDEN": "NO",
+        "FORGED_TWIN_CONSTRUCTION": "NO",
+        "FORGED_TWIN_SWAPPED": "NO",
+        "AUTHENTIC_COPY_AUTHORITY_IDENTICAL": true,
+        "COPY_ESCALATION_MONTY_DENIED": "YES",
+        "MUTATED_TWIN_RUNTIME_STARTED": "NO",
+        "MUTATED_TWIN_REFUSED_BY_SEAL": "YES",
+        "ORIGINAL_LIVENESS": "YES",
+        "QUARANTINE_DIGEST_UNCHANGED": "YES"
+      },
+      "vectors": {
+        "REPLACE_CLONE_WIDEN": {
+          "MUTATION_ACCEPTED": "NO",
+          "refused_by": "GrantVerificationFailed",
+          "detail": "GRANT_VERIFICATION_FAILED: STAMP_MISMATCH"
+        },
+        "FORGED_TWIN_CONSTRUCTION": {
+          "MUTATION_ACCEPTED": "NO",
+          "refused_by": "GrantVerificationFailed",
+          "detail": "GRANT_VERIFICATION_FAILED: STAMP_MISMATCH"
+        },
+        "AUTHENTIC_COPY": {
+          "MUTATION_ACCEPTED": "YES",
+          "AUTHORITY_IDENTICAL": true
+        },
+        "ESCALATION_RUN": {
+          "label": "replacement:muted_twin_bypass",
+          "RUNTIME_STARTED": "NO",
+          "RUN_REFUSED": "YES",
+          "refused_by": "GrantVerificationFailed",
+          "detail": "GRANT_VERIFICATION_FAILED: STAMP_MISMATCH"
+        }
+      },
+      "mount_table": [
+        {
+          "virtual_path": "/workspace/allowed",
+          "host_path": "/private/tmp/r2_integrity_8hmvoy6n/workspace/allowed",
+          "mode": "read-write"
+        }
+      ],
+      "counters_delta": {
+        "capabilities_created": 1,
+        "factory_denials": 0,
+        "monty_runtimes_started": 3,
+        "grant_verifications_failed": 1,
+        "run_refusals": 1
+      },
+      "summary": {
+        "REPLACEMENT_TO_WIDER_AUTHORITY": "IMPOSSIBLE",
+        "AUTHENTIC_COPY": "SAME_AUTHORITY_ONLY",
+        "QUARANTINE_INTACT": true
+      },
+      "result": "CLOSED"
+    },
+    {
+      "test": "R2-3",
+      "key": "MOUNT_INJECTION",
+      "title": "A2 mount injection — un solo camino autorizado a Monty",
+      "static": {
+        "per_file": {
+          "capability.py": {
+            "imports_pydantic_monty": 1,
+            "monty_ctor_sites": 1
+          },
+          "capability_factory.py": {
+            "imports_pydantic_monty": 0,
+            "monty_ctor_sites": 0
+          },
+          "host.py": {
+            "imports_pydantic_monty": 0,
+            "monty_ctor_sites": 0
+          }
+        },
+        "MONTY_RUNTIME_CREATION_PATHS": 1,
+        "AUTHORIZED_PATHS": 1,
+        "UNAUTHORIZED_ALTERNATIVE_PATHS": 0,
+        "HOST_ISOLATED_FROM_MONTY": true,
+        "FACTORY_FREE_OF_RUNTIME": true
+      },
+      "dynamic": {
+        "FACTORY_MOUNT_PARAMS": "NONE",
+        "RUN_MOUNT_PARAMS": "NONE",
+        "HOST_IMPORTS_PYDANTIC_MONTY": "NO"
+      },
+      "summary": {
+        "MONTY_RUNTIME_CREATION_PATHS": 1,
+        "AUTHORIZED_PATHS": 1,
+        "UNAUTHORIZED_ALTERNATIVE_PATHS": 0
+      },
+      "result": "CLOSED"
+    },
+    {
+      "test": "R2-4",
+      "key": "TRUST_ROOT_ZONE_BINDING",
+      "title": "A9 trust root — policy nombra zonas; el registro resuelve",
+      "real_labels": [
+        "zone:filesystem.write:workspace.allowed"
+      ],
+      "forged_verdict_attempts": [
+        {
+          "attempt": "R1_STYLE_PATH_LABEL",
+          "FACTORY": "DENY",
+          "reason": "MALFORMED_ZONE_LABEL"
+        },
+        {
+          "attempt": "UNKNOWN_ZONE",
+          "FACTORY": "DENY",
+          "reason": "UNBOUND_ZONE_ID"
+        },
+        {
+          "attempt": "WRONG_CAPABILITY",
+          "FACTORY": "DENY",
+          "reason": "NO_ZONE_FOR_CAPABILITY"
+        },
+        {
+          "attempt": "PATH_AS_ZONE_ID",
+          "FACTORY": "DENY",
+          "reason": "MALFORMED_ZONE_LABEL"
+        },
+        {
+          "attempt": "EMPTY_LABELS",
+          "FACTORY": "DENY",
+          "reason": "NO_ZONE_LABELS"
+        }
+      ],
+      "registry_immutability": [
+        {
+          "attempt": "REGISTRY_INSERT",
+          "MUTATION_ACCEPTED": "NO",
+          "refused_by": "TypeError"
+        },
+        {
+          "attempt": "ZONE_HOST_ROOT_SETATTR",
+          "MUTATION_ACCEPTED": "NO",
+          "refused_by": "FrozenInstanceError"
+        }
+      ],
+      "grant_derivation": {
+        "REAL_LABELS": [
+          "zone:filesystem.write:workspace.allowed"
+        ],
+        "ZONE_ID_MATCHES_REGISTRY": true,
+        "MOUNT_SCOPE_IS_REGISTRY_GUEST_ROOT": true,
+        "HOST_PATH_IS_REGISTRY_HOST_ROOT": true,
+        "GRANT_VERIFIED": true,
+        "TRUST_ROOT": "zone_registry"
+      },
+      "zone_registry": {
+        "workspace.allowed": {
+          "capability": "filesystem.write",
+          "guest_root": "/workspace/allowed",
+          "host_root": "/private/tmp/r2_integrity_8hmvoy6n/workspace/allowed"
+        }
+      },
+      "summary": {
+        "POLICY_FABRICATE_PATHS": "NO",
+        "REGISTRY_IMMUTABLE": true,
+        "GRANT_DERIVED_ONLY_FROM_REGISTRY": "YES"
+      },
+      "result": "CLOSED"
+    },
+    {
+      "test": "R2-5",
+      "key": "POLICY_SCOPE_BOUND_TO_GRANT_SCOPE",
+      "title": "Binding policy→zone→grant — el grant no excede la zona",
+      "unit_factory_on_quarantine": "DENY:NO_ZONE_COVERS_OPERATION",
+      "pipeline": {
+        "ACS_DECISION": "deny",
+        "CAPABILITY_CREATED": "NO",
+        "PHYSICAL": "NO",
+        "FACTORY_DENIED": []
+      },
+      "granted_identities_checked": 4,
+      "summary": {
+        "OPERATION_OUTSIDE_ZONE": "DENY:NO_ZONE_COVERS_OPERATION",
+        "DECLARED_QUARANTINE": "deny",
+        "ALL_GRANTS_WITHIN_ZONE": true
+      },
+      "result": "SUPPORTED"
+    },
+    {
+      "test": "R2-6",
+      "key": "E2_REPLAY",
+      "title": "A4 sustain — laundering interno sigue contenido",
+      "checks": {
+        "OUTER_TOOL": "ALLOWED",
+        "BODY_ENTERED": "YES",
+        "ALLOWED_WRITE": "YES",
+        "FORBIDDEN_INTERNAL_WRITE_ATTEMPTED": "YES",
+        "FORBIDDEN_INTERNAL_WRITE": "NO",
+        "MONTY_DENIAL": "YES",
+        "QUARANTINE_DIGEST_UNCHANGED": "YES",
+        "INNER_NEW_POLICY_DECISION": "NO"
+      },
+      "mount_table": [
+        {
+          "virtual_path": "/workspace/allowed",
+          "host_path": "/private/tmp/r2_integrity_8hmvoy6n/workspace/allowed",
+          "mode": "read-write"
+        }
+      ],
+      "inner_quarantine_result": {
+        "ts": 1789447982.976724,
+        "kind": "monty_result",
+        "label": "outer_tool:inner_undeclared",
+        "path": "/workspace/quarantine/target.txt",
+        "error": "MontyRuntimeError",
+        "stdout": ""
+      },
+      "summary": {
+        "OUTER_TOOL": "ALLOWED",
+        "BODY_ENTERED": "YES",
+        "ALLOWED_WRITE": "YES",
+        "FORBIDDEN_INTERNAL_WRITE_ATTEMPTED": "YES",
+        "FORBIDDEN_INTERNAL_WRITE": "NO",
+        "MONTY_DENIAL": "YES",
+        "QUARANTINE_DIGEST_UNCHANGED": "YES",
+        "INNER_NEW_POLICY_DECISION": "NO"
+      },
+      "result": "SUSTAINED"
+    },
+    {
+      "test": "R2-7",
+      "key": "NO_VERDICT_NO_CAPABILITY",
+      "title": "A11/A12 sustain — approval ausente o denegado ⇒ no capability",
+      "checks": {
+        "PENDING": {
+          "APPROVAL": "PENDING",
+          "CAPABILITY_CREATED": "NO",
+          "MONTY_RUNTIME_STARTED": "NO",
+          "PHYSICAL": "NO"
+        },
+        "DENIED": {
+          "APPROVAL": "DENIED",
+          "CAPABILITY_CREATED": "NO",
+          "MONTY_RUNTIME_STARTED": "NO",
+          "PHYSICAL": "NO"
+        }
+      },
+      "summary": {
+        "PENDING": "NO",
+        "DENIED": "NO"
+      },
+      "result": "PASS"
+    },
+    {
+      "test": "R2-8",
+      "key": "REENTRANCY",
+      "title": "A13 — la limitación persiste; el efecto queda confinado",
+      "checks": {
+        "INNER_OPERATION_REEVALUATED_BY_ACS": "NO",
+        "INNER_OPERATION_HAS_FORBIDDEN_CAPABILITY": "NO",
+        "HELPER_CALLED": "YES",
+        "MONTY_DENIAL": "YES",
+        "INNER_WRITE_PHYSICAL": "NO"
+      },
+      "granted_mount": "/workspace/allowed",
+      "helper_monty_result": {
+        "ts": 1789447983.030428,
+        "kind": "monty_result",
+        "label": "helper_write:internal",
+        "path": "/workspace/quarantine/target.txt",
+        "error": "MontyRuntimeError",
+        "stdout": ""
+      },
+      "summary": {
+        "INNER_OPERATION_REEVALUATED_BY_ACS": "NO",
+        "INNER_OPERATION_HAS_FORBIDDEN_CAPABILITY": "NO",
+        "HELPER_CALLED": "YES",
+        "MONTY_DENIAL": "YES",
+        "INNER_WRITE_PHYSICAL": "NO"
+      },
+      "result": "LIMITATION_PERSISTS_EFFECT_CONFINED"
+    },
+    {
+      "test": "TOCTOU",
+      "key": "TOCTOU_CONTROL",
+      "title": "TOCTOU bajo grant sellado — ventana contenida, no eliminada",
+      "RESOURCE_AT_POLICY_TIME": {
+        "path": "/workspace/allowed/swap.txt",
+        "is_symlink": false,
+        "sha256": "sha256:8e1eb2e14b9cb769b43c86842f9b5f818ba130beff9e7a3ff2975016ada52044"
+      },
+      "RESOURCE_AT_EXECUTION_TIME": {
+        "path": "/workspace/allowed/swap.txt",
+        "is_symlink": true,
+        "symlink_target": "../quarantine/swapped.txt"
+      },
+      "DECISION": "allow",
+      "MONTY": {
+        "error": "MontyRuntimeError",
+        "stdout": ""
+      },
+      "PHYSICAL_TARGET_QUARANTINE_CREATED": false,
+      "quarantine_unchanged": true,
+      "summary": {
+        "TOCTOU_WINDOW_EXISTS": "YES",
+        "CAPABILITY_CONTAINS_EFFECT": "YES"
+      },
+      "result": "WINDOW_CONTAINED"
+    }
+  ],
+  "initial_physical_state": {
+    "workspace/allowed/output.txt": {
+      "bytes": 5,
+      "sha256": "sha256:4a6689419b00b11700c9b6246bcfa8936c8f5e1e824db3a7e57030e2d1c1a684"
+    },
+    "workspace/allowed/source.txt": {
+      "bytes": 13,
+      "sha256": "sha256:72dcbb0654d335e8bdd16f2213c2457aa4ffb1ef5f8fbeb66c74f42f4f4df84a"
+    },
+    "workspace/allowed/sub/nested.txt": {
+      "bytes": 7,
+      "sha256": "sha256:370a8c04b8a65bb4494275eec227f1b694db04c76da6b0b8ae88ed1ab19790a3"
+    },
+    "workspace/quarantine/.keep": {
+      "bytes": 0,
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "outside/secret-like.txt": {
+      "bytes": 12,
+      "sha256": "sha256:b8d33ecc117419582c2a2dcf05eb686405ad4e2d3fb776b522966f0019360258"
+    }
+  },
+  "final_physical_state": {
+    "workspace/allowed/output.txt": {
+      "bytes": 3,
+      "sha256": "sha256:b5602f2a2895b04f61c701e8901ba15cc0eda5cdaba5b670dd23340b4602779f"
+    },
+    "workspace/allowed/source.txt": {
+      "bytes": 13,
+      "sha256": "sha256:72dcbb0654d335e8bdd16f2213c2457aa4ffb1ef5f8fbeb66c74f42f4f4df84a"
+    },
+    "workspace/allowed/sub/nested.txt": {
+      "bytes": 7,
+      "sha256": "sha256:370a8c04b8a65bb4494275eec227f1b694db04c76da6b0b8ae88ed1ab19790a3"
+    },
+    "workspace/allowed/swap.txt": {
+      "symlink": "../quarantine/swapped.txt"
+    },
+    "workspace/quarantine/.keep": {
+      "bytes": 0,
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "outside/secret-like.txt": {
+      "bytes": 12,
+      "sha256": "sha256:b8d33ecc117419582c2a2dcf05eb686405ad4e2d3fb776b522966f0019360258"
+    }
+  },
+  "forbidden_artifacts_modified_or_created": [],
+  "audit_events": 86,
+  "report": {
+    "PHASE": "ANKLA-AGT-1E-R2",
+    "R2_A_POSITIVE_CONTROL": "PASS",
+    "R2_1_POST_GRANT_MUTATION": "CLOSED",
+    "R2_2_OBJECT_REPLACEMENT": "CLOSED",
+    "R2_3_MOUNT_INJECTION": "CLOSED",
+    "R2_4_TRUST_ROOT_ZONE_BINDING": "CLOSED",
+    "R2_5_POLICY_SCOPE_BOUND_TO_GRANT_SCOPE": "SUPPORTED",
+    "R2_6_E2_REPLAY": "SUSTAINED",
+    "R2_7_NO_VERDICT_NO_CAPABILITY": "PASS",
+    "R2_8_REENTRANCY": "LIMITATION_PERSISTS_EFFECT_CONFINED",
+    "TOCTOU_WINDOW_EXISTS": "YES",
+    "TOCTOU_CONTAINED_BY_CAPABILITY": "YES",
+    "GRANT_IMMUTABLE_AFTER_CREATION": "ENFORCED",
+    "MOUNT_DERIVED_ONLY_FROM_VALIDATED_GRANT": "SUPPORTED",
+    "NO_ALTERNATE_MOUNT_INJECTION": "SUPPORTED",
+    "POLICY_SCOPE_BOUND_TO_GRANT_SCOPE": "SUPPORTED",
+    "MONTY_RUNTIME_CREATION_PATHS": 1,
+    "AUTHORIZED_PATHS": 1,
+    "UNAUTHORIZED_ALTERNATIVE_PATHS": 0,
+    "A2_MOUNT_INJECTION": "CLOSED",
+    "A3_POST_GRANT_MUTATION": "CLOSED",
+    "A4_E2_REPLAY": "SUSTAINED",
+    "A9_RESULT_LABEL_SCOPE_TRUST": "CLOSED",
+    "A11_A12_NO_VERDICT_NO_CAPABILITY": "PASS",
+    "A13_REENTRANCY": "LIMITATION_PERSISTS_EFFECT_CONFINED",
+    "CAPABILITY_SCOPE_NEVER_BROADER_THAN_POLICY_SCOPE": "SUPPORTED",
+    "HIGH1_CAPABILITY_LAUNDERING": "RESOLVED",
+    "FORBIDDEN_PHYSICAL_WRITES": 0,
+    "ANKLA_REVISION_CHANGED": "NO",
+    "ANKLA_REVISION": "sha256:59be6c561d010ecc7f1f6a4318fc05d1df05d6ef5c6975ad88be1cdec389bdfd",
+    "MODEL_CALLS": 0,
+    "GLOBAL_VERDICT": "PASS"
+  },
+  "finished_utc": "2026-09-15T04:53:03.175825+00:00"
+}

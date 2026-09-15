@@ -1,0 +1,915 @@
+[
+  {
+    "ts": 1789447982.763402,
+    "kind": "acs_decision",
+    "tool": "controlled_write",
+    "args": {
+      "path": "/workspace/allowed/output.txt",
+      "content": "R2A-OK"
+    },
+    "decision": "allow",
+    "reason": null,
+    "result_labels": [
+      "zone:filesystem.write:workspace.allowed"
+    ]
+  },
+  {
+    "ts": 1789447982.7634351,
+    "kind": "zone_binding_verification",
+    "trust_root": "zone_registry",
+    "zone_id": "workspace.allowed",
+    "zone_guest_root": "/workspace/allowed",
+    "zone_host_root": "/private/tmp/r2_integrity_8hmvoy6n/workspace/allowed",
+    "operation_paths": [
+      "/workspace/allowed/output.txt"
+    ],
+    "binding_verified": true
+  },
+  {
+    "ts": 1789447982.7635179,
+    "kind": "capability_created",
+    "identity": {
+      "CAPABILITY_TYPE": "filesystem.write",
+      "ZONE_ID": "workspace.allowed",
+      "GRANTED_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE": "/workspace/allowed",
+      "HOST_PATH": "/private/tmp/r2_integrity_8hmvoy6n/workspace/allowed",
+      "MODE": "read-write",
+      "OPERATION_PATHS": [
+        "/workspace/allowed/output.txt"
+      ],
+      "POLICY_BINDING": [
+        [
+          "filesystem.write",
+          "/workspace/allowed",
+          "workspace.allowed"
+        ]
+      ],
+      "GRANTED_AT": 1789447982.763436,
+      "TRUST_ROOT": "zone_registry",
+      "GRANT_VERIFIED": true,
+      "GRANT_VERIFY_REASON": "VERIFIED"
+    }
+  },
+  {
+    "ts": 1789447982.763604,
+    "kind": "operation_attempted",
+    "label": "controlled_write:declared",
+    "path": "/workspace/allowed/output.txt",
+    "via": "monty"
+  },
+  {
+    "ts": 1789447982.763725,
+    "kind": "monty_runtime_started",
+    "label": "controlled_write:declared",
+    "grant_verified": true,
+    "mounts": [
+      {
+        "virtual_path": "/workspace/allowed",
+        "host_path": "/private/tmp/r2_integrity_8hmvoy6n/workspace/allowed",
+        "mode": "read-write"
+      }
+    ]
+  },
+  {
+    "ts": 1789447982.770692,
+    "kind": "monty_result",
+    "label": "controlled_write:declared",
+    "path": "/workspace/allowed/output.txt",
+    "error": null,
+    "stdout": "WROTE 6"
+  },
+  {
+    "ts": 1789447982.800404,
+    "kind": "acs_decision",
+    "tool": "mutation_probe_tool",
+    "args": {
+      "path": "/workspace/allowed/output.txt",
+      "content": "R21-DECLARED"
+    },
+    "decision": "allow",
+    "reason": null,
+    "result_labels": [
+      "zone:filesystem.write:workspace.allowed"
+    ]
+  },
+  {
+    "ts": 1789447982.8004348,
+    "kind": "zone_binding_verification",
+    "trust_root": "zone_registry",
+    "zone_id": "workspace.allowed",
+    "zone_guest_root": "/workspace/allowed",
+    "zone_host_root": "/private/tmp/r2_integrity_8hmvoy6n/workspace/allowed",
+    "operation_paths": [
+      "/workspace/allowed/output.txt"
+    ],
+    "binding_verified": true
+  },
+  {
+    "ts": 1789447982.800493,
+    "kind": "capability_created",
+    "identity": {
+      "CAPABILITY_TYPE": "filesystem.write",
+      "ZONE_ID": "workspace.allowed",
+      "GRANTED_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE": "/workspace/allowed",
+      "HOST_PATH": "/private/tmp/r2_integrity_8hmvoy6n/workspace/allowed",
+      "MODE": "read-write",
+      "OPERATION_PATHS": [
+        "/workspace/allowed/output.txt"
+      ],
+      "POLICY_BINDING": [
+        [
+          "filesystem.write",
+          "/workspace/allowed",
+          "workspace.allowed"
+        ]
+      ],
+      "GRANTED_AT": 1789447982.800436,
+      "TRUST_ROOT": "zone_registry",
+      "GRANT_VERIFIED": true,
+      "GRANT_VERIFY_REASON": "VERIFIED"
+    }
+  },
+  {
+    "ts": 1789447982.80057,
+    "kind": "operation_attempted",
+    "label": "mutation_probe:declared",
+    "path": "/workspace/allowed/output.txt",
+    "via": "monty"
+  },
+  {
+    "ts": 1789447982.8006651,
+    "kind": "monty_runtime_started",
+    "label": "mutation_probe:declared",
+    "grant_verified": true,
+    "mounts": [
+      {
+        "virtual_path": "/workspace/allowed",
+        "host_path": "/private/tmp/r2_integrity_8hmvoy6n/workspace/allowed",
+        "mode": "read-write"
+      }
+    ]
+  },
+  {
+    "ts": 1789447982.80736,
+    "kind": "monty_result",
+    "label": "mutation_probe:declared",
+    "path": "/workspace/allowed/output.txt",
+    "error": null,
+    "stdout": "WROTE 12"
+  },
+  {
+    "ts": 1789447982.807432,
+    "kind": "attack_started",
+    "attack": "A3_POST_GRANT_MUTATION",
+    "mount_before": {
+      "virtual_path": "/workspace/allowed",
+      "host_path": "/private/tmp/r2_integrity_8hmvoy6n/workspace/allowed",
+      "mode": "read-write"
+    }
+  },
+  {
+    "ts": 1789447982.8074398,
+    "kind": "attack_observation",
+    "vector": "SETATTR_MOUNT_SCOPE",
+    "MUTATION_ACCEPTED": "NO",
+    "refused_by": "FrozenInstanceError",
+    "detail": "cannot assign to field 'mount_scope'"
+  },
+  {
+    "ts": 1789447982.807445,
+    "kind": "attack_observation",
+    "vector": "SETATTR_HOST_PATH",
+    "MUTATION_ACCEPTED": "NO",
+    "refused_by": "FrozenInstanceError",
+    "detail": "cannot assign to field 'host_path'"
+  },
+  {
+    "ts": 1789447982.807447,
+    "kind": "attack_observation",
+    "vector": "SETATTR_GRANTED_SCOPE",
+    "MUTATION_ACCEPTED": "NO",
+    "refused_by": "FrozenInstanceError",
+    "detail": "cannot assign to field 'granted_scope'"
+  },
+  {
+    "ts": 1789447982.8074481,
+    "kind": "attack_observation",
+    "vector": "SETATTR_MODE",
+    "MUTATION_ACCEPTED": "NO",
+    "refused_by": "FrozenInstanceError",
+    "detail": "cannot assign to field 'mode'"
+  },
+  {
+    "ts": 1789447982.80745,
+    "kind": "attack_observation",
+    "vector": "SETATTR_ZONE_ID",
+    "MUTATION_ACCEPTED": "NO",
+    "refused_by": "FrozenInstanceError",
+    "detail": "cannot assign to field 'zone_id'"
+  },
+  {
+    "ts": 1789447982.807453,
+    "kind": "attack_observation",
+    "vector": "MUTATE_OPERATION_PATHS",
+    "MUTATION_ACCEPTED": "NO",
+    "refused_by": "AttributeError",
+    "detail": "'tuple' object has no attribute 'append'"
+  },
+  {
+    "ts": 1789447982.807455,
+    "kind": "attack_observation",
+    "vector": "MUTATE_POLICY_BINDING",
+    "MUTATION_ACCEPTED": "NO",
+    "refused_by": "AttributeError",
+    "detail": "'tuple' object has no attribute '_replace'"
+  },
+  {
+    "ts": 1789447982.807471,
+    "kind": "attack_observation",
+    "vector": "MUTATE_IDENTITY_MAPPING",
+    "MUTATION_ACCEPTED": "NO",
+    "refused_by": "AttributeError",
+    "detail": "'mappingproxy' object has no attribute '__setitem__'"
+  },
+  {
+    "ts": 1789447982.807474,
+    "kind": "attack_observation",
+    "vector": "BYPASS_OBJECT_SETATTR_MOUNT_SCOPE",
+    "MUTATION_ACCEPTED": "YES",
+    "outcome": "None"
+  },
+  {
+    "ts": 1789447982.807478,
+    "kind": "attack_observation",
+    "vector": "BYPASS_OBJECT_SETATTR_HOST_PATH",
+    "MUTATION_ACCEPTED": "YES",
+    "outcome": "None"
+  },
+  {
+    "ts": 1789447982.80749,
+    "kind": "attack_midstate",
+    "attack": "A3_POST_GRANT_MUTATION",
+    "mount_after": "GRANT_INVALIDATED"
+  },
+  {
+    "ts": 1789447982.807504,
+    "kind": "run_refused",
+    "label": "mutation_probe:bypass_escalation",
+    "reason": "STAMP_MISMATCH",
+    "grant_stamp_valid": false
+  },
+  {
+    "ts": 1789447982.807513,
+    "kind": "attack_observation",
+    "vector": "ESCALATION_RUN",
+    "label": "mutation_probe:bypass_escalation",
+    "RUNTIME_STARTED": "NO",
+    "RUN_REFUSED": "YES",
+    "refused_by": "GrantVerificationFailed",
+    "detail": "GRANT_VERIFICATION_FAILED: STAMP_MISMATCH"
+  },
+  {
+    "ts": 1789447982.80755,
+    "kind": "attack_observation",
+    "vector": "DATACLASSES_REPLACE_WIDEN",
+    "MUTATION_ACCEPTED": "NO",
+    "refused_by": "GrantVerificationFailed",
+    "detail": "GRANT_VERIFICATION_FAILED: STAMP_MISMATCH"
+  },
+  {
+    "ts": 1789447982.807564,
+    "kind": "attack_observation",
+    "vector": "FORGED_CONSTRUCTION",
+    "MUTATION_ACCEPTED": "NO",
+    "refused_by": "GrantVerificationFailed",
+    "detail": "GRANT_VERIFICATION_FAILED: STAMP_MISMATCH"
+  },
+  {
+    "ts": 1789447982.8075678,
+    "kind": "attack_observation",
+    "vector": "RUN_EXTRA_MOUNTS_KWARG",
+    "MUTATION_ACCEPTED": "NO",
+    "refused_by": "TypeError",
+    "detail": "GrantedCapability.run() got an unexpected keyword argument 'extra_mounts'"
+  },
+  {
+    "ts": 1789447982.83743,
+    "kind": "acs_decision",
+    "tool": "replacement_probe_tool",
+    "args": {
+      "path": "/workspace/allowed/output.txt",
+      "content": "R22-DECLARED"
+    },
+    "decision": "allow",
+    "reason": null,
+    "result_labels": [
+      "zone:filesystem.write:workspace.allowed"
+    ]
+  },
+  {
+    "ts": 1789447982.8374531,
+    "kind": "zone_binding_verification",
+    "trust_root": "zone_registry",
+    "zone_id": "workspace.allowed",
+    "zone_guest_root": "/workspace/allowed",
+    "zone_host_root": "/private/tmp/r2_integrity_8hmvoy6n/workspace/allowed",
+    "operation_paths": [
+      "/workspace/allowed/output.txt"
+    ],
+    "binding_verified": true
+  },
+  {
+    "ts": 1789447982.837506,
+    "kind": "capability_created",
+    "identity": {
+      "CAPABILITY_TYPE": "filesystem.write",
+      "ZONE_ID": "workspace.allowed",
+      "GRANTED_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE": "/workspace/allowed",
+      "HOST_PATH": "/private/tmp/r2_integrity_8hmvoy6n/workspace/allowed",
+      "MODE": "read-write",
+      "OPERATION_PATHS": [
+        "/workspace/allowed/output.txt"
+      ],
+      "POLICY_BINDING": [
+        [
+          "filesystem.write",
+          "/workspace/allowed",
+          "workspace.allowed"
+        ]
+      ],
+      "GRANTED_AT": 1789447982.837454,
+      "TRUST_ROOT": "zone_registry",
+      "GRANT_VERIFIED": true,
+      "GRANT_VERIFY_REASON": "VERIFIED"
+    }
+  },
+  {
+    "ts": 1789447982.837572,
+    "kind": "operation_attempted",
+    "label": "replacement_probe:declared",
+    "path": "/workspace/allowed/output.txt",
+    "via": "monty"
+  },
+  {
+    "ts": 1789447982.837665,
+    "kind": "monty_runtime_started",
+    "label": "replacement_probe:declared",
+    "grant_verified": true,
+    "mounts": [
+      {
+        "virtual_path": "/workspace/allowed",
+        "host_path": "/private/tmp/r2_integrity_8hmvoy6n/workspace/allowed",
+        "mode": "read-write"
+      }
+    ]
+  },
+  {
+    "ts": 1789447982.844159,
+    "kind": "monty_result",
+    "label": "replacement_probe:declared",
+    "path": "/workspace/allowed/output.txt",
+    "error": null,
+    "stdout": "WROTE 12"
+  },
+  {
+    "ts": 1789447982.844162,
+    "kind": "attack_started",
+    "attack": "OBJECT_REPLACEMENT"
+  },
+  {
+    "ts": 1789447982.8442109,
+    "kind": "attack_observation",
+    "vector": "REPLACE_CLONE_WIDEN",
+    "MUTATION_ACCEPTED": "NO",
+    "refused_by": "GrantVerificationFailed",
+    "detail": "GRANT_VERIFICATION_FAILED: STAMP_MISMATCH"
+  },
+  {
+    "ts": 1789447982.8442292,
+    "kind": "attack_observation",
+    "vector": "FORGED_TWIN_CONSTRUCTION",
+    "MUTATION_ACCEPTED": "NO",
+    "refused_by": "GrantVerificationFailed",
+    "detail": "GRANT_VERIFICATION_FAILED: STAMP_MISMATCH"
+  },
+  {
+    "ts": 1789447982.84432,
+    "kind": "attack_observation",
+    "vector": "AUTHENTIC_COPY",
+    "MUTATION_ACCEPTED": "YES",
+    "AUTHORITY_IDENTICAL": true
+  },
+  {
+    "ts": 1789447982.844384,
+    "kind": "monty_runtime_started",
+    "label": "replacement:authentic_copy",
+    "grant_verified": true,
+    "mounts": [
+      {
+        "virtual_path": "/workspace/allowed",
+        "host_path": "/private/tmp/r2_integrity_8hmvoy6n/workspace/allowed",
+        "mode": "read-write"
+      }
+    ]
+  },
+  {
+    "ts": 1789447982.8500679,
+    "kind": "attack_observation",
+    "vector": "ESCALATION_RUN",
+    "label": "replacement:authentic_copy",
+    "RUNTIME_STARTED": "YES",
+    "MONTY_DENIED": "YES",
+    "error": "MontyRuntimeError",
+    "stdout": ""
+  },
+  {
+    "ts": 1789447982.850107,
+    "kind": "run_refused",
+    "label": "replacement:muted_twin_bypass",
+    "reason": "STAMP_MISMATCH",
+    "grant_stamp_valid": false
+  },
+  {
+    "ts": 1789447982.850113,
+    "kind": "attack_observation",
+    "vector": "ESCALATION_RUN",
+    "label": "replacement:muted_twin_bypass",
+    "RUNTIME_STARTED": "NO",
+    "RUN_REFUSED": "YES",
+    "refused_by": "GrantVerificationFailed",
+    "detail": "GRANT_VERIFICATION_FAILED: STAMP_MISMATCH"
+  },
+  {
+    "ts": 1789447982.850116,
+    "kind": "operation_attempted",
+    "label": "replacement_probe:liveness",
+    "path": "/workspace/allowed/output.txt",
+    "via": "monty"
+  },
+  {
+    "ts": 1789447982.850198,
+    "kind": "monty_runtime_started",
+    "label": "replacement_probe:liveness",
+    "grant_verified": true,
+    "mounts": [
+      {
+        "virtual_path": "/workspace/allowed",
+        "host_path": "/private/tmp/r2_integrity_8hmvoy6n/workspace/allowed",
+        "mode": "read-write"
+      }
+    ]
+  },
+  {
+    "ts": 1789447982.855598,
+    "kind": "monty_result",
+    "label": "replacement_probe:liveness",
+    "path": "/workspace/allowed/output.txt",
+    "error": null,
+    "stdout": "WROTE 18"
+  },
+  {
+    "ts": 1789447982.882486,
+    "kind": "factory_denied",
+    "reason": "MALFORMED_ZONE_LABEL",
+    "detail": "scope:filesystem.write:/workspace"
+  },
+  {
+    "ts": 1789447982.882498,
+    "kind": "factory_denied",
+    "reason": "UNBOUND_ZONE_ID",
+    "zone_id": "workspace.everything"
+  },
+  {
+    "ts": 1789447982.8825018,
+    "kind": "factory_denied",
+    "reason": "NO_ZONE_FOR_CAPABILITY",
+    "capability": "filesystem.write",
+    "labeled": [
+      "workspace.allowed"
+    ]
+  },
+  {
+    "ts": 1789447982.882506,
+    "kind": "factory_denied",
+    "reason": "MALFORMED_ZONE_LABEL",
+    "detail": "zone:filesystem.write:/workspace/allowed"
+  },
+  {
+    "ts": 1789447982.882507,
+    "kind": "factory_denied",
+    "reason": "NO_ZONE_LABELS"
+  },
+  {
+    "ts": 1789447982.8825312,
+    "kind": "zone_binding_verification",
+    "trust_root": "zone_registry",
+    "zone_id": "workspace.allowed",
+    "zone_guest_root": "/workspace/allowed",
+    "zone_host_root": "/private/tmp/r2_integrity_8hmvoy6n/workspace/allowed",
+    "operation_paths": [
+      "/workspace/allowed/output.txt"
+    ],
+    "binding_verified": true
+  },
+  {
+    "ts": 1789447982.882588,
+    "kind": "capability_created",
+    "identity": {
+      "CAPABILITY_TYPE": "filesystem.write",
+      "ZONE_ID": "workspace.allowed",
+      "GRANTED_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE": "/workspace/allowed",
+      "HOST_PATH": "/private/tmp/r2_integrity_8hmvoy6n/workspace/allowed",
+      "MODE": "read-write",
+      "OPERATION_PATHS": [
+        "/workspace/allowed/output.txt"
+      ],
+      "POLICY_BINDING": [
+        [
+          "filesystem.write",
+          "/workspace/allowed",
+          "workspace.allowed"
+        ]
+      ],
+      "GRANTED_AT": 1789447982.8825312,
+      "TRUST_ROOT": "zone_registry",
+      "GRANT_VERIFIED": true,
+      "GRANT_VERIFY_REASON": "VERIFIED"
+    }
+  },
+  {
+    "ts": 1789447982.9061198,
+    "kind": "factory_denied",
+    "reason": "NO_ZONE_COVERS_OPERATION",
+    "operation_paths": [
+      "/workspace/quarantine/target.txt"
+    ],
+    "zones": [
+      "/workspace/allowed"
+    ]
+  },
+  {
+    "ts": 1789447982.933412,
+    "kind": "acs_decision",
+    "tool": "controlled_write",
+    "args": {
+      "path": "/workspace/quarantine/target.txt",
+      "content": "R25-PIPELINE"
+    },
+    "decision": "deny",
+    "reason": null,
+    "result_labels": []
+  },
+  {
+    "ts": 1789447982.9635892,
+    "kind": "acs_decision",
+    "tool": "outer_tool",
+    "args": {
+      "path": "/workspace/allowed/output.txt",
+      "content": "R26-DECLARED"
+    },
+    "decision": "allow",
+    "reason": null,
+    "result_labels": [
+      "zone:filesystem.write:workspace.allowed"
+    ]
+  },
+  {
+    "ts": 1789447982.963646,
+    "kind": "zone_binding_verification",
+    "trust_root": "zone_registry",
+    "zone_id": "workspace.allowed",
+    "zone_guest_root": "/workspace/allowed",
+    "zone_host_root": "/private/tmp/r2_integrity_8hmvoy6n/workspace/allowed",
+    "operation_paths": [
+      "/workspace/allowed/output.txt"
+    ],
+    "binding_verified": true
+  },
+  {
+    "ts": 1789447982.963808,
+    "kind": "capability_created",
+    "identity": {
+      "CAPABILITY_TYPE": "filesystem.write",
+      "ZONE_ID": "workspace.allowed",
+      "GRANTED_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE": "/workspace/allowed",
+      "HOST_PATH": "/private/tmp/r2_integrity_8hmvoy6n/workspace/allowed",
+      "MODE": "read-write",
+      "OPERATION_PATHS": [
+        "/workspace/allowed/output.txt"
+      ],
+      "POLICY_BINDING": [
+        [
+          "filesystem.write",
+          "/workspace/allowed",
+          "workspace.allowed"
+        ]
+      ],
+      "GRANTED_AT": 1789447982.963648,
+      "TRUST_ROOT": "zone_registry",
+      "GRANT_VERIFIED": true,
+      "GRANT_VERIFY_REASON": "VERIFIED"
+    }
+  },
+  {
+    "ts": 1789447982.963949,
+    "kind": "operation_attempted",
+    "label": "outer_tool:declared",
+    "path": "/workspace/allowed/output.txt",
+    "via": "monty"
+  },
+  {
+    "ts": 1789447982.964084,
+    "kind": "monty_runtime_started",
+    "label": "outer_tool:declared",
+    "grant_verified": true,
+    "mounts": [
+      {
+        "virtual_path": "/workspace/allowed",
+        "host_path": "/private/tmp/r2_integrity_8hmvoy6n/workspace/allowed",
+        "mode": "read-write"
+      }
+    ]
+  },
+  {
+    "ts": 1789447982.971168,
+    "kind": "monty_result",
+    "label": "outer_tool:declared",
+    "path": "/workspace/allowed/output.txt",
+    "error": null,
+    "stdout": "WROTE 12"
+  },
+  {
+    "ts": 1789447982.9711711,
+    "kind": "inner_operation_attempted",
+    "parent": "outer_tool",
+    "target": "/workspace/quarantine/target.txt"
+  },
+  {
+    "ts": 1789447982.971172,
+    "kind": "operation_attempted",
+    "label": "outer_tool:inner_undeclared",
+    "path": "/workspace/quarantine/target.txt",
+    "via": "monty"
+  },
+  {
+    "ts": 1789447982.9712992,
+    "kind": "monty_runtime_started",
+    "label": "outer_tool:inner_undeclared",
+    "grant_verified": true,
+    "mounts": [
+      {
+        "virtual_path": "/workspace/allowed",
+        "host_path": "/private/tmp/r2_integrity_8hmvoy6n/workspace/allowed",
+        "mode": "read-write"
+      }
+    ]
+  },
+  {
+    "ts": 1789447982.976724,
+    "kind": "monty_result",
+    "label": "outer_tool:inner_undeclared",
+    "path": "/workspace/quarantine/target.txt",
+    "error": "MontyRuntimeError",
+    "stdout": ""
+  },
+  {
+    "ts": 1789447982.976726,
+    "kind": "inner_operation_attempted",
+    "parent": "outer_tool",
+    "target": "/outside/secret-like.txt"
+  },
+  {
+    "ts": 1789447982.976728,
+    "kind": "operation_attempted",
+    "label": "outer_tool:inner_outside",
+    "path": "/outside/secret-like.txt",
+    "via": "monty"
+  },
+  {
+    "ts": 1789447982.9768279,
+    "kind": "monty_runtime_started",
+    "label": "outer_tool:inner_outside",
+    "grant_verified": true,
+    "mounts": [
+      {
+        "virtual_path": "/workspace/allowed",
+        "host_path": "/private/tmp/r2_integrity_8hmvoy6n/workspace/allowed",
+        "mode": "read-write"
+      }
+    ]
+  },
+  {
+    "ts": 1789447982.9820302,
+    "kind": "monty_result",
+    "label": "outer_tool:inner_outside",
+    "path": "/outside/secret-like.txt",
+    "error": "MontyRuntimeError",
+    "stdout": ""
+  },
+  {
+    "ts": 1789447983.0176032,
+    "kind": "acs_decision",
+    "tool": "outer_tool_via_helper",
+    "args": {
+      "path": "/workspace/allowed/output.txt",
+      "content": "R28"
+    },
+    "decision": "allow",
+    "reason": null,
+    "result_labels": [
+      "zone:filesystem.write:workspace.allowed"
+    ]
+  },
+  {
+    "ts": 1789447983.017626,
+    "kind": "zone_binding_verification",
+    "trust_root": "zone_registry",
+    "zone_id": "workspace.allowed",
+    "zone_guest_root": "/workspace/allowed",
+    "zone_host_root": "/private/tmp/r2_integrity_8hmvoy6n/workspace/allowed",
+    "operation_paths": [
+      "/workspace/allowed/output.txt"
+    ],
+    "binding_verified": true
+  },
+  {
+    "ts": 1789447983.01768,
+    "kind": "capability_created",
+    "identity": {
+      "CAPABILITY_TYPE": "filesystem.write",
+      "ZONE_ID": "workspace.allowed",
+      "GRANTED_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE": "/workspace/allowed",
+      "HOST_PATH": "/private/tmp/r2_integrity_8hmvoy6n/workspace/allowed",
+      "MODE": "read-write",
+      "OPERATION_PATHS": [
+        "/workspace/allowed/output.txt"
+      ],
+      "POLICY_BINDING": [
+        [
+          "filesystem.write",
+          "/workspace/allowed",
+          "workspace.allowed"
+        ]
+      ],
+      "GRANTED_AT": 1789447983.0176268,
+      "TRUST_ROOT": "zone_registry",
+      "GRANT_VERIFIED": true,
+      "GRANT_VERIFY_REASON": "VERIFIED"
+    }
+  },
+  {
+    "ts": 1789447983.017759,
+    "kind": "operation_attempted",
+    "label": "outer_tool_via_helper:declared",
+    "path": "/workspace/allowed/output.txt",
+    "via": "monty"
+  },
+  {
+    "ts": 1789447983.017855,
+    "kind": "monty_runtime_started",
+    "label": "outer_tool_via_helper:declared",
+    "grant_verified": true,
+    "mounts": [
+      {
+        "virtual_path": "/workspace/allowed",
+        "host_path": "/private/tmp/r2_integrity_8hmvoy6n/workspace/allowed",
+        "mode": "read-write"
+      }
+    ]
+  },
+  {
+    "ts": 1789447983.0247319,
+    "kind": "monty_result",
+    "label": "outer_tool_via_helper:declared",
+    "path": "/workspace/allowed/output.txt",
+    "error": null,
+    "stdout": "WROTE 3"
+  },
+  {
+    "ts": 1789447983.0247371,
+    "kind": "helper_call",
+    "helper": "helper_write",
+    "path": "/workspace/quarantine/target.txt",
+    "acs_evaluated": false
+  },
+  {
+    "ts": 1789447983.024739,
+    "kind": "operation_attempted",
+    "label": "helper_write:internal",
+    "path": "/workspace/quarantine/target.txt",
+    "via": "monty"
+  },
+  {
+    "ts": 1789447983.024842,
+    "kind": "monty_runtime_started",
+    "label": "helper_write:internal",
+    "grant_verified": true,
+    "mounts": [
+      {
+        "virtual_path": "/workspace/allowed",
+        "host_path": "/private/tmp/r2_integrity_8hmvoy6n/workspace/allowed",
+        "mode": "read-write"
+      }
+    ]
+  },
+  {
+    "ts": 1789447983.030428,
+    "kind": "monty_result",
+    "label": "helper_write:internal",
+    "path": "/workspace/quarantine/target.txt",
+    "error": "MontyRuntimeError",
+    "stdout": ""
+  },
+  {
+    "ts": 1789447983.05948,
+    "kind": "acs_decision",
+    "tool": "controlled_write",
+    "args": {
+      "path": "/workspace/allowed/swap.txt",
+      "content": "R2-TOCTOU"
+    },
+    "decision": "allow",
+    "reason": null,
+    "result_labels": [
+      "zone:filesystem.write:workspace.allowed"
+    ]
+  },
+  {
+    "ts": 1789447983.059506,
+    "kind": "zone_binding_verification",
+    "trust_root": "zone_registry",
+    "zone_id": "workspace.allowed",
+    "zone_guest_root": "/workspace/allowed",
+    "zone_host_root": "/private/tmp/r2_integrity_8hmvoy6n/workspace/allowed",
+    "operation_paths": [
+      "/workspace/allowed/swap.txt"
+    ],
+    "binding_verified": true
+  },
+  {
+    "ts": 1789447983.059564,
+    "kind": "capability_created",
+    "identity": {
+      "CAPABILITY_TYPE": "filesystem.write",
+      "ZONE_ID": "workspace.allowed",
+      "GRANTED_SCOPE": "/workspace/allowed",
+      "MOUNT_SCOPE": "/workspace/allowed",
+      "HOST_PATH": "/private/tmp/r2_integrity_8hmvoy6n/workspace/allowed",
+      "MODE": "read-write",
+      "OPERATION_PATHS": [
+        "/workspace/allowed/swap.txt"
+      ],
+      "POLICY_BINDING": [
+        [
+          "filesystem.write",
+          "/workspace/allowed",
+          "workspace.allowed"
+        ]
+      ],
+      "GRANTED_AT": 1789447983.059507,
+      "TRUST_ROOT": "zone_registry",
+      "GRANT_VERIFIED": true,
+      "GRANT_VERIFY_REASON": "VERIFIED"
+    }
+  },
+  {
+    "ts": 1789447983.059571,
+    "kind": "post_decision_hook",
+    "label": "R2_swap_to_symlink",
+    "tool": "controlled_write"
+  },
+  {
+    "ts": 1789447983.05987,
+    "kind": "operation_attempted",
+    "label": "controlled_write:declared",
+    "path": "/workspace/allowed/swap.txt",
+    "via": "monty"
+  },
+  {
+    "ts": 1789447983.059999,
+    "kind": "monty_runtime_started",
+    "label": "controlled_write:declared",
+    "grant_verified": true,
+    "mounts": [
+      {
+        "virtual_path": "/workspace/allowed",
+        "host_path": "/private/tmp/r2_integrity_8hmvoy6n/workspace/allowed",
+        "mode": "read-write"
+      }
+    ]
+  },
+  {
+    "ts": 1789447983.0665011,
+    "kind": "monty_result",
+    "label": "controlled_write:declared",
+    "path": "/workspace/allowed/swap.txt",
+    "error": "MontyRuntimeError",
+    "stdout": ""
+  }
+]

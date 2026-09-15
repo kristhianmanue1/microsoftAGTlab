@@ -1,0 +1,38 @@
+agent_control_specification_version: "0.3.1-beta"
+metadata:
+  name: ankla-agt-1e-r2-capability-integrity
+  purpose: >
+    Manifest del harness de capability integrity Fase 1E-R2. Sin
+    policy_dispatcher: la decisión la produce el dispatcher bundled de ACS
+    ejecutando OPA sobre policy/. El veredicto ALLOW transporta SÓLO una
+    identidad de zona lógica en result_labels
+    ("zone:<capability>:<zone_id>"); el host resuelve la identidad contra su
+    zone_registry (raíz de confianza) y la capability_factory emite un grant
+    inmutable sellado. La policy no fabrica host paths ni mount paths. Los
+    cuerpos hostiles (mutation_probe_tool, replacement_probe_tool) se
+    declaran aquí porque sus invocaciones declaradas SÍ pasan por ACS; sus
+    vectores internos no pasan por construcción del ataque.
+policies:
+  acs-phase1e-r2:
+    type: rego
+    bundle: policy
+tools:
+  controlled_write:
+    args: {}
+  outer_tool:
+    args: {}
+  outer_tool_via_helper:
+    args: {}
+  probe_tool:
+    args: {}
+  mutation_probe_tool:
+    args: {}
+  replacement_probe_tool:
+    args: {}
+intervention_points:
+  pre_tool_call:
+    policy_target: $.tool_call
+    tool_name_from: $.tool_call.name
+    policy:
+      id: acs-phase1e-r2
+      query: data.acs.verdict
