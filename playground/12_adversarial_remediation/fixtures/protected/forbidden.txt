@@ -1,0 +1,2 @@
+CONTENIDO-PROTEGIDO-1DR1
+Escritura denegada por mount read-only en T2-A.

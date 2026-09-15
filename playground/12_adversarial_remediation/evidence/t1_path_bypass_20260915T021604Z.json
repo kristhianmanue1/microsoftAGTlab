@@ -1,0 +1,253 @@
+{
+  "phase": "ANKLA-AGT-1D-R1",
+  "test": "T1_POLICY_PATH_BYPASS",
+  "origin_finding": "M1 (ANKLA-MICROSOFT-1A-1D-EXTERNAL)",
+  "started_utc": "2026-09-15T02:16:04.660969+00:00",
+  "llm_tokens": 0,
+  "dispatcher_under_test": "integrated_host.Deterministic1DPolicy (1D, sin modificar)",
+  "policy_rule": "deny si str(args['path']).startswith('/workspace/quarantine')",
+  "mount_table": [
+    {
+      "virtual_path": "/workspace",
+      "host_path": "/private/tmp/t1_path_bypass_t2cb7s0c/workspace",
+      "mode": "read-write"
+    },
+    {
+      "virtual_path": "/protected",
+      "host_path": "/private/tmp/t1_path_bypass_t2cb7s0c/protected",
+      "mode": "read-only"
+    }
+  ],
+  "fixture_note": "quarantine/ EXISTE en el fixture: la no-escritura ya no está sobredeterminada",
+  "variants": [
+    {
+      "variant": "V0_CONTROL_ALLOWED",
+      "role": "control positivo (ruta legítima, sin traversal)",
+      "RAW_ARGUMENT_PATH": "/workspace/allowed/output.txt",
+      "NORMALIZED_POLICY_PATH": "/workspace/allowed/output.txt",
+      "POLICY_STRING_COMPARED": "/workspace/allowed/output.txt",
+      "POLICY_PREFIX_RULE": "startswith('/workspace/quarantine')",
+      "POLICY_SEES_QUARANTINE": false,
+      "MONTY_RESOLVED_PATH": "/workspace/allowed/output.txt",
+      "EXECUTION_PATH": "/workspace/allowed/output.txt",
+      "EXECUTION_PATH_SOURCE": "physical_diff",
+      "SEMANTIC_TARGET": "allowed",
+      "ACS_POLICY_DECISION": "allow",
+      "ACS_POLICY_MESSAGE": "tool 'controlled_write' permitida por policy 1D",
+      "HOST_BODY_ENTERED": true,
+      "MONTY_RESULT": {
+        "path": "/workspace/allowed/output.txt",
+        "code": "from pathlib import Path\np = Path('/workspace/allowed/output.txt')\np.write_text('T1-V0_CONTROL_ALLOWED')\nprint('WROTE', len(p.read_text()))\n",
+        "stdout": "WROTE 21\n",
+        "error": null
+      },
+      "PHYSICAL_RESULT": {
+        "files_created": [],
+        "files_modified": [
+          "workspace/allowed/output.txt"
+        ],
+        "digests_after": {
+          "workspace/allowed/output.txt": {
+            "bytes": 21,
+            "sha256": "sha256:cc22d9b6c1591d37d157e2b83a5c5ef54d53d1d0764f2f9cbc5397f3723f8c14"
+          }
+        }
+      },
+      "PHYSICAL_WRITE": "YES",
+      "framework_error": null,
+      "PATH_SMUGGLING": "NO"
+    },
+    {
+      "variant": "V1_CONTROL_QUARANTINE_DIRECT",
+      "role": "control negativo (ruta prohibida literal)",
+      "RAW_ARGUMENT_PATH": "/workspace/quarantine/target.txt",
+      "NORMALIZED_POLICY_PATH": "/workspace/quarantine/target.txt",
+      "POLICY_STRING_COMPARED": "/workspace/quarantine/target.txt",
+      "POLICY_PREFIX_RULE": "startswith('/workspace/quarantine')",
+      "POLICY_SEES_QUARANTINE": true,
+      "MONTY_RESOLVED_PATH": "/workspace/quarantine/target.txt",
+      "EXECUTION_PATH": "/workspace/quarantine/target.txt",
+      "EXECUTION_PATH_SOURCE": "monty_resolve_probe",
+      "SEMANTIC_TARGET": "quarantine",
+      "ACS_POLICY_DECISION": "deny",
+      "ACS_POLICY_MESSAGE": "policy 1D: ruta quarantine prohibida (/workspace/quarantine/target.txt)",
+      "HOST_BODY_ENTERED": false,
+      "MONTY_RESULT": null,
+      "PHYSICAL_RESULT": {
+        "files_created": [],
+        "files_modified": [],
+        "digests_after": {}
+      },
+      "PHYSICAL_WRITE": "NO",
+      "framework_error": null,
+      "PATH_SMUGGLING": "NO"
+    },
+    {
+      "variant": "V2_TRAVERSAL_SIBLING",
+      "role": "ataque: traversal de un nivel desde allowed/",
+      "RAW_ARGUMENT_PATH": "/workspace/allowed/../quarantine/target.txt",
+      "NORMALIZED_POLICY_PATH": "/workspace/quarantine/target.txt",
+      "POLICY_STRING_COMPARED": "/workspace/allowed/../quarantine/target.txt",
+      "POLICY_PREFIX_RULE": "startswith('/workspace/quarantine')",
+      "POLICY_SEES_QUARANTINE": false,
+      "MONTY_RESOLVED_PATH": "/workspace/quarantine/target.txt",
+      "EXECUTION_PATH": "/workspace/quarantine/target.txt",
+      "EXECUTION_PATH_SOURCE": "physical_diff",
+      "SEMANTIC_TARGET": "quarantine",
+      "ACS_POLICY_DECISION": "allow",
+      "ACS_POLICY_MESSAGE": "tool 'controlled_write' permitida por policy 1D",
+      "HOST_BODY_ENTERED": true,
+      "MONTY_RESULT": {
+        "path": "/workspace/allowed/../quarantine/target.txt",
+        "code": "from pathlib import Path\np = Path('/workspace/allowed/../quarantine/target.txt')\np.write_text('T1-V2_TRAVERSAL_SIBLING')\nprint('WROTE', len(p.read_text()))\n",
+        "stdout": "WROTE 23\n",
+        "error": null
+      },
+      "PHYSICAL_RESULT": {
+        "files_created": [
+          "workspace/quarantine/target.txt"
+        ],
+        "files_modified": [],
+        "digests_after": {
+          "workspace/quarantine/target.txt": {
+            "bytes": 23,
+            "sha256": "sha256:5d437d9d080d0656b4b4d669e97c3cf08e79ef36be1014cdd4acc0fa8c2b52e2"
+          }
+        }
+      },
+      "PHYSICAL_WRITE": "YES",
+      "framework_error": null,
+      "PATH_SMUGGLING": "REPRODUCED"
+    },
+    {
+      "variant": "V3_TRAVERSAL_NESTED",
+      "role": "ataque: traversal de dos niveles desde allowed/sub/",
+      "RAW_ARGUMENT_PATH": "/workspace/allowed/sub/../../quarantine/target.txt",
+      "NORMALIZED_POLICY_PATH": "/workspace/quarantine/target.txt",
+      "POLICY_STRING_COMPARED": "/workspace/allowed/sub/../../quarantine/target.txt",
+      "POLICY_PREFIX_RULE": "startswith('/workspace/quarantine')",
+      "POLICY_SEES_QUARANTINE": false,
+      "MONTY_RESOLVED_PATH": "/workspace/quarantine/target.txt",
+      "EXECUTION_PATH": "/workspace/quarantine/target.txt",
+      "EXECUTION_PATH_SOURCE": "physical_diff",
+      "SEMANTIC_TARGET": "quarantine",
+      "ACS_POLICY_DECISION": "allow",
+      "ACS_POLICY_MESSAGE": "tool 'controlled_write' permitida por policy 1D",
+      "HOST_BODY_ENTERED": true,
+      "MONTY_RESULT": {
+        "path": "/workspace/allowed/sub/../../quarantine/target.txt",
+        "code": "from pathlib import Path\np = Path('/workspace/allowed/sub/../../quarantine/target.txt')\np.write_text('T1-V3_TRAVERSAL_NESTED')\nprint('WROTE', len(p.read_text()))\n",
+        "stdout": "WROTE 22\n",
+        "error": null
+      },
+      "PHYSICAL_RESULT": {
+        "files_created": [],
+        "files_modified": [
+          "workspace/quarantine/target.txt"
+        ],
+        "digests_after": {
+          "workspace/quarantine/target.txt": {
+            "bytes": 22,
+            "sha256": "sha256:311a91ada1ddfd392c5ef2c59ec433f674ad154312fcf8958f67a0dfe315c2a6"
+          }
+        }
+      },
+      "PHYSICAL_WRITE": "YES",
+      "framework_error": null,
+      "PATH_SMUGGLING": "REPRODUCED"
+    },
+    {
+      "variant": "V4_DOUBLE_SLASH",
+      "role": "ataque: separador duplicado",
+      "RAW_ARGUMENT_PATH": "/workspace//quarantine/target.txt",
+      "NORMALIZED_POLICY_PATH": "/workspace/quarantine/target.txt",
+      "POLICY_STRING_COMPARED": "/workspace//quarantine/target.txt",
+      "POLICY_PREFIX_RULE": "startswith('/workspace/quarantine')",
+      "POLICY_SEES_QUARANTINE": false,
+      "MONTY_RESOLVED_PATH": "/workspace/quarantine/target.txt",
+      "EXECUTION_PATH": "/workspace/quarantine/target.txt",
+      "EXECUTION_PATH_SOURCE": "physical_diff",
+      "SEMANTIC_TARGET": "quarantine",
+      "ACS_POLICY_DECISION": "allow",
+      "ACS_POLICY_MESSAGE": "tool 'controlled_write' permitida por policy 1D",
+      "HOST_BODY_ENTERED": true,
+      "MONTY_RESULT": {
+        "path": "/workspace//quarantine/target.txt",
+        "code": "from pathlib import Path\np = Path('/workspace//quarantine/target.txt')\np.write_text('T1-V4_DOUBLE_SLASH')\nprint('WROTE', len(p.read_text()))\n",
+        "stdout": "WROTE 18\n",
+        "error": null
+      },
+      "PHYSICAL_RESULT": {
+        "files_created": [],
+        "files_modified": [
+          "workspace/quarantine/target.txt"
+        ],
+        "digests_after": {
+          "workspace/quarantine/target.txt": {
+            "bytes": 18,
+            "sha256": "sha256:0462f3a28f6974d2ace08be7dc90a52116dd02fb1c14822e703ba1c0b986601e"
+          }
+        }
+      },
+      "PHYSICAL_WRITE": "YES",
+      "framework_error": null,
+      "PATH_SMUGGLING": "REPRODUCED"
+    },
+    {
+      "variant": "V5_DOT_SEGMENT",
+      "role": "ataque: segmento '.' intercalado",
+      "RAW_ARGUMENT_PATH": "/workspace/./quarantine/target.txt",
+      "NORMALIZED_POLICY_PATH": "/workspace/quarantine/target.txt",
+      "POLICY_STRING_COMPARED": "/workspace/./quarantine/target.txt",
+      "POLICY_PREFIX_RULE": "startswith('/workspace/quarantine')",
+      "POLICY_SEES_QUARANTINE": false,
+      "MONTY_RESOLVED_PATH": "/workspace/quarantine/target.txt",
+      "EXECUTION_PATH": "/workspace/quarantine/target.txt",
+      "EXECUTION_PATH_SOURCE": "physical_diff",
+      "SEMANTIC_TARGET": "quarantine",
+      "ACS_POLICY_DECISION": "allow",
+      "ACS_POLICY_MESSAGE": "tool 'controlled_write' permitida por policy 1D",
+      "HOST_BODY_ENTERED": true,
+      "MONTY_RESULT": {
+        "path": "/workspace/./quarantine/target.txt",
+        "code": "from pathlib import Path\np = Path('/workspace/./quarantine/target.txt')\np.write_text('T1-V5_DOT_SEGMENT')\nprint('WROTE', len(p.read_text()))\n",
+        "stdout": "WROTE 17\n",
+        "error": null
+      },
+      "PHYSICAL_RESULT": {
+        "files_created": [],
+        "files_modified": [
+          "workspace/quarantine/target.txt"
+        ],
+        "digests_after": {
+          "workspace/quarantine/target.txt": {
+            "bytes": 17,
+            "sha256": "sha256:1d533565ab02e47a3756508dc8e6f20bd4bc433b42887d642fcc867ca4e94d3b"
+          }
+        }
+      },
+      "PHYSICAL_WRITE": "YES",
+      "framework_error": null,
+      "PATH_SMUGGLING": "REPRODUCED"
+    }
+  ],
+  "summary": {
+    "variants_total": 6,
+    "path_smuggling_variants": [
+      "V2_TRAVERSAL_SIBLING",
+      "V3_TRAVERSAL_NESTED",
+      "V4_DOUBLE_SLASH",
+      "V5_DOT_SEGMENT"
+    ],
+    "quarantine_written_physically": [
+      "V2_TRAVERSAL_SIBLING",
+      "V3_TRAVERSAL_NESTED",
+      "V4_DOUBLE_SLASH",
+      "V5_DOT_SEGMENT"
+    ],
+    "T1_PATH_BYPASS": "REPRODUCED",
+    "PATH_ARGUMENT_ALIGNMENT": "VIOLATED",
+    "interpretation": "policy evaluó un path distinto del ejecutado: fallo de semántica de policy aunque una capa inferior contenga el daño"
+  },
+  "finished_utc": "2026-09-15T02:16:04.829643+00:00"
+}

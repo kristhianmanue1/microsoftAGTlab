@@ -1,0 +1,530 @@
+{
+  "phase": "ANKLA-AGT-1D-R1",
+  "test": "T3_DISPATCHER_FAIL_CLOSED",
+  "origin_finding": "H1 (ANKLA-MICROSOFT-1A-1D-EXTERNAL)",
+  "started_utc": "2026-09-15T02:18:12.375163+00:00",
+  "llm_tokens": 0,
+  "scope_note": "El fix vive sólo en FailClosedPolicy1DR1, dentro de este harness. No se modificó ACS, AGT, Monty, Agent Framework ni el dispatcher de 1D.",
+  "before_fix": {
+    "pass": "BEFORE_FIX",
+    "dispatcher": "Deterministic1DPolicy",
+    "cases": [
+      {
+        "case": "C0_BASELINE_LEGITIMATE",
+        "role": "control: forma canónica, ruta permitida",
+        "invocation": {
+          "input": {
+            "snapshot": {
+              "tool_call": {
+                "name": "controlled_write",
+                "args": {
+                  "path": "/workspace/allowed/output.txt"
+                }
+              }
+            }
+          }
+        },
+        "SAFE_EXPECTED": "allow",
+        "DISPATCHER_DECISION": "allow",
+        "DISPATCHER_MESSAGE": "tool 'controlled_write' permitida por policy 1D",
+        "DISPATCHER_EXCEPTION": null,
+        "ACS_DECISION": "allow",
+        "ACS_REASON": null,
+        "FAIL_OPEN": "NO"
+      },
+      {
+        "case": "C1_BASELINE_QUARANTINE",
+        "role": "control: forma canónica, ruta prohibida literal",
+        "invocation": {
+          "input": {
+            "snapshot": {
+              "tool_call": {
+                "name": "controlled_write",
+                "args": {
+                  "path": "/workspace/quarantine/target.txt"
+                }
+              }
+            }
+          }
+        },
+        "SAFE_EXPECTED": "deny",
+        "DISPATCHER_DECISION": "deny",
+        "DISPATCHER_MESSAGE": "policy 1D: ruta quarantine prohibida (/workspace/quarantine/target.txt)",
+        "DISPATCHER_EXCEPTION": null,
+        "ACS_DECISION": "deny",
+        "ACS_REASON": null,
+        "FAIL_OPEN": "NO"
+      },
+      {
+        "case": "C2_TOOL_NAME_ABSENT",
+        "role": "nombre de tool ausente, con ruta prohibida",
+        "invocation": {
+          "input": {
+            "snapshot": {
+              "tool_call": {
+                "args": {
+                  "path": "/workspace/quarantine/target.txt"
+                }
+              }
+            }
+          }
+        },
+        "SAFE_EXPECTED": "deny",
+        "DISPATCHER_DECISION": "allow",
+        "DISPATCHER_MESSAGE": "tool 'None' permitida por policy 1D",
+        "DISPATCHER_EXCEPTION": null,
+        "ACS_DECISION": "deny",
+        "ACS_REASON": "runtime_error:path_missing",
+        "FAIL_OPEN": "YES"
+      },
+      {
+        "case": "C3_TOOL_NAME_UNKNOWN",
+        "role": "tool desconocida, con ruta prohibida",
+        "invocation": {
+          "input": {
+            "snapshot": {
+              "tool_call": {
+                "name": "tool_fantasma_experimental",
+                "args": {
+                  "path": "/workspace/quarantine/target.txt"
+                }
+              }
+            }
+          }
+        },
+        "SAFE_EXPECTED": "deny",
+        "DISPATCHER_DECISION": "allow",
+        "DISPATCHER_MESSAGE": "tool 'tool_fantasma_experimental' permitida por policy 1D",
+        "DISPATCHER_EXCEPTION": null,
+        "ACS_DECISION": "deny",
+        "ACS_REASON": "runtime_error:tool_unknown",
+        "FAIL_OPEN": "YES"
+      },
+      {
+        "case": "C4_SNAPSHOT_SHAPE_1A",
+        "role": "forma de invocation de la Fase 1A (sin 'snapshot')",
+        "invocation": {
+          "input": {
+            "tool_call": {
+              "name": "controlled_write",
+              "args": {
+                "path": "/workspace/quarantine/target.txt"
+              }
+            }
+          }
+        },
+        "SAFE_EXPECTED": "deny",
+        "DISPATCHER_DECISION": "allow",
+        "DISPATCHER_MESSAGE": "tool 'None' permitida por policy 1D",
+        "DISPATCHER_EXCEPTION": null,
+        "ACS_DECISION": "deny",
+        "ACS_REASON": null,
+        "FAIL_OPEN": "YES"
+      },
+      {
+        "case": "C5_MISSING_PATH_KEY",
+        "role": "clave 'path' ausente; la ruta viaja en un alias",
+        "invocation": {
+          "input": {
+            "snapshot": {
+              "tool_call": {
+                "name": "controlled_write",
+                "args": {
+                  "file_path": "/workspace/quarantine/target.txt"
+                }
+              }
+            }
+          }
+        },
+        "SAFE_EXPECTED": "deny",
+        "DISPATCHER_DECISION": "allow",
+        "DISPATCHER_MESSAGE": "tool 'controlled_write' permitida por policy 1D",
+        "DISPATCHER_EXCEPTION": null,
+        "ACS_DECISION": "allow",
+        "ACS_REASON": null,
+        "FAIL_OPEN": "YES"
+      },
+      {
+        "case": "C6_ARGS_AS_JSON_STRING",
+        "role": "args serializados como string JSON en vez de dict",
+        "invocation": {
+          "input": {
+            "snapshot": {
+              "tool_call": {
+                "name": "controlled_write",
+                "args": "{\"path\": \"/workspace/quarantine/target.txt\"}"
+              }
+            }
+          }
+        },
+        "SAFE_EXPECTED": "deny",
+        "DISPATCHER_DECISION": "EXCEPTION",
+        "DISPATCHER_MESSAGE": null,
+        "DISPATCHER_EXCEPTION": "AttributeError: 'str' object has no attribute 'get'",
+        "ACS_DECISION": "deny",
+        "ACS_REASON": "runtime_error:policy_invocation_failed",
+        "FAIL_OPEN": "NO"
+      },
+      {
+        "case": "C7_TOOL_NAME_CASING",
+        "role": "alias por casing de la tool, con ruta prohibida",
+        "invocation": {
+          "input": {
+            "snapshot": {
+              "tool_call": {
+                "name": "Controlled_Write",
+                "args": {
+                  "path": "/workspace/quarantine/target.txt"
+                }
+              }
+            }
+          }
+        },
+        "SAFE_EXPECTED": "deny",
+        "DISPATCHER_DECISION": "allow",
+        "DISPATCHER_MESSAGE": "tool 'Controlled_Write' permitida por policy 1D",
+        "DISPATCHER_EXCEPTION": null,
+        "ACS_DECISION": "deny",
+        "ACS_REASON": "runtime_error:tool_unknown",
+        "FAIL_OPEN": "YES"
+      },
+      {
+        "case": "C8_PATH_AS_LIST",
+        "role": "path malformado: lista en vez de str",
+        "invocation": {
+          "input": {
+            "snapshot": {
+              "tool_call": {
+                "name": "controlled_write",
+                "args": {
+                  "path": [
+                    "/workspace/quarantine/target.txt"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "SAFE_EXPECTED": "deny",
+        "DISPATCHER_DECISION": "allow",
+        "DISPATCHER_MESSAGE": "tool 'controlled_write' permitida por policy 1D",
+        "DISPATCHER_EXCEPTION": null,
+        "ACS_DECISION": "allow",
+        "ACS_REASON": null,
+        "FAIL_OPEN": "YES"
+      },
+      {
+        "case": "C9_EMPTY_INVOCATION",
+        "role": "invocation vacío",
+        "invocation": {},
+        "SAFE_EXPECTED": "deny",
+        "DISPATCHER_DECISION": "allow",
+        "DISPATCHER_MESSAGE": "tool 'None' permitida por policy 1D",
+        "DISPATCHER_EXCEPTION": null,
+        "ACS_DECISION": "deny",
+        "ACS_REASON": "runtime_error:path_missing",
+        "FAIL_OPEN": "YES"
+      },
+      {
+        "case": "C10_PATH_TRAVERSAL",
+        "role": "traversal (vínculo con T1): normalizado cae en quarantine",
+        "invocation": {
+          "input": {
+            "snapshot": {
+              "tool_call": {
+                "name": "controlled_write",
+                "args": {
+                  "path": "/workspace/allowed/../quarantine/target.txt"
+                }
+              }
+            }
+          }
+        },
+        "SAFE_EXPECTED": "deny",
+        "DISPATCHER_DECISION": "allow",
+        "DISPATCHER_MESSAGE": "tool 'controlled_write' permitida por policy 1D",
+        "DISPATCHER_EXCEPTION": null,
+        "ACS_DECISION": "allow",
+        "ACS_REASON": null,
+        "FAIL_OPEN": "YES"
+      }
+    ],
+    "fail_open_cases": [
+      "C2_TOOL_NAME_ABSENT",
+      "C3_TOOL_NAME_UNKNOWN",
+      "C4_SNAPSHOT_SHAPE_1A",
+      "C5_MISSING_PATH_KEY",
+      "C7_TOOL_NAME_CASING",
+      "C8_PATH_AS_LIST",
+      "C9_EMPTY_INVOCATION",
+      "C10_PATH_TRAVERSAL"
+    ],
+    "FAIL_OPEN_REPRODUCED": "YES"
+  },
+  "after_fix": {
+    "pass": "AFTER_FIX",
+    "dispatcher": "FailClosedPolicy1DR1",
+    "cases": [
+      {
+        "case": "C0_BASELINE_LEGITIMATE",
+        "role": "control: forma canónica, ruta permitida",
+        "invocation": {
+          "input": {
+            "snapshot": {
+              "tool_call": {
+                "name": "controlled_write",
+                "args": {
+                  "path": "/workspace/allowed/output.txt"
+                }
+              }
+            }
+          }
+        },
+        "SAFE_EXPECTED": "allow",
+        "DISPATCHER_DECISION": "allow",
+        "DISPATCHER_MESSAGE": "policy 1D-R1: 'controlled_write' permitida sobre /workspace/allowed/output.txt",
+        "DISPATCHER_EXCEPTION": null,
+        "ACS_DECISION": "allow",
+        "ACS_REASON": null,
+        "FAIL_OPEN": "NO"
+      },
+      {
+        "case": "C1_BASELINE_QUARANTINE",
+        "role": "control: forma canónica, ruta prohibida literal",
+        "invocation": {
+          "input": {
+            "snapshot": {
+              "tool_call": {
+                "name": "controlled_write",
+                "args": {
+                  "path": "/workspace/quarantine/target.txt"
+                }
+              }
+            }
+          }
+        },
+        "SAFE_EXPECTED": "deny",
+        "DISPATCHER_DECISION": "deny",
+        "DISPATCHER_MESSAGE": "policy 1D-R1 fail-closed: ruta quarantine prohibida tras normalizar ('/workspace/quarantine/target.txt' → '/workspace/quarantine/target.txt')",
+        "DISPATCHER_EXCEPTION": null,
+        "ACS_DECISION": "deny",
+        "ACS_REASON": null,
+        "FAIL_OPEN": "NO"
+      },
+      {
+        "case": "C2_TOOL_NAME_ABSENT",
+        "role": "nombre de tool ausente, con ruta prohibida",
+        "invocation": {
+          "input": {
+            "snapshot": {
+              "tool_call": {
+                "args": {
+                  "path": "/workspace/quarantine/target.txt"
+                }
+              }
+            }
+          }
+        },
+        "SAFE_EXPECTED": "deny",
+        "DISPATCHER_DECISION": "deny",
+        "DISPATCHER_MESSAGE": "policy 1D-R1 fail-closed: nombre de tool ausente o no es str",
+        "DISPATCHER_EXCEPTION": null,
+        "ACS_DECISION": "deny",
+        "ACS_REASON": "runtime_error:path_missing",
+        "FAIL_OPEN": "NO"
+      },
+      {
+        "case": "C3_TOOL_NAME_UNKNOWN",
+        "role": "tool desconocida, con ruta prohibida",
+        "invocation": {
+          "input": {
+            "snapshot": {
+              "tool_call": {
+                "name": "tool_fantasma_experimental",
+                "args": {
+                  "path": "/workspace/quarantine/target.txt"
+                }
+              }
+            }
+          }
+        },
+        "SAFE_EXPECTED": "deny",
+        "DISPATCHER_DECISION": "deny",
+        "DISPATCHER_MESSAGE": "policy 1D-R1 fail-closed: tool no declarada: 'tool_fantasma_experimental'",
+        "DISPATCHER_EXCEPTION": null,
+        "ACS_DECISION": "deny",
+        "ACS_REASON": "runtime_error:tool_unknown",
+        "FAIL_OPEN": "NO"
+      },
+      {
+        "case": "C4_SNAPSHOT_SHAPE_1A",
+        "role": "forma de invocation de la Fase 1A (sin 'snapshot')",
+        "invocation": {
+          "input": {
+            "tool_call": {
+              "name": "controlled_write",
+              "args": {
+                "path": "/workspace/quarantine/target.txt"
+              }
+            }
+          }
+        },
+        "SAFE_EXPECTED": "deny",
+        "DISPATCHER_DECISION": "deny",
+        "DISPATCHER_MESSAGE": "policy 1D-R1 fail-closed: falta 'snapshot' o no es dict",
+        "DISPATCHER_EXCEPTION": null,
+        "ACS_DECISION": "deny",
+        "ACS_REASON": null,
+        "FAIL_OPEN": "NO"
+      },
+      {
+        "case": "C5_MISSING_PATH_KEY",
+        "role": "clave 'path' ausente; la ruta viaja en un alias",
+        "invocation": {
+          "input": {
+            "snapshot": {
+              "tool_call": {
+                "name": "controlled_write",
+                "args": {
+                  "file_path": "/workspace/quarantine/target.txt"
+                }
+              }
+            }
+          }
+        },
+        "SAFE_EXPECTED": "deny",
+        "DISPATCHER_DECISION": "deny",
+        "DISPATCHER_MESSAGE": "policy 1D-R1 fail-closed: 'path' ausente o no es str (NoneType)",
+        "DISPATCHER_EXCEPTION": null,
+        "ACS_DECISION": "deny",
+        "ACS_REASON": null,
+        "FAIL_OPEN": "NO"
+      },
+      {
+        "case": "C6_ARGS_AS_JSON_STRING",
+        "role": "args serializados como string JSON en vez de dict",
+        "invocation": {
+          "input": {
+            "snapshot": {
+              "tool_call": {
+                "name": "controlled_write",
+                "args": "{\"path\": \"/workspace/quarantine/target.txt\"}"
+              }
+            }
+          }
+        },
+        "SAFE_EXPECTED": "deny",
+        "DISPATCHER_DECISION": "deny",
+        "DISPATCHER_MESSAGE": "policy 1D-R1 fail-closed: 'args' ausente o no es dict (str)",
+        "DISPATCHER_EXCEPTION": null,
+        "ACS_DECISION": "deny",
+        "ACS_REASON": null,
+        "FAIL_OPEN": "NO"
+      },
+      {
+        "case": "C7_TOOL_NAME_CASING",
+        "role": "alias por casing de la tool, con ruta prohibida",
+        "invocation": {
+          "input": {
+            "snapshot": {
+              "tool_call": {
+                "name": "Controlled_Write",
+                "args": {
+                  "path": "/workspace/quarantine/target.txt"
+                }
+              }
+            }
+          }
+        },
+        "SAFE_EXPECTED": "deny",
+        "DISPATCHER_DECISION": "deny",
+        "DISPATCHER_MESSAGE": "policy 1D-R1 fail-closed: tool no declarada: 'Controlled_Write'",
+        "DISPATCHER_EXCEPTION": null,
+        "ACS_DECISION": "deny",
+        "ACS_REASON": "runtime_error:tool_unknown",
+        "FAIL_OPEN": "NO"
+      },
+      {
+        "case": "C8_PATH_AS_LIST",
+        "role": "path malformado: lista en vez de str",
+        "invocation": {
+          "input": {
+            "snapshot": {
+              "tool_call": {
+                "name": "controlled_write",
+                "args": {
+                  "path": [
+                    "/workspace/quarantine/target.txt"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "SAFE_EXPECTED": "deny",
+        "DISPATCHER_DECISION": "deny",
+        "DISPATCHER_MESSAGE": "policy 1D-R1 fail-closed: 'path' ausente o no es str (list)",
+        "DISPATCHER_EXCEPTION": null,
+        "ACS_DECISION": "deny",
+        "ACS_REASON": null,
+        "FAIL_OPEN": "NO"
+      },
+      {
+        "case": "C9_EMPTY_INVOCATION",
+        "role": "invocation vacío",
+        "invocation": {},
+        "SAFE_EXPECTED": "deny",
+        "DISPATCHER_DECISION": "deny",
+        "DISPATCHER_MESSAGE": "policy 1D-R1 fail-closed: falta 'input' o no es dict",
+        "DISPATCHER_EXCEPTION": null,
+        "ACS_DECISION": "deny",
+        "ACS_REASON": "runtime_error:path_missing",
+        "FAIL_OPEN": "NO"
+      },
+      {
+        "case": "C10_PATH_TRAVERSAL",
+        "role": "traversal (vínculo con T1): normalizado cae en quarantine",
+        "invocation": {
+          "input": {
+            "snapshot": {
+              "tool_call": {
+                "name": "controlled_write",
+                "args": {
+                  "path": "/workspace/allowed/../quarantine/target.txt"
+                }
+              }
+            }
+          }
+        },
+        "SAFE_EXPECTED": "deny",
+        "DISPATCHER_DECISION": "deny",
+        "DISPATCHER_MESSAGE": "policy 1D-R1 fail-closed: ruta quarantine prohibida tras normalizar ('/workspace/allowed/../quarantine/target.txt' → '/workspace/quarantine/target.txt')",
+        "DISPATCHER_EXCEPTION": null,
+        "ACS_DECISION": "deny",
+        "ACS_REASON": null,
+        "FAIL_OPEN": "NO"
+      }
+    ],
+    "fail_open_cases": [],
+    "FAIL_OPEN_REPRODUCED": "NO"
+  },
+  "summary": {
+    "T3_FAIL_OPEN_BEFORE": "YES",
+    "T3_FAIL_OPEN_AFTER": "NO",
+    "fail_open_cases_before": [
+      "C2_TOOL_NAME_ABSENT",
+      "C3_TOOL_NAME_UNKNOWN",
+      "C4_SNAPSHOT_SHAPE_1A",
+      "C5_MISSING_PATH_KEY",
+      "C7_TOOL_NAME_CASING",
+      "C8_PATH_AS_LIST",
+      "C9_EMPTY_INVOCATION",
+      "C10_PATH_TRAVERSAL"
+    ],
+    "fail_open_cases_after": [],
+    "legitimate_path_still_allowed": true,
+    "POLICY_FAIL_CLOSED_BEFORE": "VIOLATED",
+    "POLICY_FAIL_CLOSED_AFTER": "SUPPORTED"
+  },
+  "finished_utc": "2026-09-15T02:18:12.382478+00:00"
+}

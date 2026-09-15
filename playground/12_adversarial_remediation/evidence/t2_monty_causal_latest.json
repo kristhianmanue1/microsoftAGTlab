@@ -1,0 +1,132 @@
+{
+  "phase": "ANKLA-AGT-1D-R1",
+  "test": "T2_MONTY_NEGATIVE_CONTROL",
+  "origin_finding": "M2 (ANKLA-MICROSOFT-1A-1D-EXTERNAL)",
+  "started_utc": "2026-09-15T02:17:04.463275+00:00",
+  "llm_tokens": 0,
+  "design": "pareado: mismo request/approval/ACS/host/payload; sólo varía MountDir.mode",
+  "conditions": [
+    {
+      "condition": "A_MONTY_READONLY",
+      "MOUNT_MODE_PROTECTED": "read-only",
+      "mount_table": [
+        {
+          "virtual_path": "/workspace",
+          "host_path": "/private/tmp/t2_read-only_wxnjqzdo/workspace",
+          "mode": "read-write"
+        },
+        {
+          "virtual_path": "/protected",
+          "host_path": "/private/tmp/t2_read-only_wxnjqzdo/protected",
+          "mode": "read-only"
+        }
+      ],
+      "REQUEST": {
+        "tool": "controlled_write",
+        "path": "/protected/forbidden.txt",
+        "content": "T2-TRASLADO"
+      },
+      "APPROVAL": {
+        "mode": "standing_rule",
+        "state": "GRANTED",
+        "rules": 1
+      },
+      "ACS_DECISION": "allow",
+      "HOST_BODY_ENTERED": true,
+      "MONTY_RESULT": {
+        "path": "/protected/forbidden.txt",
+        "code": "from pathlib import Path\np = Path('/protected/forbidden.txt')\np.write_text('T2-TRASLADO')\nprint('WROTE', len(p.read_text()))\n",
+        "stdout": "",
+        "error": {
+          "type": "MontyRuntimeError",
+          "message": "PermissionError: [Errno 30] Read-only file system: '/protected/forbidden.txt'"
+        }
+      },
+      "HOST_FS_PERMISSIONS": {
+        "mode_octal": "0o644",
+        "uid": 502,
+        "host_writable_by_process": true
+      },
+      "DIGEST_BEFORE": "sha256:e95380b5a3c1521a920cc162c7b7c5a5612fe97e66a1a0b177a25edac148d257",
+      "DIGEST_AFTER": "sha256:e95380b5a3c1521a920cc162c7b7c5a5612fe97e66a1a0b177a25edac148d257",
+      "PHYSICAL_WRITE": "NO",
+      "content_after": null,
+      "physical_state_changed": false
+    },
+    {
+      "condition": "B_MONTY_READWRITE",
+      "MOUNT_MODE_PROTECTED": "read-write",
+      "mount_table": [
+        {
+          "virtual_path": "/workspace",
+          "host_path": "/private/tmp/t2_read-write_h60dhwif/workspace",
+          "mode": "read-write"
+        },
+        {
+          "virtual_path": "/protected",
+          "host_path": "/private/tmp/t2_read-write_h60dhwif/protected",
+          "mode": "read-write"
+        }
+      ],
+      "REQUEST": {
+        "tool": "controlled_write",
+        "path": "/protected/forbidden.txt",
+        "content": "T2-TRASLADO"
+      },
+      "APPROVAL": {
+        "mode": "standing_rule",
+        "state": "GRANTED",
+        "rules": 1
+      },
+      "ACS_DECISION": "allow",
+      "HOST_BODY_ENTERED": true,
+      "MONTY_RESULT": {
+        "path": "/protected/forbidden.txt",
+        "code": "from pathlib import Path\np = Path('/protected/forbidden.txt')\np.write_text('T2-TRASLADO')\nprint('WROTE', len(p.read_text()))\n",
+        "stdout": "WROTE 11\n",
+        "error": null
+      },
+      "HOST_FS_PERMISSIONS": {
+        "mode_octal": "0o644",
+        "uid": 502,
+        "host_writable_by_process": true
+      },
+      "DIGEST_BEFORE": "sha256:e95380b5a3c1521a920cc162c7b7c5a5612fe97e66a1a0b177a25edac148d257",
+      "DIGEST_AFTER": "sha256:2c506b60c9611fd95a02dfb532281815120f4b4e4f4346cb886a8caca3396855",
+      "PHYSICAL_WRITE": "YES",
+      "content_after": "T2-TRASLADO",
+      "physical_state_changed": true
+    },
+    {
+      "condition": "T2-C_HOST_DIRECT_NO_MONTY",
+      "executor": "host python interpreter (fuera de Monty)",
+      "HOST_FS_PERMISSIONS": {
+        "mode_octal": "0o644",
+        "uid": 502,
+        "host_writable_by_process": true
+      },
+      "DIGEST_BEFORE": "sha256:e95380b5a3c1521a920cc162c7b7c5a5612fe97e66a1a0b177a25edac148d257",
+      "DIGEST_AFTER_WRITE": "sha256:3b429d96d3ec2493d2b971273158f9f220cb7d73bedb09ed14c20b952f9c0a29",
+      "DIGEST_AFTER_RESTORE": "sha256:e95380b5a3c1521a920cc162c7b7c5a5612fe97e66a1a0b177a25edac148d257",
+      "restored_ok": true,
+      "error": null,
+      "PHYSICAL_WRITE": "YES"
+    }
+  ],
+  "paired_invariants": {
+    "same_request": true,
+    "same_approval_state": true,
+    "same_acs_decision": true,
+    "same_host_body_entered": true,
+    "same_target_digest_before": true,
+    "only_mount_mode_differs": true
+  },
+  "summary": {
+    "T2_A_PHYSICAL_WRITE": "NO",
+    "T2_B_PHYSICAL_WRITE": "YES",
+    "T2_C_HOST_FS_PERMITTED_WRITE": "YES",
+    "T2_MONTY_CAUSAL_CONTROL": "PASS",
+    "MONTY_CAUSAL_FOR_D4": "SUPPORTED"
+  },
+  "finished_utc": "2026-09-15T02:17:04.499136+00:00"
+}
